@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Student Registration | Al-Aruudy International School
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(0, 75, 30, 0.88),
+                    rgba(0, 75, 30, 0.88)
+                ),
+                url("school.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            padding: 30px 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+
+            background: white;
+
+            margin: auto;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+
+            background: #08752f;
+            color: #ffd500;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0 auto 15px;
+
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        .school-name {
+            text-align: center;
+
+            color: #08752f;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+        .slogan {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 11px;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            text-align: center;
+
+            color: #16351f;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .intro {
+            text-align: center;
+
+            color: #666;
+
+            margin-bottom: 30px;
+
+            line-height: 1.5;
+        }
+
+        .section-title {
+            color: #08752f;
+
+            font-size: 18px;
+
+            margin-top: 25px;
+            margin-bottom: 15px;
+
+            padding-bottom: 8px;
+
+            border-bottom: 2px solid #ffd500;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            color: #16351f;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d5d5d5;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            font-family: Arial, sans-serif;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #08752f;
+
+            box-shadow:
+                0 0 0 3px rgba(8, 117, 47, 0.1);
+        }
+
+        textarea {
+            min-height: 90px;
+
+            resize: vertical;
+        }
+
+        .passport-section {
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+        .passport-preview {
+            width: 120px;
+            height: 120px;
+
+            border-radius: 50%;
+
+            background: #08752f;
+
+            border: 4px solid #ffd500;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            color: #ffd500;
+
+            font-size: 40px;
+
+            font-weight: bold;
+        }
+
+        .passport-preview img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            padding-right: 50px;
+        }
+
+        .eye-button {
+            position: absolute;
+
+            right: 10px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 18px;
+        }
+
+        .register-button {
+            width: 100%;
+
+            padding: 15px;
+
+            margin-top: 20px;
+
+            background: #08752f;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .register-button:hover {
+            background: #055b24;
+        }
+
+        .register-button:disabled {
+            background: #777;
+
+            cursor: not-allowed;
+        }
+
+        .login-link {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #08752f;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .back-home {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            color: #08752f;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="logo">
+        A
+    </div>
+
+
+    <div class="school-name">
+        AL-ARUUDY INTERNATIONAL SCHOOL
+    </div>
+
+
+    <div class="slogan">
+        BRIGHT MINDS, BOLD FUTURES
+    </div>
+
+
+    <h1>
+        Student Registration
+    </h1>
+
+
+    <p class="intro">
+        Create your student account to access the school portal.
+    </p>
+
+
+
+    <form id="registrationForm">
+
+
+        <!-- ==========================================
+             PASSPORT
+        =========================================== -->
+
+        <h2 class="section-title">
+            Passport Photograph
+        </h2>
+
+
+        <div class="passport-section">
+
+            <div
+                class="passport-preview"
+                id="passportPreview"
+            >
+                A
+            </div>
+
+
+            <input
+                type="file"
+                id="passport"
+                accept="image/*"
+            >
+
+        </div>
+
+
+
+        <!-- ==========================================
+             PERSONAL INFORMATION
+        =========================================== -->
+
+        <h2 class="section-title">
+            Personal Information
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="fullName">
+                Full Name <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="Enter student's full name"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="dateOfBirth">
+                Date of Birth
+            </label>
+
+            <input
+                type="date"
+                id="dateOfBirth"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="gender">
+                Gender
+            </label>
+
+            <select id="gender">
+
+                <option value="">
+                    Select Gender
+                </option>
+
+                <option value="Male">
+                    Male
+                </option>
+
+                <option value="Female">
+                    Female
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             SCHOOL INFORMATION
+        =========================================== -->
+
+        <h2 class="section-title">
+            School Information
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="studentClass">
+                Class
+            </label>
+
+            <select id="studentClass">
+
+                <option value="">
+                    Select Class
+                </option>
+
+                <option value="Primary 1">
+                    Primary 1
+                </option>
+
+                <option value="Primary 2">
+                    Primary 2
+                </option>
+
+                <option value="Primary 3">
+                    Primary 3
+                </option>
+
+                <option value="Primary 4">
+                    Primary 4
+                </option>
+
+                <option value="Primary 5">
+                    Primary 5
+                </option>
+
+                <option value="Primary 6">
+                    Primary 6
+                </option>
+
+                <option value="JSS 1">
+                    JSS 1
+                </option>
+
+                <option value="JSS 2">
+                    JSS 2
+                </option>
+
+                <option value="JSS 3">
+                    JSS 3
+                </option>
+
+                <option value="SSS 1">
+                    SSS 1
+                </option>
+
+                <option value="SSS 2">
+                    SSS 2
+                </option>
+
+                <option value="SSS 3">
+                    SSS 3
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="session">
+                Academic Session
+            </label>
+
+            <input
+                type="text"
+                id="session"
+                placeholder="Example: 2026/2027"
+            >
+
+        </div>
+
+
+
+        <!-- ==========================================
+             CONTACT INFORMATION
+        =========================================== -->
+
+        <h2 class="section-title">
+            Contact Information
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="email">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter email address"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="phone">
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter phone number"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="address">
+                Home Address
+            </label>
+
+            <textarea
+                id="address"
+                placeholder="Enter home address"
+            ></textarea>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             PARENT INFORMATION
+        =========================================== -->
+
+        <h2 class="section-title">
+            Parent / Guardian Information
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="parentName">
+                Parent / Guardian Name
+            </label>
+
+            <input
+                type="text"
+                id="parentName"
+                placeholder="Enter parent or guardian name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="parentPhone">
+                Parent / Guardian Phone
+            </label>
+
+            <input
+                type="tel"
+                id="parentPhone"
+                placeholder="Enter parent or guardian phone"
+            >
+
+        </div>
+
+
+
+        <!-- ==========================================
+             PASSWORD
+        =========================================== -->
+
+        <h2 class="section-title">
+            Account Security
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                Password <span class="required">*</span>
+            </label>
+
+            <div class="password-container">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="eye-button"
+                    id="passwordEye"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="confirmPassword">
+                Confirm Password <span class="required">*</span>
+            </label>
+
+            <div class="password-container">
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="eye-button"
+                    id="confirmEye"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             REGISTER
+        =========================================== -->
+
+        <button
+            type="submit"
+            class="register-button"
+            id="registerButton"
+        >
+            Register Student
+        </button>
+
+
+    </form>
+
+
+
+    <a
+        href="new student login portal.html"
+        class="login-link"
+    >
+        Already registered? Student Login
+    </a>
+
+
+    <a
+        href="al-aruudy school portal.html"
+        class="back-home"
+    >
+        ← Back to Home
+    </a>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const registrationForm =
+    document.getElementById("registrationForm");
+
+const passportInput =
+    document.getElementById("passport");
+
+const passportPreview =
+    document.getElementById("passportPreview");
+
+const passwordInput =
+    document.getElementById("password");
+
+const confirmPasswordInput =
+    document.getElementById("confirmPassword");
+
+const passwordEye =
+    document.getElementById("passwordEye");
+
+const confirmEye =
+    document.getElementById("confirmEye");
+
+const registerButton =
+    document.getElementById("registerButton");
+
+
+
+// =====================================================
+// PASSPORT PREVIEW
+// =====================================================
+
+passportInput.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            passportInput.files[0];
+
+
+        if (!file) {
+
+            passportPreview.innerHTML = "A";
+
+            return;
+
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function (event) {
+
+                passportPreview.innerHTML = `
+
+                    <img
+                        src="${event.target.result}"
+                        alt="Passport Preview"
+                    >
+
+                `;
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+
+// =====================================================
+// PASSWORD SHOW / HIDE
+// =====================================================
+
+passwordEye.addEventListener(
+    "click",
+    function () {
+
+        if (
+            passwordInput.type ===
+            "password"
+        ) {
+
+            passwordInput.type =
+                "text";
+
+            passwordEye.textContent =
+                "🙈";
+
+        } else {
+
+            passwordInput.type =
+                "password";
+
+            passwordEye.textContent =
+                "👁️";
+
+        }
+
+    }
+);
+
+
+
+// =====================================================
+// CONFIRM PASSWORD SHOW / HIDE
+// =====================================================
+
+confirmEye.addEventListener(
+    "click",
+    function () {
+
+        if (
+            confirmPasswordInput.type ===
+            "password"
+        ) {
+
+            confirmPasswordInput.type =
+                "text";
+
+            confirmEye.textContent =
+                "🙈";
+
+        } else {
+
+            confirmPasswordInput.type =
+                "password";
+
+            confirmEye.textContent =
+                "👁️";
+
+        }
+
+    }
+);
+
+
+
+// =====================================================
+// REGISTRATION
+// =====================================================
+
+registrationForm.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        // =================================================
+        // GET FORM VALUES
+        // =================================================
+
+        const fullName =
+            document
+                .getElementById("fullName")
+                .value
+                .trim();
+
+
+        const dateOfBirth =
+            document
+                .getElementById("dateOfBirth")
+                .value;
+
+
+        const gender =
+            document
+                .getElementById("gender")
+                .value;
+
+
+        const studentClass =
+            document
+                .getElementById("studentClass")
+                .value;
+
+
+        const session =
+            document
+                .getElementById("session")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+        const phone =
+            document
+                .getElementById("phone")
+                .value
+                .trim();
+
+
+        const address =
+            document
+                .getElementById("address")
+                .value
+                .trim();
+
+
+        const parentName =
+            document
+                .getElementById("parentName")
+                .value
+                .trim();
+
+
+        const parentPhone =
+            document
+                .getElementById("parentPhone")
+                .value
+                .trim();
+
+
+        const password =
+            passwordInput.value;
+
+
+        const confirmPassword =
+            confirmPasswordInput.value;
+
+
+
+        // =================================================
+        // CHECK PASSWORD
+        // =================================================
+
+        if (
+            password !==
+            confirmPassword
+        ) {
+
+            alert(
+                "Passwords do not match."
+            );
+
+            return;
+
+        }
+
+
+        if (password.length < 4) {
+
+            alert(
+                "Password must be at least 4 characters."
+            );
+
+            return;
+
+        }
+
+
+
+        // =================================================
+        // PASSPORT
+        // =================================================
+
+        let passport = "";
+
+
+        const passportFile =
+            passportInput.files[0];
+
+
+        if (passportFile) {
+
+            passport =
+                await convertImageToBase64(
+                    passportFile
+                );
+
+        }
+
+
+
+        // =================================================
+        // DISABLE BUTTON
+        // =================================================
+
+        registerButton.disabled =
+            true;
+
+        registerButton.textContent =
+            "Registering...";
+
+
+
+        try {
+
+
+            // =================================================
+            // SEND TO DENO BACKEND
+            // =================================================
+
+            const response =
+                await fetch(
+                    "http://localhost:8000/students/register",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                fullName:
+                                    fullName,
+
+                                passport:
+                                    passport,
+
+                                dateOfBirth:
+                                    dateOfBirth,
+
+                                gender:
+                                    gender,
+
+                                studentClass:
+                                    studentClass,
+
+                                session:
+                                    session,
+
+                                email:
+                                    email,
+
+                                phone:
+                                    phone,
+
+                                address:
+                                    address,
+
+                                parentName:
+                                    parentName,
+
+                                parentPhone:
+                                    parentPhone,
+
+                                password:
+                                    password
+
+                            })
+
+                    }
+                );
+
+
+            // =================================================
+            // READ RESPONSE
+            // =================================================
+
+            const result =
+                await response.json();
+
+
+            console.log(
+                "Registration response:",
+                result
+            );
+
+
+
+            // =================================================
+            // REGISTRATION FAILED
+            // =================================================
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                alert(
+                    result.message ||
+                    "Registration failed."
+                );
+
+                return;
+
+            }
+
+
+
+            // =================================================
+            // GET STUDENT INFORMATION
+            // =================================================
+
+            const student =
+                result.student ||
+                result;
+
+
+
+            // =================================================
+            // SAVE LIGHTWEIGHT SESSION
+            // =================================================
+
+            const studentForStorage = {
+
+                studentId:
+                    student.studentId || "",
+
+                fullName:
+                    student.fullName ||
+                    fullName,
+
+                dateOfBirth:
+                    student.dateOfBirth ||
+                    dateOfBirth,
+
+                gender:
+                    student.gender ||
+                    gender,
+
+                studentClass:
+                    student.studentClass ||
+                    studentClass,
+
+                session:
+                    student.session ||
+                    session,
+
+                email:
+                    student.email ||
+                    email,
+
+                phone:
+                    student.phone ||
+                    phone,
+
+                address:
+                    student.address ||
+                    address,
+
+                parentName:
+                    student.parentName ||
+                    parentName,
+
+                parentPhone:
+                    student.parentPhone ||
+                    parentPhone
+
+            };
+
+
+
+            // =================================================
+            // CLEAR OLD STUDENT SESSION
+            // =================================================
+
+            localStorage.removeItem(
+                "currentStudent"
+            );
+
+            localStorage.removeItem(
+                "studentPassport"
+            );
+
+            localStorage.removeItem(
+                "studentId"
+            );
+
+            localStorage.removeItem(
+                "studentName"
+            );
+
+            localStorage.removeItem(
+                "studentClass"
+            );
+
+            localStorage.removeItem(
+                "studentSession"
+            );
+
+            localStorage.removeItem(
+                "studentEmail"
+            );
+
+
+
+            // =================================================
+            // SAVE NEW STUDENT SESSION
+            // =================================================
+
+            localStorage.setItem(
+                "currentStudent",
+                JSON.stringify(
+                    studentForStorage
+                )
+            );
+
+
+            localStorage.setItem(
+                "studentId",
+                studentForStorage.studentId
+            );
+
+
+            localStorage.setItem(
+                "studentName",
+                studentForStorage.fullName
+            );
+
+
+            localStorage.setItem(
+                "studentClass",
+                studentForStorage.studentClass
+            );
+
+
+            localStorage.setItem(
+                "studentSession",
+                studentForStorage.session
+            );
+
+
+            localStorage.setItem(
+                "studentEmail",
+                studentForStorage.email
+            );
+
+
+
+            // =================================================
+            // SAVE PASSPORT SEPARATELY
+            // =================================================
+
+            /*
+             * Only save reasonably small passport images.
+             * This prevents localStorage from becoming full.
+             */
+
+            if (
+                passport &&
+                passport.length < 500000
+            ) {
+
+                try {
+
+                    localStorage.setItem(
+                        "studentPassport",
+                        passport
+                    );
+
+                }
+
+                catch (passportError) {
+
+                    console.log(
+                        "Passport could not be saved locally."
+                    );
+
+                }
+
+            }
+
+
+
+            // =================================================
+            // SUCCESS
+            // =================================================
+
+            alert(
+                "Registration successful!\n\n" +
+                "Your Student ID is:\n" +
+                studentForStorage.studentId
+            );
+
+
+            // =================================================
+            // GO TO DASHBOARD
+            // =================================================
+
+            window.location.href =
+                "studentdashboard.html";
+
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Registration error:",
+                error
+            );
+
+
+            alert(
+                "Unable to connect to the school server.\n\n" +
+                "Please make sure the Deno backend is running."
+            );
+
+        }
+
+
+        finally {
+
+            registerButton.disabled =
+                false;
+
+            registerButton.textContent =
+                "Register Student";
+
+        }
+
+    }
+);
+
+
+
+// =====================================================
+// IMAGE TO BASE64
+// =====================================================
+
+function convertImageToBase64(file) {
+
+    return new Promise(
+        function (resolve, reject) {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function () {
+
+                    resolve(
+                        reader.result
+                    );
+
+                };
+
+
+            reader.onerror =
+                function () {
+
+                    reject(
+                        new Error(
+                            "Could not read passport image."
+                        )
+                    );
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

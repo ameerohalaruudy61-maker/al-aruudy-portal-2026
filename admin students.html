@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Students | Admin | Al-Aruudy International School
+    </title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #f5f9f6;
+
+            color: #222;
+
+            padding: 30px;
+        }
+
+
+        .container {
+            max-width: 1100px;
+
+            margin: auto;
+        }
+
+
+        /* ================================
+           BACK
+        ================================= */
+
+        .back {
+            display: inline-block;
+
+            margin-bottom: 20px;
+
+            color: #08752f;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ================================
+           TITLE
+        ================================= */
+
+        h1 {
+            color: #08752f;
+
+            margin-bottom: 8px;
+        }
+
+
+        .description {
+            color: #666;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ================================
+           CLASS SECTION
+        ================================= */
+
+        .class-section {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+        }
+
+
+        .class-section h2 {
+            color: #08752f;
+
+            margin-bottom: 18px;
+
+            font-size: 20px;
+        }
+
+
+        .class-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+
+        .class-button {
+            border: 2px solid #08752f;
+
+            background: #ffffff;
+
+            color: #08752f;
+
+            padding: 18px 15px;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .class-button:hover {
+            background: #e8f7ed;
+
+            transform: translateY(-2px);
+        }
+
+
+        .class-button.active {
+            background: #08752f;
+
+            color: white;
+        }
+
+
+        /* ================================
+           STUDENT SECTION
+        ================================= */
+
+        .students-section {
+            display: none;
+
+            margin-top: 25px;
+        }
+
+
+        .students-section.show {
+            display: block;
+        }
+
+
+        .students-header {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 20px;
+        }
+
+
+        .students-header-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+
+        .students-header h2 {
+            color: #08752f;
+
+            margin-bottom: 5px;
+        }
+
+
+        .students-header p {
+            color: #666;
+
+            font-size: 14px;
+        }
+
+
+        .back-to-classes {
+            border: none;
+
+            background: #08752f;
+
+            color: white;
+
+            padding: 10px 15px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .back-to-classes:hover {
+            background: #065d25;
+        }
+
+
+        /* ================================
+           SEARCH
+        ================================= */
+
+        .search-box {
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 20px;
+        }
+
+
+        .search {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        .search:focus {
+            border-color: #08752f;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(8,117,47,0.1);
+        }
+
+
+        /* ================================
+           STUDENTS GRID
+        ================================= */
+
+        .students-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .student-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.08);
+
+            border-left:
+                5px solid #08752f;
+        }
+
+
+        .student-top {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .student-photo {
+            width: 65px;
+
+            height: 65px;
+
+            border-radius: 50%;
+
+            background: #e8f7ed;
+
+            color: #08752f;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            overflow: hidden;
+
+            flex-shrink: 0;
+        }
+
+
+        .student-photo img {
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .student-card h3 {
+            color: #08752f;
+
+            font-size: 19px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .student-id {
+            display: inline-block;
+
+            background: #e8f7ed;
+
+            color: #08752f;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .student-info {
+            margin-bottom: 8px;
+
+            line-height: 1.5;
+        }
+
+
+        .student-info strong {
+            color: #16351f;
+        }
+
+
+        .student-details {
+            margin-top: 15px;
+        }
+
+
+        /* ================================
+           DELETE
+        ================================= */
+
+        .delete-button {
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #c62828;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .delete-button:hover {
+            background: #a91f1f;
+        }
+
+
+        /* ================================
+           EMPTY
+        ================================= */
+
+        .empty {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            color: #777;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.08);
+        }
+
+
+        /* ================================
+           STATUS
+        ================================= */
+
+        .status {
+            margin-top: 15px;
+
+            color: #08752f;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================================
+           CONFIRMATION POPUP
+        ================================= */
+
+        .confirm-overlay {
+            display: none;
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background:
+                rgba(0,0,0,0.45);
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+
+        .confirm-box {
+            width: 100%;
+
+            max-width: 420px;
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 40px
+                rgba(0,0,0,0.2);
+        }
+
+
+        .confirm-icon {
+            width: 55px;
+
+            height: 55px;
+
+            margin:
+                0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #fff0f0;
+
+            color: #c62828;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 26px;
+
+            font-weight: bold;
+        }
+
+
+        .confirm-box h2 {
+            color: #222;
+
+            margin-bottom: 10px;
+        }
+
+
+        .confirm-box p {
+            color: #666;
+
+            line-height: 1.5;
+
+            margin-bottom: 25px;
+        }
+
+
+        .confirm-buttons {
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .cancel-button,
+        .confirm-delete-button {
+            flex: 1;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .cancel-button {
+            background: #eee;
+
+            color: #333;
+        }
+
+
+        .cancel-button:hover {
+            background: #ddd;
+        }
+
+
+        .confirm-delete-button {
+            background: #c62828;
+
+            color: white;
+        }
+
+
+        .confirm-delete-button:hover {
+            background: #a91f1f;
+        }
+
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 20px;
+            }
+
+
+            .class-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .students-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .students-header-top {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .back-to-classes {
+                width: 100%;
+            }
+
+
+            .confirm-buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- BACK -->
+
+        <a
+            href="admin dashboard.html"
+            class="back"
+        >
+            ← Back to Admin Dashboard
+        </a>
+
+
+        <!-- TITLE -->
+
+        <h1>
+            Registered Students
+        </h1>
+
+
+        <p class="description">
+            Select a class to view the students registered in that class.
+        </p>
+
+
+        <!-- =================================
+             PRIMARY CLASSES
+        ================================== -->
+
+        <div class="class-section">
+
+
+            <h2>
+                Primary
+            </h2>
+
+
+            <div class="class-grid">
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('Primary 1', this)"
+                >
+                    Primary 1
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('Primary 2', this)"
+                >
+                    Primary 2
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('Primary 3', this)"
+                >
+                    Primary 3
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('Primary 4', this)"
+                >
+                    Primary 4
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('Primary 5', this)"
+                >
+                    Primary 5
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('Primary 6', this)"
+                >
+                    Primary 6
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             JSS CLASSES
+        ================================== -->
+
+        <div class="class-section">
+
+
+            <h2>
+                Junior Secondary School
+            </h2>
+
+
+            <div class="class-grid">
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('JSS 1', this)"
+                >
+                    JSS 1
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('JSS 2', this)"
+                >
+                    JSS 2
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('JSS 3', this)"
+                >
+                    JSS 3
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             SSS CLASSES
+        ================================== -->
+
+        <div class="class-section">
+
+
+            <h2>
+                Senior Secondary School
+            </h2>
+
+
+            <div class="class-grid">
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('SSS 1', this)"
+                >
+                    SSS 1
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('SSS 2', this)"
+                >
+                    SSS 2
+                </button>
+
+
+                <button
+                    class="class-button"
+                    onclick="showClass('SSS 3', this)"
+                >
+                    SSS 3
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             STUDENTS
+        ================================== -->
+
+        <div
+            id="studentsSection"
+            class="students-section"
+        >
+
+
+            <div class="students-header">
+
+
+                <div class="students-header-top">
+
+
+                    <div>
+
+                        <h2 id="selectedClassTitle">
+                            Students
+                        </h2>
+
+
+                        <p id="selectedClassCount">
+                            0 students
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="back-to-classes"
+                        onclick="backToClasses()"
+                    >
+                        ← Back to Classes
+                    </button>
+
+
+                </div>
+
+
+                <div
+                    id="statusMessage"
+                    class="status"
+                >
+                </div>
+
+
+            </div>
+
+
+            <div class="search-box">
+
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search"
+                    placeholder="Search student in this class..."
+                >
+
+
+            </div>
+
+
+            <div
+                id="studentsGrid"
+                class="students-grid"
+            >
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         DELETE CONFIRMATION
+    ====================================== -->
+
+    <div
+        id="confirmOverlay"
+        class="confirm-overlay"
+    >
+
+
+        <div class="confirm-box">
+
+
+            <div class="confirm-icon">
+                !
+            </div>
+
+
+            <h2>
+                Are you sure?
+            </h2>
+
+
+            <p id="confirmText">
+                Are you sure you want to delete this student?
+            </p>
+
+
+            <div class="confirm-buttons">
+
+
+                <button
+                    class="cancel-button"
+                    onclick="closeDeleteConfirmation()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="confirm-delete-button"
+                    id="confirmDeleteButton"
+                    onclick="confirmDeleteStudent()"
+                >
+                    Delete
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        /* =====================================
+           BACKEND
+        ====================================== */
+
+        const API =
+            "http://localhost:8000";
+
+
+        let students = [];
+
+        let selectedClass = "";
+
+        let studentToDelete = null;
+
+
+
+        /* =====================================
+           ADMIN LOGIN
+        ====================================== */
+
+        const adminLoggedIn =
+            localStorage.getItem(
+                "adminLoggedIn"
+            );
+
+
+        if (
+            adminLoggedIn !== "true"
+        ) {
+
+            window.location.href =
+                "admin login.html";
+
+        }
+
+
+
+        /* =====================================
+           LOAD STUDENTS
+        ====================================== */
+
+        async function loadStudents() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/students`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to load students."
+                    );
+
+                }
+
+
+                students =
+                    Array.isArray(data.students)
+                        ? data.students
+                        : [];
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Load students error:",
+                    error
+                );
+
+                alert(
+                    "Unable to load students. Make sure the backend is running."
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           SHOW CLASS
+        ====================================== */
+
+        function showClass(
+            className,
+            button
+        ) {
+
+            selectedClass =
+                className;
+
+
+            document
+                .querySelectorAll(
+                    ".class-button"
+                )
+                .forEach(
+                    function(item) {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            document.getElementById(
+                "studentsSection"
+            ).classList.add(
+                "show"
+            );
+
+
+            document.getElementById(
+                "selectedClassTitle"
+            ).textContent =
+                className;
+
+
+            document.getElementById(
+                "searchInput"
+            ).value =
+                "";
+
+
+            displayStudentsForClass();
+
+        }
+
+
+
+        /* =====================================
+           DISPLAY STUDENTS FOR CLASS
+        ====================================== */
+
+        function displayStudentsForClass() {
+
+            const studentsGrid =
+                document.getElementById(
+                    "studentsGrid"
+                );
+
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                )
+                .value
+                .trim()
+                .toLowerCase();
+
+
+            const classStudents =
+                students.filter(
+                    function(student) {
+
+                        const studentClass =
+                            String(
+                                student.studentClass ||
+                                student.student_class ||
+                                ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        return (
+                            studentClass ===
+                            selectedClass.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            const filteredStudents =
+                classStudents.filter(
+                    function(student) {
+
+                        if (!search) {
+                            return true;
+                        }
+
+
+                        const fullName =
+                            String(
+                                student.fullName ||
+                                student.full_name ||
+                                ""
+                            ).toLowerCase();
+
+
+                        const studentId =
+                            String(
+                                student.studentId ||
+                                student.student_id ||
+                                student.id ||
+                                ""
+                            ).toLowerCase();
+
+
+                        const email =
+                            String(
+                                student.email ||
+                                ""
+                            ).toLowerCase();
+
+
+                        return (
+
+                            fullName.includes(
+                                search
+                            )
+
+                            ||
+
+                            studentId.includes(
+                                search
+                            )
+
+                            ||
+
+                            email.includes(
+                                search
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            document.getElementById(
+                "selectedClassCount"
+            ).textContent =
+                `${classStudents.length} ${
+                    classStudents.length === 1
+                        ? "student"
+                        : "students"
+                } registered`;
+
+
+            studentsGrid.innerHTML = "";
+
+
+            if (
+                filteredStudents.length === 0
+            ) {
+
+                studentsGrid.innerHTML = `
+
+                    <div class="empty">
+
+                        ${
+                            classStudents.length === 0
+                                ? `No students are registered in ${escapeHTML(selectedClass)} yet.`
+                                : "No student matches your search."
+                        }
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            filteredStudents.forEach(
+                function(student) {
+
+                    createStudentCard(
+                        student,
+                        studentsGrid
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================
+           CREATE STUDENT CARD
+        ====================================== */
+
+        function createStudentCard(
+            student,
+            studentsGrid
+        ) {
+
+            const fullName =
+                student.fullName ||
+                student.full_name ||
+                "Unknown Student";
+
+
+            const studentId =
+                student.studentId ||
+                student.student_id ||
+                student.id ||
+                "";
+
+
+            const dateOfBirth =
+                student.dateOfBirth ||
+                student.date_of_birth ||
+                "—";
+
+
+            const gender =
+                student.gender ||
+                "—";
+
+
+            const studentClass =
+                student.studentClass ||
+                student.student_class ||
+                "—";
+
+
+            const session =
+                student.session ||
+                "—";
+
+
+            const email =
+                student.email ||
+                "—";
+
+
+            const phone =
+                student.phone ||
+                "—";
+
+
+            const address =
+                student.address ||
+                "—";
+
+
+            const parentName =
+                student.parentName ||
+                student.parent_name ||
+                "—";
+
+
+            const parentPhone =
+                student.parentPhone ||
+                student.parent_phone ||
+                "—";
+
+
+            const passport =
+                student.passport ||
+                "";
+
+
+            const firstLetter =
+                fullName
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            let photoHTML =
+                firstLetter;
+
+
+            if (passport) {
+
+                photoHTML = `
+
+                    <img
+                        src="${escapeHTML(passport)}"
+                        alt="Student Passport"
+                    >
+
+                `;
+
+            }
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "student-card";
+
+
+            card.innerHTML = `
+
+                <div class="student-top">
+
+
+                    <div class="student-photo">
+
+                        ${photoHTML}
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            ${escapeHTML(fullName)}
+                        </h3>
+
+
+                        <span class="student-id">
+
+                            ID:
+                            ${escapeHTML(studentId)}
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="student-details">
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Class:
+                        </strong>
+
+                        ${escapeHTML(studentClass)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Session:
+                        </strong>
+
+                        ${escapeHTML(session)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Date of Birth:
+                        </strong>
+
+                        ${escapeHTML(dateOfBirth)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Gender:
+                        </strong>
+
+                        ${escapeHTML(gender)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Email:
+                        </strong>
+
+                        ${escapeHTML(email)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Phone:
+                        </strong>
+
+                        ${escapeHTML(phone)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Address:
+                        </strong>
+
+                        ${escapeHTML(address)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Parent / Guardian:
+                        </strong>
+
+                        ${escapeHTML(parentName)}
+
+                    </div>
+
+
+                    <div class="student-info">
+
+                        <strong>
+                            Parent Phone:
+                        </strong>
+
+                        ${escapeHTML(parentPhone)}
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    class="delete-button"
+                    onclick="openDeleteConfirmation(
+                        '${escapeJS(studentId)}',
+                        '${escapeJS(fullName)}'
+                    )"
+                >
+                    Delete Student
+                </button>
+
+            `;
+
+
+            studentsGrid.appendChild(
+                card
+            );
+
+        }
+
+
+
+        /* =====================================
+           SEARCH
+        ====================================== */
+
+        document
+            .getElementById("searchInput")
+            .addEventListener(
+                "input",
+                function() {
+
+                    displayStudentsForClass();
+
+                }
+            );
+
+
+
+        /* =====================================
+           OPEN DELETE CONFIRMATION
+        ====================================== */
+
+        function openDeleteConfirmation(
+            studentId,
+            studentName
+        ) {
+
+            studentToDelete =
+                studentId;
+
+
+            document.getElementById(
+                "confirmText"
+            ).textContent =
+                `Are you sure you want to delete ${studentName}? This action cannot be undone.`;
+
+
+            document.getElementById(
+                "confirmOverlay"
+            ).style.display =
+                "flex";
+
+        }
+
+
+
+        /* =====================================
+           CLOSE DELETE CONFIRMATION
+        ====================================== */
+
+        function closeDeleteConfirmation() {
+
+            studentToDelete =
+                null;
+
+
+            document.getElementById(
+                "confirmOverlay"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        /* =====================================
+           DELETE STUDENT
+        ====================================== */
+
+        async function confirmDeleteStudent() {
+
+            if (!studentToDelete) {
+                return;
+            }
+
+
+            const studentId =
+                studentToDelete;
+
+
+            const deleteButton =
+                document.getElementById(
+                    "confirmDeleteButton"
+                );
+
+
+            deleteButton.disabled =
+                true;
+
+
+            deleteButton.textContent =
+                "Deleting...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/students/${encodeURIComponent(studentId)}`,
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Delete response:",
+                    data
+                );
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to delete student."
+                    );
+
+                }
+
+
+                students =
+                    students.filter(
+                        function(student) {
+
+                            const id =
+                                student.studentId ||
+                                student.student_id ||
+                                student.id ||
+                                "";
+
+                            return (
+                                String(id) !==
+                                String(studentId)
+                            );
+
+                        }
+                    );
+
+
+                closeDeleteConfirmation();
+
+
+                document.getElementById(
+                    "statusMessage"
+                ).textContent =
+                    "Student deleted successfully.";
+
+
+                displayStudentsForClass();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Delete error:",
+                    error
+                );
+
+
+                closeDeleteConfirmation();
+
+
+                alert(
+                    error.message ||
+                    "Unable to delete student."
+                );
+
+            }
+
+            finally {
+
+                deleteButton.disabled =
+                    false;
+
+
+                deleteButton.textContent =
+                    "Delete";
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           BACK TO CLASSES
+        ====================================== */
+
+        function backToClasses() {
+
+            selectedClass =
+                "";
+
+
+            document.getElementById(
+                "studentsSection"
+            ).classList.remove(
+                "show"
+            );
+
+
+            document
+                .querySelectorAll(
+                    ".class-button"
+                )
+                .forEach(
+                    function(button) {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            document.getElementById(
+                "statusMessage"
+            ).textContent =
+                "";
+
+        }
+
+
+
+        /* =====================================
+           ESCAPE HTML
+        ====================================== */
+
+        function escapeHTML(
+            value
+        ) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                String(value);
+
+
+            return div.innerHTML;
+
+        }
+
+
+
+        /* =====================================
+           ESCAPE JAVASCRIPT
+        ====================================== */
+
+        function escapeJS(
+            value
+        ) {
+
+            return String(value)
+
+                .replace(
+                    /\\/g,
+                    "\\\\"
+                )
+
+                .replace(
+                    /'/g,
+                    "\\'"
+                )
+
+                .replace(
+                    /"/g,
+                    '\\"'
+                )
+
+                .replace(
+                    /\n/g,
+                    "\\n"
+                )
+
+                .replace(
+                    /\r/g,
+                    "\\r"
+                );
+
+        }
+
+
+
+        /* =====================================
+           CLOSE POPUP OUTSIDE
+        ====================================== */
+
+        document
+            .getElementById("confirmOverlay")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target === this
+                    ) {
+
+                        closeDeleteConfirmation();
+
+                    }
+
+                }
+            );
+
+
+
+        /* =====================================
+           START
+        ====================================== */
+
+        loadStudents();
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Timetable - Al-Aruudy International School</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f4;
+            color: #173b22;
+        }
+
+        header {
+            background: #0b6b35;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        .logout-btn {
+            background: #f4c400;
+            color: #173b22;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 25px auto;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .page-title h2 {
+            color: #0b6b35;
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            color: #0b6b35;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #0b6b35;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .primary-btn {
+            background: #0b6b35;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .primary-btn:hover {
+            background: #09572b;
+        }
+
+        .yellow-btn {
+            background: #f4c400;
+            color: #173b22;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .yellow-btn:hover {
+            background: #ddb200;
+        }
+
+        .danger-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .danger-btn:hover {
+            background: #a91f1f;
+        }
+
+        .remove-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .view-btn {
+            background: #0b6b35;
+            color: white;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .view-btn:hover {
+            background: #09572b;
+        }
+
+        .delete-upload-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background: #0b6b35;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td:first-child {
+            width: 180px;
+        }
+
+        td:last-child {
+            width: 90px;
+        }
+
+        .time-input {
+            min-width: 150px;
+        }
+
+        .subject-input {
+            min-width: 150px;
+        }
+
+        .break-row td {
+            background: #fff8d6;
+        }
+
+        .break-row strong {
+            color: #806000;
+            font-size: 15px;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .info {
+            background: #eef8f0;
+            border-left: 5px solid #0b6b35;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .info strong {
+            color: #0b6b35;
+        }
+
+        /* =====================================
+           UPLOADED TIMETABLES
+        ===================================== */
+
+        .uploaded-section {
+            margin-top: 10px;
+        }
+
+        .uploaded-info {
+            background: #fff8d6;
+            border-left: 5px solid #f4c400;
+            padding: 15px;
+            margin-bottom: 18px;
+            border-radius: 6px;
+            color: #5f4b00;
+        }
+
+        .uploaded-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .uploaded-table th {
+            background: #0b6b35;
+            color: white;
+            padding: 13px;
+        }
+
+        .uploaded-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .uploaded-table tr:nth-child(even) {
+            background: #f8fbf8;
+        }
+
+        .uploaded-table tr:hover {
+            background: #eef8f0;
+        }
+
+        .empty-uploaded {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            background: #fafafa;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .loading-uploaded {
+            text-align: center;
+            padding: 25px;
+            color: #0b6b35;
+            font-weight: bold;
+        }
+
+        .uploaded-actions {
+            white-space: nowrap;
+        }
+
+        /* =====================================
+           VIEW SAVED TIMETABLE
+        ===================================== */
+
+        .saved-view {
+            display: none;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e8eee9;
+        }
+
+        .saved-view.active {
+            display: block;
+        }
+
+        .saved-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .saved-view-header h4 {
+            color: #0b6b35;
+            font-size: 19px;
+        }
+
+        .close-view-btn {
+            background: #f4c400;
+            color: #173b22;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .saved-timetable-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .saved-timetable {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        .saved-timetable th {
+            background: #0b6b35;
+            color: white;
+            padding: 12px;
+        }
+
+        .saved-timetable td {
+            border: 1px solid #ddd;
+            padding: 11px;
+            text-align: center;
+        }
+
+        .saved-timetable .saved-break td {
+            background: #fff8d6;
+            color: #806000;
+            font-weight: bold;
+        }
+
+        .date-text {
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .uploaded-table {
+                min-width: 650px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>
+        Al-Aruudy International School
+    </h1>
+
+    <button
+        class="logout-btn"
+        onclick="logoutAdmin()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h2>
+            Timetable Management
+        </h2>
+
+        <p>
+            Create the timetable for each class by entering your own times and courses.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         UPLOAD / CREATE TIMETABLE
+    ====================================== -->
+
+    <div class="card">
+
+        <div class="info">
+
+            <strong>How it works:</strong>
+
+            Select a class, add the times you want, and enter the course for each day.
+            You can also add break periods. When you save the timetable, it will appear
+            below under <strong>Uploaded Timetables</strong>.
+
+        </div>
+
+
+        <!-- CLASS -->
+
+        <div class="form-group">
+
+            <label for="classSelect">
+                Select Class
+            </label>
+
+            <select id="classSelect">
+
+                <option value="">
+                    Select Class
+                </option>
+
+                <option>Primary 1</option>
+                <option>Primary 2</option>
+                <option>Primary 3</option>
+                <option>Primary 4</option>
+                <option>Primary 5</option>
+                <option>Primary 6</option>
+
+                <option>JSS 1</option>
+                <option>JSS 2</option>
+                <option>JSS 3</option>
+
+                <option>SSS 1</option>
+                <option>SSS 2</option>
+                <option>SSS 3</option>
+
+            </select>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <button
+                type="button"
+                class="yellow-btn"
+                id="addTimeBtn">
+
+                + Add Time
+
+            </button>
+
+
+            <button
+                type="button"
+                class="yellow-btn"
+                id="addBreakBtn">
+
+                + Add Break
+
+            </button>
+
+
+            <button
+                type="button"
+                class="primary-btn"
+                id="saveTimetableBtn">
+
+                Save Timetable
+
+            </button>
+
+
+            <button
+                type="button"
+                class="danger-btn"
+                id="clearTimetableBtn">
+
+                Clear Timetable
+
+            </button>
+
+        </div>
+
+
+        <!-- TIMETABLE EDITOR -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Monday
+                        </th>
+
+                        <th>
+                            Tuesday
+                        </th>
+
+                        <th>
+                            Wednesday
+                        </th>
+
+                        <th>
+                            Thursday
+                        </th>
+
+                        <th>
+                            Friday
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="timetableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div
+            id="message"
+            class="message">
+
+        </div>
+
+
+        <!-- =====================================
+             VIEW SAVED TIMETABLE
+        ====================================== -->
+
+        <div
+            id="savedView"
+            class="saved-view">
+
+            <div class="saved-view-header">
+
+                <h4 id="savedViewTitle">
+                    Saved Timetable
+                </h4>
+
+                <button
+                    type="button"
+                    class="close-view-btn"
+                    id="closeViewBtn">
+
+                    Close View
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="saved-timetable-container"
+                id="savedTimetableContainer">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         UPLOADED TIMETABLES / HISTORY
+    ====================================== -->
+
+    <div class="card uploaded-section">
+
+        <h3>
+            Uploaded Timetables
+        </h3>
+
+
+        <div class="uploaded-info">
+
+            <strong>Current Uploaded Timetables:</strong>
+
+            This section shows the timetables that have already been uploaded
+            for each class. If you upload a new timetable for a class, it replaces
+            that class's current timetable.
+
+        </div>
+
+
+        <div id="uploadedTimetablesContainer">
+
+            <div class="loading-uploaded">
+
+                Loading uploaded timetables...
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:8000";
+
+const classSelect =
+    document.getElementById("classSelect");
+
+const timetableBody =
+    document.getElementById("timetableBody");
+
+const message =
+    document.getElementById("message");
+
+const uploadedTimetablesContainer =
+    document.getElementById(
+        "uploadedTimetablesContainer"
+    );
+
+const savedView =
+    document.getElementById("savedView");
+
+const savedViewTitle =
+    document.getElementById(
+        "savedViewTitle"
+    );
+
+const savedTimetableContainer =
+    document.getElementById(
+        "savedTimetableContainer"
+    );
+
+
+const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+];
+
+
+const allClasses = [
+    "Primary 1",
+    "Primary 2",
+    "Primary 3",
+    "Primary 4",
+    "Primary 5",
+    "Primary 6",
+    "JSS 1",
+    "JSS 2",
+    "JSS 3",
+    "SSS 1",
+    "SSS 2",
+    "SSS 3"
+];
+
+
+/* =========================================
+   ADMIN LOGIN CHECK
+========================================= */
+
+if (
+    localStorage.getItem("adminLoggedIn")
+    !== "true"
+) {
+
+    window.location.href =
+        "admin login.html";
+
+}
+
+
+/* =========================================
+   SHOW MESSAGE
+========================================= */
+
+function showMessage(
+    text,
+    type = "success"
+) {
+
+    message.textContent = text;
+
+    message.style.color =
+        type === "error"
+            ? "#c62828"
+            : "#1b5e20";
+
+
+    setTimeout(() => {
+
+        message.textContent = "";
+
+    }, 5000);
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================
+   FETCH WITH TIMEOUT
+========================================= */
+
+async function fetchWithTimeout(
+    url,
+    options = {},
+    timeout = 10000
+) {
+
+    const controller =
+        new AbortController();
+
+    const timeoutId =
+        setTimeout(
+            () => controller.abort(),
+            timeout
+        );
+
+
+    try {
+
+        return await fetch(
+            url,
+            {
+                ...options,
+                signal:
+                    controller.signal
+            }
+        );
+
+    } finally {
+
+        clearTimeout(timeoutId);
+
+    }
+
+}
+
+
+/* =========================================
+   GET TIMETABLE ARRAY
+========================================= */
+
+function getTimetableArray(data) {
+
+    if (!data) {
+        return [];
+    }
+
+
+    if (Array.isArray(data)) {
+        return data;
+    }
+
+
+    if (
+        Array.isArray(data.timetables)
+    ) {
+
+        return data.timetables;
+
+    }
+
+
+    if (
+        Array.isArray(data.timetable)
+    ) {
+
+        return data.timetable;
+
+    }
+
+
+    if (
+        Array.isArray(data.data)
+    ) {
+
+        return data.data;
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =========================================
+   GET CLASS FROM RECORD
+========================================= */
+
+function getRecordClass(item) {
+
+    return (
+        item.studentClass ||
+        item.student_class ||
+        item.className ||
+        item.class_name ||
+        item.class ||
+        ""
+    );
+
+}
+
+
+/* =========================================
+   GET DAY FROM RECORD
+========================================= */
+
+function getRecordDay(item) {
+
+    return (
+        item.day ||
+        item.Day ||
+        ""
+    );
+
+}
+
+
+/* =========================================
+   GET SUBJECT FROM RECORD
+========================================= */
+
+function getRecordSubject(item) {
+
+    return (
+        item.subject ||
+        item.Subject ||
+        ""
+    );
+
+}
+
+
+/* =========================================
+   GET TIME FROM RECORD
+========================================= */
+
+function getRecordTime(item) {
+
+    return (
+        item.time ||
+        item.Time ||
+        item.period ||
+        item.startTime ||
+        item.start_time ||
+        ""
+    );
+
+}
+
+
+/* =========================================
+   GET DATE FROM RECORD
+========================================= */
+
+function getRecordDate(item) {
+
+    return (
+        item.createdAt ||
+        item.created_at ||
+        item.updatedAt ||
+        item.updated_at ||
+        ""
+    );
+
+}
+
+
+/* =========================================
+   FORMAT DATE
+========================================= */
+
+function formatDate(dateValue) {
+
+    if (!dateValue) {
+
+        return "Date not available";
+
+    }
+
+
+    const date =
+        new Date(dateValue);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return escapeHtml(
+            String(dateValue)
+        );
+
+    }
+
+
+    return date.toLocaleString(
+        "en-NG",
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+
+}
+
+
+/* =========================================
+   ADD NORMAL TIME ROW
+========================================= */
+
+function addTimeRow(
+    time = "",
+    subjects = {}
+) {
+
+    const row =
+        document.createElement("tr");
+
+
+    row.className =
+        "time-row";
+
+
+    row.innerHTML = `
+
+        <td>
+
+            <input
+                type="text"
+                class="time-input"
+                placeholder="e.g. 8:00 - 8:40"
+                value="${escapeHtml(time)}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="text"
+                class="subject-input"
+                data-day="Monday"
+                placeholder="Course"
+                value="${escapeHtml(
+                    subjects.Monday || ""
+                )}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="text"
+                class="subject-input"
+                data-day="Tuesday"
+                placeholder="Course"
+                value="${escapeHtml(
+                    subjects.Tuesday || ""
+                )}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="text"
+                class="subject-input"
+                data-day="Wednesday"
+                placeholder="Course"
+                value="${escapeHtml(
+                    subjects.Wednesday || ""
+                )}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="text"
+                class="subject-input"
+                data-day="Thursday"
+                placeholder="Course"
+                value="${escapeHtml(
+                    subjects.Thursday || ""
+                )}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                type="text"
+                class="subject-input"
+                data-day="Friday"
+                placeholder="Course"
+                value="${escapeHtml(
+                    subjects.Friday || ""
+                )}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <button
+                type="button"
+                class="remove-btn">
+
+                Remove
+
+            </button>
+
+        </td>
+
+    `;
+
+
+    row
+        .querySelector(".remove-btn")
+        .addEventListener(
+            "click",
+            () => row.remove()
+        );
+
+
+    timetableBody.appendChild(row);
+
+}
+
+
+/* =========================================
+   ADD BREAK ROW
+========================================= */
+
+function addBreakRow(
+    time = ""
+) {
+
+    const row =
+        document.createElement("tr");
+
+
+    row.className =
+        "break-row";
+
+
+    row.innerHTML = `
+
+        <td>
+
+            <input
+                type="text"
+                class="time-input"
+                placeholder="e.g. 10:00 - 10:30"
+                value="${escapeHtml(time)}"
+            >
+
+        </td>
+
+
+        <td colspan="5">
+
+            <strong>
+                BREAK
+            </strong>
+
+        </td>
+
+
+        <td>
+
+            <button
+                type="button"
+                class="remove-btn">
+
+                Remove
+
+            </button>
+
+        </td>
+
+    `;
+
+
+    row
+        .querySelector(".remove-btn")
+        .addEventListener(
+            "click",
+            () => row.remove()
+        );
+
+
+    timetableBody.appendChild(row);
+
+}
+
+
+/* =========================================
+   LOAD EDITOR TIMETABLE
+========================================= */
+
+async function loadTimetable() {
+
+    const selectedClass =
+        classSelect.value;
+
+
+    closeSavedView();
+
+
+    timetableBody.innerHTML = "";
+
+
+    if (!selectedClass) {
+
+        addTimeRow();
+
+        return;
+
+    }
+
+
+    timetableBody.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="7"
+                style="text-align:center;">
+
+                Loading timetable...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try {
+
+        let response =
+            await fetchWithTimeout(
+                `${API_URL}/timetables/class/${encodeURIComponent(selectedClass)}`
+            );
+
+
+        let text =
+            await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                text
+                    ? JSON.parse(text)
+                    : {};
+
+        } catch {
+
+            throw new Error(
+                "The server returned an invalid timetable response."
+            );
+
+        }
+
+
+        /*
+            If the class route does not work,
+            try the general timetable route.
+        */
+
+        if (
+            !response.ok &&
+            response.status === 404
+        ) {
+
+            response =
+                await fetchWithTimeout(
+                    `${API_URL}/timetables?class=${encodeURIComponent(selectedClass)}`
+                );
+
+
+            text =
+                await response.text();
+
+
+            try {
+
+                data =
+                    text
+                        ? JSON.parse(text)
+                        : {};
+
+            } catch {
+
+                data = {};
+
+            }
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load timetable."
+            );
+
+        }
+
+
+        if (
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load timetable."
+            );
+
+        }
+
+
+        const timetable =
+            getTimetableArray(data);
+
+
+        timetableBody.innerHTML = "";
+
+
+        if (
+            timetable.length === 0
+        ) {
+
+            addTimeRow();
+
+            return;
+
+        }
+
+
+        const grouped = {};
+
+
+        timetable.forEach(item => {
+
+            const day =
+                getRecordDay(item);
+
+
+            const subject =
+                getRecordSubject(item);
+
+
+            const time =
+                getRecordTime(item);
+
+
+            if (!time) {
+                return;
+            }
+
+
+            /*
+                BREAK
+            */
+
+            if (
+                String(subject)
+                    .trim()
+                    .toUpperCase() ===
+                    "BREAK"
+            ) {
+
+                const breakKey =
+                    "BREAK_" + time;
+
+
+                if (!grouped[breakKey]) {
+
+                    grouped[breakKey] = {
+
+                        type: "break",
+
+                        time: time
+
+                    };
+
+                }
+
+
+                return;
+
+            }
+
+
+            /*
+                NORMAL COURSE
+            */
+
+            if (!grouped[time]) {
+
+                grouped[time] = {
+
+                    type: "normal",
+
+                    time: time,
+
+                    subjects: {}
+
+                };
+
+            }
+
+
+            if (day) {
+
+                grouped[time]
+                    .subjects[day] =
+                    subject;
+
+            }
+
+        });
+
+
+        Object
+            .values(grouped)
+            .forEach(item => {
+
+                if (
+                    item.type === "break"
+                ) {
+
+                    addBreakRow(
+                        item.time
+                    );
+
+                } else {
+
+                    addTimeRow(
+                        item.time,
+                        item.subjects
+                    );
+
+                }
+
+            });
+
+
+        if (
+            timetableBody.children.length === 0
+        ) {
+
+            addTimeRow();
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Load timetable error:",
+            error
+        );
+
+
+        timetableBody.innerHTML = "";
+
+        addTimeRow();
+
+
+        showMessage(
+            error.name === "AbortError"
+                ? "Loading timetable timed out. Please check that the backend is running."
+                : (
+                    error.message ||
+                    "Unable to load timetable."
+                ),
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SAVE TIMETABLE
+========================================= */
+
+async function saveTimetable() {
+
+    const selectedClass =
+        classSelect.value;
+
+
+    if (!selectedClass) {
+
+        showMessage(
+            "Please select a class first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const rows =
+        document.querySelectorAll(
+            "#timetableBody tr"
+        );
+
+
+    if (rows.length === 0) {
+
+        showMessage(
+            "Please add at least one time.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const entries = [];
+
+    let missingTime = false;
+
+
+    rows.forEach(row => {
+
+        const timeInput =
+            row.querySelector(
+                ".time-input"
+            );
+
+
+        if (!timeInput) {
+            return;
+        }
+
+
+        const time =
+            timeInput.value.trim();
+
+
+        if (!time) {
+
+            missingTime = true;
+
+            return;
+
+        }
+
+
+        /*
+            BREAK
+        */
+
+        if (
+            row.classList.contains(
+                "break-row"
+            )
+        ) {
+
+            days.forEach(day => {
+
+                entries.push({
+
+                    class:
+                        selectedClass,
+
+                    day:
+                        day,
+
+                    subject:
+                        "BREAK",
+
+                    time:
+                        time
+
+                });
+
+            });
+
+
+            return;
+
+        }
+
+
+        /*
+            NORMAL COURSES
+        */
+
+        const inputs =
+            row.querySelectorAll(
+                ".subject-input"
+            );
+
+
+        inputs.forEach(input => {
+
+            const subject =
+                input.value.trim();
+
+
+            const day =
+                input.dataset.day;
+
+
+            if (subject) {
+
+                entries.push({
+
+                    class:
+                        selectedClass,
+
+                    day:
+                        day,
+
+                    subject:
+                        subject,
+
+                    time:
+                        time
+
+                });
+
+            }
+
+        });
+
+    });
+
+
+    if (missingTime) {
+
+        showMessage(
+            "Please enter a time for every row.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (entries.length === 0) {
+
+        showMessage(
+            "Please enter at least one course.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const saveButton =
+        document.getElementById(
+            "saveTimetableBtn"
+        );
+
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+        "Saving...";
+
+
+    try {
+
+        /*
+            DELETE THE CURRENT
+            TIMETABLE FOR THIS CLASS.
+        */
+
+        const deleteResponse =
+            await fetchWithTimeout(
+                `${API_URL}/timetables/class/${encodeURIComponent(selectedClass)}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const deleteText =
+            await deleteResponse.text();
+
+
+        let deleteData = {};
+
+
+        try {
+
+            deleteData =
+                deleteText
+                    ? JSON.parse(deleteText)
+                    : {};
+
+        } catch {
+
+            deleteData = {};
+
+        }
+
+
+        if (
+            !deleteResponse.ok &&
+            deleteResponse.status !== 404
+        ) {
+
+            throw new Error(
+                deleteData.message ||
+                "Unable to clear the old timetable."
+            );
+
+        }
+
+
+        /*
+            SAVE EACH ENTRY
+        */
+
+        for (
+            const entry of entries
+        ) {
+
+            const response =
+                await fetchWithTimeout(
+                    `${API_URL}/timetables`,
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                class:
+                                    entry.class,
+
+                                day:
+                                    entry.day,
+
+                                subject:
+                                    entry.subject,
+
+                                time:
+                                    entry.time
+
+                            })
+
+                    }
+                );
+
+
+            const text =
+                await response.text();
+
+
+            let data = {};
+
+
+            try {
+
+                data =
+                    text
+                        ? JSON.parse(text)
+                        : {};
+
+            } catch {
+
+                data = {};
+
+            }
+
+
+            if (
+                !response.ok ||
+                data.success === false
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    `Unable to save ${entry.day} timetable entry.`
+                );
+
+            }
+
+        }
+
+
+        showMessage(
+            `${selectedClass} timetable uploaded successfully.`
+        );
+
+
+        await loadTimetable();
+
+
+        /*
+            IMPORTANT:
+            Refresh the uploaded timetable
+            section immediately.
+        */
+
+        await loadUploadedTimetables();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save timetable error:",
+            error
+        );
+
+
+        showMessage(
+            error.name === "AbortError"
+                ? "Saving timetable timed out. Please check that the backend is running."
+                : (
+                    error.message ||
+                    "Unable to save timetable."
+                ),
+            "error"
+        );
+
+
+    } finally {
+
+        saveButton.disabled = false;
+
+        saveButton.textContent =
+            "Save Timetable";
+
+    }
+
+}
+
+
+/* =========================================
+   LOAD ALL UPLOADED TIMETABLES
+========================================= */
+
+async function loadUploadedTimetables() {
+
+    uploadedTimetablesContainer.innerHTML = `
+
+        <div class="loading-uploaded">
+
+            Loading uploaded timetables...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetchWithTimeout(
+                `${API_URL}/timetables`
+            );
+
+
+        const text =
+            await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                text
+                    ? JSON.parse(text)
+                    : {};
+
+        } catch {
+
+            throw new Error(
+                "The server returned an invalid timetable response."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load uploaded timetables."
+            );
+
+        }
+
+
+        if (
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load uploaded timetables."
+            );
+
+        }
+
+
+        const timetables =
+            getTimetableArray(data);
+
+
+        /*
+            Group all records by class.
+        */
+
+        const classMap = {};
+
+
+        timetables.forEach(item => {
+
+            const className =
+                getRecordClass(item);
+
+
+            if (!className) {
+                return;
+            }
+
+
+            if (!classMap[className]) {
+
+                classMap[className] = [];
+
+            }
+
+
+            classMap[className].push(item);
+
+        });
+
+
+        const uploadedClasses =
+            Object.keys(classMap);
+
+
+        if (
+            uploadedClasses.length === 0
+        ) {
+
+            uploadedTimetablesContainer.innerHTML = `
+
+                <div class="empty-uploaded">
+
+                    No timetable has been uploaded yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /*
+            Sort according to school class order.
+        */
+
+        uploadedClasses.sort(
+            (a, b) => {
+
+                const indexA =
+                    allClasses.indexOf(a);
+
+                const indexB =
+                    allClasses.indexOf(b);
+
+
+                if (
+                    indexA === -1 &&
+                    indexB === -1
+                ) {
+
+                    return a.localeCompare(b);
+
+                }
+
+
+                if (indexA === -1) {
+                    return 1;
+                }
+
+
+                if (indexB === -1) {
+                    return -1;
+                }
+
+
+                return indexA - indexB;
+
+            }
+        );
+
+
+        let html = `
+
+            <div class="table-container">
+
+                <table class="uploaded-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Class
+                            </th>
+
+                            <th>
+                                Number of Entries
+                            </th>
+
+                            <th>
+                                Last Uploaded
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+        `;
+
+
+        uploadedClasses.forEach(className => {
+
+            const records =
+                classMap[className];
+
+
+            let latestDate = "";
+
+
+            records.forEach(record => {
+
+                const date =
+                    getRecordDate(record);
+
+
+                if (!date) {
+                    return;
+                }
+
+
+                if (
+                    !latestDate ||
+                    new Date(date) >
+                    new Date(latestDate)
+                ) {
+
+                    latestDate = date;
+
+                }
+
+            });
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            ${escapeHtml(className)}
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        ${records.length}
+
+                    </td>
+
+                    <td>
+
+                        <span class="date-text">
+
+                            ${formatDate(latestDate)}
+
+                        </span>
+
+                    </td>
+
+                    <td class="uploaded-actions">
+
+                        <button
+                            type="button"
+                            class="view-btn"
+                            onclick="viewUploadedTimetable('${escapeHtml(className)}')">
+
+                            View
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="delete-upload-btn"
+                            onclick="deleteUploadedTimetable('${escapeHtml(className)}')">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        uploadedTimetablesContainer.innerHTML =
+            html;
+
+
+    } catch (error) {
+
+        console.error(
+            "Load uploaded timetables error:",
+            error
+        );
+
+
+        uploadedTimetablesContainer.innerHTML = `
+
+            <div class="empty-uploaded">
+
+                ${escapeHtml(
+                    error.name === "AbortError"
+                        ? "Loading uploaded timetables timed out. Please check that the backend is running."
+                        : (
+                            error.message ||
+                            "Unable to load uploaded timetables."
+                        )
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   GET SAVED TIMETABLE FOR A CLASS
+========================================= */
+
+async function getClassTimetable(
+    className
+) {
+
+    const response =
+        await fetchWithTimeout(
+            `${API_URL}/timetables/class/${encodeURIComponent(className)}`
+        );
+
+
+    const text =
+        await response.text();
+
+
+    let data = {};
+
+
+    try {
+
+        data =
+            text
+                ? JSON.parse(text)
+                : {};
+
+    } catch {
+
+        throw new Error(
+            "The server returned an invalid timetable response."
+        );
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            "Unable to load timetable."
+        );
+
+    }
+
+
+    if (
+        data.success === false
+    ) {
+
+        throw new Error(
+            data.message ||
+            "Unable to load timetable."
+        );
+
+    }
+
+
+    return getTimetableArray(data);
+
+}
+
+
+/* =========================================
+   VIEW UPLOADED TIMETABLE
+========================================= */
+
+async function viewUploadedTimetable(
+    className
+) {
+
+    savedViewTitle.textContent =
+        `${className} Timetable`;
+
+
+    savedTimetableContainer.innerHTML = `
+
+        <div class="loading-uploaded">
+
+            Loading ${escapeHtml(className)} timetable...
+
+        </div>
+
+    `;
+
+
+    savedView.classList.add("active");
+
+
+    try {
+
+        const timetable =
+            await getClassTimetable(
+                className
+            );
+
+
+        if (
+            timetable.length === 0
+        ) {
+
+            savedTimetableContainer.innerHTML = `
+
+                <div class="empty-uploaded">
+
+                    No timetable records found for
+                    ${escapeHtml(className)}.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /*
+            Group records by time.
+        */
+
+        const grouped = {};
+
+
+        timetable.forEach(item => {
+
+            const day =
+                getRecordDay(item);
+
+
+            const subject =
+                getRecordSubject(item);
+
+
+            const time =
+                getRecordTime(item);
+
+
+            if (!time) {
+                return;
+            }
+
+
+            /*
+                BREAK
+            */
+
+            if (
+                String(subject)
+                    .trim()
+                    .toUpperCase() ===
+                    "BREAK"
+            ) {
+
+                const breakKey =
+                    "BREAK_" + time;
+
+
+                if (!grouped[breakKey]) {
+
+                    grouped[breakKey] = {
+
+                        type: "break",
+
+                        time: time
+
+                    };
+
+                }
+
+
+                return;
+
+            }
+
+
+            /*
+                NORMAL ENTRY
+            */
+
+            if (!grouped[time]) {
+
+                grouped[time] = {
+
+                    type: "normal",
+
+                    time: time,
+
+                    subjects: {}
+
+                };
+
+            }
+
+
+            grouped[time]
+                .subjects[day] =
+                subject;
+
+        });
+
+
+        const groupedRows =
+            Object.values(grouped);
+
+
+        let html = `
+
+            <table class="saved-timetable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Monday
+                        </th>
+
+                        <th>
+                            Tuesday
+                        </th>
+
+                        <th>
+                            Wednesday
+                        </th>
+
+                        <th>
+                            Thursday
+                        </th>
+
+                        <th>
+                            Friday
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+        `;
+
+
+        groupedRows.forEach(item => {
+
+            if (
+                item.type === "break"
+            ) {
+
+                html += `
+
+                    <tr class="saved-break">
+
+                        <td>
+                            ${escapeHtml(item.time)}
+                        </td>
+
+                        <td colspan="5">
+
+                            BREAK
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            ${escapeHtml(item.time)}
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            item.subjects.Monday || "-"
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            item.subjects.Tuesday || "-"
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            item.subjects.Wednesday || "-"
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            item.subjects.Thursday || "-"
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            item.subjects.Friday || "-"
+                        )}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        html += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+
+        savedTimetableContainer.innerHTML =
+            html;
+
+
+        savedView.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "View timetable error:",
+            error
+        );
+
+
+        savedTimetableContainer.innerHTML = `
+
+            <div class="empty-uploaded">
+
+                ${escapeHtml(
+                    error.message ||
+                    "Unable to view timetable."
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   CLOSE SAVED VIEW
+========================================= */
+
+function closeSavedView() {
+
+    savedView.classList.remove(
+        "active"
+    );
+
+    savedTimetableContainer.innerHTML =
+        "";
+
+}
+
+
+/* =========================================
+   DELETE UPLOADED TIMETABLE
+========================================= */
+
+async function deleteUploadedTimetable(
+    className
+) {
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to delete the uploaded timetable for ${className}?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetchWithTimeout(
+                `${API_URL}/timetables/class/${encodeURIComponent(className)}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const text =
+            await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                text
+                    ? JSON.parse(text)
+                    : {};
+
+        } catch {
+
+            data = {};
+
+        }
+
+
+        if (
+            !response.ok &&
+            response.status !== 404
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to delete timetable."
+            );
+
+        }
+
+
+        /*
+            If the deleted class is currently
+            selected, clear the editor too.
+        */
+
+        if (
+            classSelect.value === className
+        ) {
+
+            timetableBody.innerHTML = "";
+
+            addTimeRow();
+
+            closeSavedView();
+
+        }
+
+
+        showMessage(
+            `${className} timetable deleted successfully.`
+        );
+
+
+        await loadUploadedTimetables();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete uploaded timetable error:",
+            error
+        );
+
+
+        showMessage(
+            error.name === "AbortError"
+                ? "Deleting timetable timed out. Please check that the backend is running."
+                : (
+                    error.message ||
+                    "Unable to delete timetable."
+                ),
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   CLEAR CURRENT TIMETABLE
+========================================= */
+
+async function clearTimetable() {
+
+    const selectedClass =
+        classSelect.value;
+
+
+    if (!selectedClass) {
+
+        showMessage(
+            "Please select a class first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to clear the timetable for ${selectedClass}?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetchWithTimeout(
+                `${API_URL}/timetables/class/${encodeURIComponent(selectedClass)}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const text =
+            await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                text
+                    ? JSON.parse(text)
+                    : {};
+
+        } catch {
+
+            data = {};
+
+        }
+
+
+        if (
+            !response.ok &&
+            response.status !== 404
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to clear timetable."
+            );
+
+        }
+
+
+        timetableBody.innerHTML = "";
+
+        addTimeRow();
+
+        closeSavedView();
+
+
+        showMessage(
+            `${selectedClass} timetable cleared successfully.`
+        );
+
+
+        /*
+            Refresh uploaded list so the
+            deleted class disappears.
+        */
+
+        await loadUploadedTimetables();
+
+
+    } catch (error) {
+
+        console.error(
+            "Clear timetable error:",
+            error
+        );
+
+
+        showMessage(
+            error.name === "AbortError"
+                ? "Clearing timetable timed out. Please check that the backend is running."
+                : (
+                    error.message ||
+                    "Unable to clear timetable."
+                ),
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+function logoutAdmin() {
+
+    localStorage.removeItem(
+        "adminLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "adminName"
+    );
+
+
+    window.location.href =
+        "admin login.html";
+
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+document
+    .getElementById("addTimeBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            addTimeRow();
+
+        }
+    );
+
+
+document
+    .getElementById("addBreakBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            addBreakRow();
+
+        }
+    );
+
+
+document
+    .getElementById("saveTimetableBtn")
+    .addEventListener(
+        "click",
+        saveTimetable
+    );
+
+
+document
+    .getElementById("clearTimetableBtn")
+    .addEventListener(
+        "click",
+        clearTimetable
+    );
+
+
+document
+    .getElementById("closeViewBtn")
+    .addEventListener(
+        "click",
+        closeSavedView
+    );
+
+
+classSelect
+    .addEventListener(
+        "change",
+        loadTimetable
+    );
+
+
+/* =========================================
+   START
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        timetableBody.innerHTML = "";
+
+        addTimeRow();
+
+
+        /*
+            Load the uploaded timetable list
+            immediately when admin opens page.
+        */
+
+        await loadUploadedTimetables();
+
+
+        /*
+            If a class is already selected,
+            load its timetable.
+        */
+
+        if (classSelect.value) {
+
+            await loadTimetable();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

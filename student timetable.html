@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Timetable | Al-Aruudy International School
+</title>
+
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f9f6;
+        color: #222;
+    }
+
+
+    /* HEADER */
+
+    header {
+        background: #176b43;
+        color: white;
+        padding: 20px 7%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .school-name {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+
+    .back-dashboard {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+
+    .back-dashboard:hover {
+        text-decoration: underline;
+    }
+
+
+    /* MAIN */
+
+    .timetable-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+
+    .timetable-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+
+        box-shadow:
+            0 5px 20px
+            rgba(0, 0, 0, 0.08);
+    }
+
+
+    h1 {
+        color: #176b43;
+        margin-bottom: 10px;
+    }
+
+
+    .description {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+
+    /* STUDENT INFORMATION */
+
+    .student-info {
+        background: #f5f9f6;
+        padding: 18px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        line-height: 1.8;
+    }
+
+
+    /* TABLE WRAPPER */
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+
+    /* TIMETABLE */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+
+    th {
+        background: #176b43;
+        color: white;
+        padding: 15px;
+        text-align: left;
+    }
+
+
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #e2e2e2;
+        color: #555;
+    }
+
+
+    tr:hover td {
+        background: #f5f9f6;
+    }
+
+
+    td.subject {
+        color: #176b43;
+        font-weight: bold;
+    }
+
+
+    /* EMPTY / LOADING */
+
+    .empty {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        background: #f8fbf9;
+        border-radius: 10px;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 768px) {
+
+        header {
+            padding: 15px 5%;
+        }
+
+
+        .timetable-container {
+            margin: 25px auto;
+        }
+
+
+        .timetable-card {
+            padding: 20px;
+        }
+
+
+        .school-name {
+            font-size: 16px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="school-name">
+        Al-Aruudy International School
+    </div>
+
+
+    <a
+        href="studentdashboard.html"
+        class="back-dashboard"
+    >
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main class="timetable-container">
+
+
+    <div class="timetable-card">
+
+
+        <h1>
+            Class Timetable
+        </h1>
+
+
+        <p class="description">
+            View your class timetable for the current
+            school session.
+        </p>
+
+
+        <!-- STUDENT INFORMATION -->
+
+        <div class="student-info">
+
+            <p>
+
+                <strong>
+                    Student:
+                </strong>
+
+                <span id="studentName">
+                    Student Name
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Class:
+                </strong>
+
+                <span id="studentClass">
+                    Class
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Session:
+                </strong>
+
+                <span id="studentSession">
+                    Session
+                </span>
+
+            </p>
+
+        </div>
+
+
+        <!-- TIMETABLE -->
+
+        <div
+            id="timetableContainer"
+            class="empty"
+        >
+            Loading timetable...
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+
+    // ========================================
+    // GET LOGGED-IN STUDENT
+    // ========================================
+
+    const currentStudent = JSON.parse(
+        localStorage.getItem("currentStudent") || "null"
+    );
+
+
+    const timetableContainer =
+        document.getElementById(
+            "timetableContainer"
+        );
+
+
+    const studentNameElement =
+        document.getElementById(
+            "studentName"
+        );
+
+
+    const studentClassElement =
+        document.getElementById(
+            "studentClass"
+        );
+
+
+    const studentSessionElement =
+        document.getElementById(
+            "studentSession"
+        );
+
+
+    // ========================================
+    // CHECK LOGIN
+    // ========================================
+
+    if (
+        !currentStudent ||
+        !currentStudent.studentId
+    ) {
+
+        timetableContainer.innerHTML = `
+            <div class="empty">
+                Student information not found.
+                Please log in again.
+            </div>
+        `;
+
+
+        setTimeout(function () {
+
+            window.location.href =
+                "student login.html";
+
+        }, 1500);
+
+    } else {
+
+        loadStudentTimetable(
+            currentStudent.studentId
+        );
+
+    }
+
+
+    // ========================================
+    // LOAD STUDENT TIMETABLE
+    // ========================================
+
+    async function loadStudentTimetable(studentId) {
+
+        timetableContainer.innerHTML = `
+            <div class="empty">
+                Loading timetable...
+            </div>
+        `;
+
+
+        try {
+
+            // --------------------------------
+            // GET STUDENT
+            // --------------------------------
+
+            const studentResponse =
+                await fetch(
+                    `http://localhost:8000/students/${encodeURIComponent(studentId)}`
+                );
+
+
+            const studentData =
+                await studentResponse.json();
+
+
+            if (!studentResponse.ok) {
+
+                throw new Error(
+                    studentData.message ||
+                    "Unable to load student."
+                );
+
+            }
+
+
+            const student =
+                studentData.student;
+
+
+            if (!student) {
+
+                throw new Error(
+                    "Student information was not returned."
+                );
+
+            }
+
+
+            // --------------------------------
+            // DISPLAY STUDENT INFORMATION
+            // --------------------------------
+
+            studentNameElement.textContent =
+                student.fullName ||
+                currentStudent.fullName ||
+                "Student";
+
+
+            studentClassElement.textContent =
+                student.studentClass ||
+                currentStudent.studentClass ||
+                "Not assigned";
+
+
+            studentSessionElement.textContent =
+                student.session ||
+                currentStudent.session ||
+                "Not assigned";
+
+
+            const studentClass =
+                student.studentClass ||
+                currentStudent.studentClass;
+
+
+            // --------------------------------
+            // CHECK CLASS
+            // --------------------------------
+
+            if (!studentClass) {
+
+                timetableContainer.innerHTML = `
+                    <div class="empty">
+                        No class has been assigned
+                        to you yet.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            // --------------------------------
+            // GET TIMETABLE
+            // --------------------------------
+
+            const timetableResponse =
+                await fetch(
+                    `http://localhost:8000/timetables/${encodeURIComponent(studentClass)}`
+                );
+
+
+            const timetableData =
+                await timetableResponse.json();
+
+
+            if (!timetableResponse.ok) {
+
+                throw new Error(
+                    timetableData.message ||
+                    "Unable to load timetable."
+                );
+
+            }
+
+
+            const timetable =
+                timetableData.timetables ||
+                timetableData.timetable ||
+                [];
+
+
+            // --------------------------------
+            // DISPLAY TIMETABLE
+            // --------------------------------
+
+            displayTimetable(timetable);
+
+
+        } catch (error) {
+
+            console.error(
+                "Timetable error:",
+                error
+            );
+
+
+            timetableContainer.innerHTML = `
+                <div class="empty">
+                    Unable to load timetable.
+                    Please make sure the backend
+                    is running.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // ========================================
+    // DISPLAY TIMETABLE
+    // ========================================
+
+    function displayTimetable(timetable) {
+
+        if (
+            !Array.isArray(timetable) ||
+            timetable.length === 0
+        ) {
+
+            timetableContainer.innerHTML = `
+                <div class="empty">
+                    No timetable has been registered
+                    for your class yet.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        // --------------------------------
+        // SORT TIMETABLE
+        // --------------------------------
+
+        const sortedTimetable =
+            [...timetable].sort(function(a, b) {
+
+                const dayOrder = {
+                    "Monday": 1,
+                    "Tuesday": 2,
+                    "Wednesday": 3,
+                    "Thursday": 4,
+                    "Friday": 5
+                };
+
+
+                const dayA =
+                    dayOrder[a.day] || 99;
+
+
+                const dayB =
+                    dayOrder[b.day] || 99;
+
+
+                if (dayA !== dayB) {
+                    return dayA - dayB;
+                }
+
+
+                return String(
+                    a.time || ""
+                ).localeCompare(
+                    String(b.time || "")
+                );
+
+            });
+
+
+        // --------------------------------
+        // CREATE TABLE
+        // --------------------------------
+
+        let tableHTML = `
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Day
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Subject
+                            </th>
+
+                            <th>
+                                Teacher
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+        `;
+
+
+        sortedTimetable.forEach(function(item) {
+
+            tableHTML += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHTML(
+                            item.day || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.time || "-"
+                        )}
+                    </td>
+
+                    <td class="subject">
+                        ${escapeHTML(
+                            item.subject || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.teacher || "-"
+                        )}
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        tableHTML += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        timetableContainer.innerHTML =
+            tableHTML;
+
+    }
+
+
+    // ========================================
+    // ESCAPE HTML
+    // ========================================
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+</script>
+
+</body>
+
+</html>

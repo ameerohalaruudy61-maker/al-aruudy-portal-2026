@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Teacher View Results | Al-Aruudy International School</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f5;
+    color: #222;
+}
+
+header {
+    background: #0b6b3a;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 25px;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 25px auto;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #0b6b3a;
+    font-weight: bold;
+}
+
+.box {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.teacher-info {
+    background: #e8f5ed;
+    color: #0b6b3a;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.student-list {
+    margin-top: 15px;
+}
+
+.student-item {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.student-item:hover {
+    background: #edf8f1;
+    border-color: #0b6b3a;
+}
+
+.student-item.active {
+    background: #e8f5ed;
+    border-left: 5px solid #0b6b3a;
+}
+
+.selected-student {
+    background: #e8f5ed;
+    padding: 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.selected-student p {
+    margin: 6px 0;
+}
+
+.result-section {
+    display: none;
+}
+
+.result-section h2 {
+    color: #0b6b3a;
+    margin-bottom: 15px;
+}
+
+.result-table-wrapper {
+    overflow-x: auto;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+.result-table th,
+.result-table td {
+    border: 1px solid #ddd;
+    padding: 11px;
+    text-align: center;
+}
+
+.result-table th {
+    background: #0b6b3a;
+    color: white;
+}
+
+.result-table tr:nth-child(even) {
+    background: #f7faf8;
+}
+
+.no-result {
+    background: #fff8d8;
+    padding: 18px;
+    border-radius: 8px;
+    color: #6b5900;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.summary-card {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.summary-card span {
+    display: block;
+    font-size: 13px;
+    color: #666;
+}
+
+.summary-card strong {
+    display: block;
+    font-size: 22px;
+    color: #0b6b3a;
+    margin-top: 6px;
+}
+
+.session-info {
+    background: #f0f6f2;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+button {
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+.print-button {
+    background: #0b6b3a;
+    color: white;
+}
+
+.print-button:hover {
+    background: #09572f;
+}
+
+.error {
+    background: #ffeaea;
+    color: #b00020;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.loading {
+    color: #777;
+    font-style: italic;
+}
+
+@media (max-width: 700px) {
+
+    .summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+}
+
+@media print {
+
+    body * {
+        visibility: hidden;
+    }
+
+    #printArea,
+    #printArea * {
+        visibility: visible;
+    }
+
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+        padding: 20px;
+    }
+
+}
+
+#printArea {
+    display: none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Teacher View Student Results</h1>
+
+</header>
+
+<div class="container">
+
+<a
+    href="teacher dashboard.html"
+    class="back-button"
+>
+    ← Back to Teacher Dashboard
+</a>
+
+
+<div
+    class="teacher-info"
+    id="teacherInfo"
+>
+    Loading teacher information...
+</div>
+
+
+<div
+    class="error"
+    id="errorBox"
+></div>
+
+
+<!-- ==============================
+     CLASS SELECTION
+============================== -->
+
+<div class="box">
+
+<label for="classSelect">
+    Select Assigned Class
+</label>
+
+<select id="classSelect">
+
+<option value="">
+    Loading classes...
+</option>
+
+</select>
+
+</div>
+
+
+<!-- ==============================
+     STUDENT SELECTION
+============================== -->
+
+<div class="box">
+
+<label for="studentSearch">
+    Search Student
+</label>
+
+<input
+    type="text"
+    id="studentSearch"
+    placeholder="Type student's name..."
+>
+
+
+<div
+    id="studentList"
+    class="student-list"
+>
+
+<p class="loading">
+    Select a class first.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ==============================
+     SELECTED STUDENT
+============================== -->
+
+<div
+    class="selected-student"
+    id="selectedStudent"
+>
+
+<h3>
+    Selected Student
+</h3>
+
+<p>
+    <strong>Name:</strong>
+    <span id="selectedName"></span>
+</p>
+
+<p>
+    <strong>Student ID:</strong>
+    <span id="selectedId"></span>
+</p>
+
+<p>
+    <strong>Class:</strong>
+    <span id="selectedClass"></span>
+</p>
+
+</div>
+
+
+<!-- ==============================
+     RESULTS
+============================== -->
+
+<div
+    class="box result-section"
+    id="resultSection"
+>
+
+<h2>
+    Uploaded Results
+</h2>
+
+
+<div
+    class="session-info"
+    id="resultInfo"
+>
+    Loading results...
+</div>
+
+
+<div class="result-table-wrapper">
+
+<table class="result-table">
+
+<thead>
+
+<tr>
+
+<th>S/N</th>
+<th>Subject</th>
+<th>CA</th>
+<th>Examination</th>
+<th>Total</th>
+<th>Grade</th>
+<th>Session</th>
+<th>Term</th>
+
+</tr>
+
+</thead>
+
+<tbody id="resultsBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div
+    id="noResults"
+    class="no-result"
+    style="display:none;"
+>
+    No result has been uploaded for this student yet.
+</div>
+
+
+<div class="summary">
+
+<div class="summary-card">
+
+<span>
+    Number of Subjects
+</span>
+
+<strong id="subjectCount">
+    0
+</strong>
+
+</div>
+
+
+<div class="summary-card">
+
+<span>
+    Total Score
+</span>
+
+<strong id="totalScore">
+    0
+</strong>
+
+</div>
+
+
+<div class="summary-card">
+
+<span>
+    Average
+</span>
+
+<strong id="averageScore">
+    0
+</strong>
+
+</div>
+
+
+<div class="summary-card">
+
+<span>
+    Overall Grade
+</span>
+
+<strong id="overallGrade">
+    -
+</strong>
+
+</div>
+
+</div>
+
+
+<button
+    class="print-button"
+    id="printButton"
+>
+    Print Results
+</button>
+
+</div>
+
+
+<!-- ==============================
+     PRINT AREA
+============================== -->
+
+<div id="printArea">
+
+<h1 style="text-align:center;">
+    Al-Aruudy International School
+</h1>
+
+<h2
+    style="text-align:center; margin:10px 0 25px;"
+>
+    Student Result
+</h2>
+
+
+<p>
+<strong>Student Name:</strong>
+<span id="printName"></span>
+</p>
+
+
+<p>
+<strong>Student ID:</strong>
+<span id="printId"></span>
+</p>
+
+
+<p>
+<strong>Class:</strong>
+<span id="printClass"></span>
+</p>
+
+
+<br>
+
+
+<table
+    class="result-table"
+    style="display:table;"
+>
+
+<thead>
+
+<tr>
+
+<th>S/N</th>
+<th>Subject</th>
+<th>CA</th>
+<th>Examination</th>
+<th>Total</th>
+<th>Grade</th>
+<th>Session</th>
+<th>Term</th>
+
+</tr>
+
+</thead>
+
+<tbody id="printResultsBody">
+
+</tbody>
+
+</table>
+
+
+<br>
+
+
+<p>
+<strong>Total Score:</strong>
+<span id="printTotal"></span>
+</p>
+
+
+<p>
+<strong>Average:</strong>
+<span id="printAverage"></span>
+</p>
+
+
+<p>
+<strong>Overall Grade:</strong>
+<span id="printGrade"></span>
+</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:8000";
+
+
+/* ==========================================
+   LOGIN CHECK
+========================================== */
+
+const savedTeacher =
+    localStorage.getItem("currentTeacher");
+
+const teacherLoggedIn =
+    localStorage.getItem("teacherLoggedIn");
+
+
+if (
+    teacherLoggedIn !== "true" ||
+    !savedTeacher
+) {
+
+    window.location.href =
+        "teacher login.html";
+
+}
+
+
+/* ==========================================
+   CURRENT TEACHER
+========================================== */
+
+let currentTeacher = null;
+
+try {
+
+    currentTeacher =
+        JSON.parse(savedTeacher);
+
+} catch (error) {
+
+    console.error(
+        "Teacher data error:",
+        error
+    );
+
+    localStorage.removeItem(
+        "currentTeacher"
+    );
+
+    localStorage.removeItem(
+        "teacherLoggedIn"
+    );
+
+    window.location.href =
+        "teacher login.html";
+
+}
+
+
+/* ==========================================
+   SUPPORT DIFFERENT LOGIN RESPONSE FORMATS
+========================================== */
+
+if (
+    currentTeacher &&
+    currentTeacher.teacher
+) {
+
+    currentTeacher = {
+
+        ...currentTeacher.teacher,
+
+        assignments:
+            currentTeacher.assignments ||
+            currentTeacher.teacher.assignments ||
+            []
+
+    };
+
+}
+
+
+/* ==========================================
+   DATA
+========================================== */
+
+let students = [];
+
+let assignedClasses = [];
+
+let selectedClass = "";
+
+let selectedStudent = null;
+
+let allStudentResults = [];
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function normalizeClass(value) {
+
+    return String(value || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLowerCase();
+
+}
+
+
+function getStudentId(student) {
+
+    return String(
+
+        student.studentId ||
+
+        student.student_id ||
+
+        student.id ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+function getStudentName(student) {
+
+    return (
+
+        student.fullName ||
+
+        student.full_name ||
+
+        student.name ||
+
+        ""
+
+    );
+
+}
+
+
+function getStudentClass(student) {
+
+    return (
+
+        student.studentClass ||
+
+        student.student_class ||
+
+        student.class ||
+
+        ""
+
+    );
+
+}
+
+
+function getTeacherId() {
+
+    return String(
+
+        currentTeacher.teacherId ||
+
+        currentTeacher.teacher_id ||
+
+        currentTeacher.id ||
+
+        localStorage.getItem(
+            "teacherId"
+        ) ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+function getTeacherName() {
+
+    return (
+
+        currentTeacher.fullName ||
+
+        currentTeacher.full_name ||
+
+        currentTeacher.name ||
+
+        localStorage.getItem(
+            "teacherName"
+        ) ||
+
+        "Teacher"
+
+    );
+
+}
+
+
+function getAssignmentTeacherId(
+    assignment
+) {
+
+    return String(
+
+        assignment.teacherId ||
+
+        assignment.teacher_id ||
+
+        assignment.teacherID ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+function getAssignmentClass(
+    assignment
+) {
+
+    return String(
+
+        assignment.studentClass ||
+
+        assignment.student_class ||
+
+        assignment.assignedClass ||
+
+        assignment.assigned_class ||
+
+        assignment.class ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+/* ==========================================
+   SAME GRADE SCALE AS BACKEND
+========================================== */
+
+function calculateGrade(total) {
+
+    total = Number(total) || 0;
+
+    if (total >= 80) return "A";
+
+    if (total >= 70) return "B";
+
+    if (total >= 60) return "C";
+
+    if (total >= 50) return "D";
+
+    if (total >= 40) return "E";
+
+    return "F";
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+function showError(message) {
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+    box.textContent =
+        message;
+
+    box.style.display =
+        "block";
+
+}
+
+
+function hideError() {
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+    box.textContent =
+        "";
+
+    box.style.display =
+        "none";
+
+}
+
+
+/* ==========================================
+   DISPLAY TEACHER
+========================================== */
+
+function displayTeacher() {
+
+    document.getElementById(
+        "teacherInfo"
+    ).textContent =
+
+        `Logged in as ${getTeacherName()} — Assigned Classes: ${
+            assignedClasses.length
+                ? assignedClasses.join(", ")
+                : "None"
+        }`;
+
+}
+
+
+/* ==========================================
+   LOAD TEACHER ASSIGNMENTS
+========================================== */
+
+async function loadAssignments() {
+
+    assignedClasses = [];
+
+    const teacherId =
+        getTeacherId();
+
+
+    /* --------------------------------------
+       ASSIGNMENTS FROM LOGIN RESPONSE
+    -------------------------------------- */
+
+    if (
+        currentTeacher &&
+        Array.isArray(
+            currentTeacher.assignments
+        )
+    ) {
+
+        currentTeacher.assignments.forEach(
+            assignment => {
+
+                const assignmentTeacherId =
+                    getAssignmentTeacherId(
+                        assignment
+                    );
+
+
+                if (
+                    teacherId &&
+                    assignmentTeacherId &&
+                    assignmentTeacherId !==
+                    teacherId
+                ) {
+
+                    return;
+
+                }
+
+
+                const className =
+                    getAssignmentClass(
+                        assignment
+                    );
+
+
+                if (className) {
+
+                    assignedClasses.push(
+                        className
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* --------------------------------------
+       LOAD FROM BACKEND
+    -------------------------------------- */
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/teacher-assignments`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load teacher assignments."
+            );
+
+        }
+
+
+        const assignments =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.assignments ||
+                    []
+                );
+
+
+        assignments.forEach(
+            assignment => {
+
+                const assignmentTeacherId =
+                    getAssignmentTeacherId(
+                        assignment
+                    );
+
+
+                if (
+                    teacherId &&
+                    assignmentTeacherId &&
+                    assignmentTeacherId !==
+                    teacherId
+                ) {
+
+                    return;
+
+                }
+
+
+                const className =
+                    getAssignmentClass(
+                        assignment
+                    );
+
+
+                if (className) {
+
+                    assignedClasses.push(
+                        className
+                    );
+
+                }
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Assignment loading error:",
+            error
+        );
+
+    }
+
+
+    /* --------------------------------------
+       REMOVE DUPLICATES
+    -------------------------------------- */
+
+    const uniqueClasses = [];
+
+
+    assignedClasses.forEach(
+        className => {
+
+            const exists =
+                uniqueClasses.some(
+                    existingClass =>
+
+                        normalizeClass(
+                            existingClass
+                        ) ===
+                        normalizeClass(
+                            className
+                        )
+                );
+
+
+            if (!exists) {
+
+                uniqueClasses.push(
+                    className
+                );
+
+            }
+
+        }
+    );
+
+
+    assignedClasses =
+        uniqueClasses.sort(
+            (a, b) =>
+                a.localeCompare(
+                    b,
+                    undefined,
+                    {
+                        numeric: true
+                    }
+                )
+        );
+
+
+    displayTeacher();
+
+}
+
+
+/* ==========================================
+   LOAD STUDENTS
+========================================== */
+
+async function loadStudents() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/students`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load students."
+            );
+
+        }
+
+
+        students =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.students ||
+                    []
+                );
+
+
+        console.log(
+            "Students loaded:",
+            students
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Student loading error:",
+            error
+        );
+
+        showError(
+            "Unable to load students. Make sure the backend is running."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CLASS DROPDOWN
+========================================== */
+
+function setupClasses() {
+
+    const select =
+        document.getElementById(
+            "classSelect"
+        );
+
+
+    select.innerHTML = "";
+
+
+    if (
+        assignedClasses.length === 0
+    ) {
+
+        select.innerHTML = `
+            <option value="">
+                No class assigned
+            </option>
+        `;
+
+
+        showError(
+            "No class has been assigned to this teacher."
+        );
+
+
+        return;
+
+    }
+
+
+    assignedClasses.forEach(
+        className => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                className;
+
+
+            option.textContent =
+                className;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    selectedClass =
+        assignedClasses[0];
+
+
+    select.value =
+        selectedClass;
+
+
+    hideError();
+
+    showStudents();
+
+}
+
+
+/* ==========================================
+   CLASS CHANGE
+========================================== */
+
+document
+    .getElementById(
+        "classSelect"
+    )
+    .addEventListener(
+        "change",
+        function() {
+
+            selectedClass =
+                this.value;
+
+
+            selectedStudent =
+                null;
+
+
+            allStudentResults =
+                [];
+
+
+            document.getElementById(
+                "selectedStudent"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "resultSection"
+            ).style.display =
+                "none";
+
+
+            showStudents();
+
+        }
+    );
+
+
+/* ==========================================
+   SHOW STUDENTS
+========================================== */
+
+function showStudents() {
+
+    const box =
+        document.getElementById(
+            "studentList"
+        );
+
+
+    const search =
+        document.getElementById(
+            "studentSearch"
+        ).value
+            .trim()
+            .toLowerCase();
+
+
+    const classStudents =
+        students.filter(
+            student => {
+
+                const sameClass =
+
+                    normalizeClass(
+                        getStudentClass(
+                            student
+                        )
+                    ) ===
+
+                    normalizeClass(
+                        selectedClass
+                    );
+
+
+                const name =
+                    String(
+                        getStudentName(
+                            student
+                        )
+                    ).toLowerCase();
+
+
+                return (
+                    sameClass &&
+                    name.includes(search)
+                );
+
+            }
+        );
+
+
+    if (
+        classStudents.length === 0
+    ) {
+
+        box.innerHTML =
+            "<p>No student found in this class.</p>";
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        classStudents
+            .map(
+                student => {
+
+                    const id =
+                        getStudentId(
+                            student
+                        );
+
+
+                    return `
+
+                        <div
+                            class="student-item"
+                            data-id="${escapeHtml(id)}"
+                        >
+
+                            <strong>
+                                ${escapeHtml(
+                                    getStudentName(
+                                        student
+                                    )
+                                )}
+                            </strong>
+
+                            <br>
+
+                            <small>
+                                Student ID:
+                                ${escapeHtml(id)}
+                            </small>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    box
+        .querySelectorAll(
+            ".student-item"
+        )
+        .forEach(
+            element => {
+
+                element.addEventListener(
+                    "click",
+                    function() {
+
+                        const studentId =
+                            this.dataset.id;
+
+
+                        const student =
+                            students.find(
+                                item =>
+                                    getStudentId(
+                                        item
+                                    ) ===
+                                    String(
+                                        studentId
+                                    )
+                            );
+
+
+                        if (student) {
+
+                            selectStudent(
+                                student
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* ==========================================
+   SEARCH STUDENTS
+========================================== */
+
+document
+    .getElementById(
+        "studentSearch"
+    )
+    .addEventListener(
+        "input",
+        showStudents
+    );
+
+
+/* ==========================================
+   SELECT STUDENT
+========================================== */
+
+async function selectStudent(
+    student
+) {
+
+    const studentClass =
+        getStudentClass(
+            student
+        );
+
+
+    const allowed =
+        assignedClasses.some(
+            className =>
+
+                normalizeClass(
+                    className
+                ) ===
+
+                normalizeClass(
+                    studentClass
+                )
+        );
+
+
+    if (!allowed) {
+
+        showError(
+            "You are not assigned to this student's class."
+        );
+
+        return;
+
+    }
+
+
+    hideError();
+
+
+    selectedStudent =
+        student;
+
+
+    document
+        .querySelectorAll(
+            ".student-item"
+        )
+        .forEach(
+            item => {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const selectedElement =
+        document.querySelector(
+            `.student-item[data-id="${CSS.escape(
+                getStudentId(student)
+            )}"]`
+        );
+
+
+    if (selectedElement) {
+
+        selectedElement.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document.getElementById(
+        "selectedStudent"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "selectedName"
+    ).textContent =
+        getStudentName(
+            student
+        );
+
+
+    document.getElementById(
+        "selectedId"
+    ).textContent =
+        getStudentId(
+            student
+        );
+
+
+    document.getElementById(
+        "selectedClass"
+    ).textContent =
+        getStudentClass(
+            student
+        );
+
+
+    await loadStudentResults();
+
+}
+
+
+/* ==========================================
+   LOAD STUDENT RESULTS
+========================================== */
+
+async function loadStudentResults() {
+
+    if (!selectedStudent) {
+
+        return;
+
+    }
+
+
+    const studentId =
+        getStudentId(
+            selectedStudent
+        );
+
+
+    if (!studentId) {
+
+        showError(
+            "This student does not have a valid Student ID."
+        );
+
+        return;
+
+    }
+
+
+    const resultSection =
+        document.getElementById(
+            "resultSection"
+        );
+
+
+    const resultInfo =
+        document.getElementById(
+            "resultInfo"
+        );
+
+
+    const resultsBody =
+        document.getElementById(
+            "resultsBody"
+        );
+
+
+    const noResults =
+        document.getElementById(
+            "noResults"
+        );
+
+
+    resultSection.style.display =
+        "block";
+
+
+    resultInfo.textContent =
+        "Loading uploaded results...";
+
+
+    resultsBody.innerHTML =
+        "";
+
+
+    noResults.style.display =
+        "none";
+
+
+    updateSummary([]);
+
+
+    try {
+
+        console.log(
+            "Loading results for student:",
+            studentId
+        );
+
+
+        /*
+         * IMPORTANT:
+         * The backend route is:
+         *
+         * /results/student/:id
+         *
+         * NOT:
+         *
+         * /results/:id
+         */
+
+        const response =
+            await fetch(
+                `${API_URL}/results/student/${encodeURIComponent(
+                    studentId
+                )}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Teacher result response:",
+            data
+        );
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load student results."
+            );
+
+        }
+
+
+        allStudentResults =
+            Array.isArray(
+                data.results
+            )
+                ? data.results
+                : [];
+
+
+        console.log(
+            "Results found:",
+            allStudentResults
+        );
+
+
+        if (
+            allStudentResults.length === 0
+        ) {
+
+            resultInfo.textContent =
+                `No uploaded result was found for ${getStudentName(
+                    selectedStudent
+                )}.`;
+
+
+            noResults.style.display =
+                "block";
+
+
+            updateSummary([]);
+
+            return;
+
+        }
+
+
+        /* --------------------------------------
+           SORT RESULTS
+        -------------------------------------- */
+
+        allStudentResults.sort(
+            (a, b) => {
+
+                const sessionA =
+                    String(
+                        a.session || ""
+                    );
+
+
+                const sessionB =
+                    String(
+                        b.session || ""
+                    );
+
+
+                if (
+                    sessionA !==
+                    sessionB
+                ) {
+
+                    return sessionA.localeCompare(
+                        sessionB
+                    );
+
+                }
+
+
+                const termA =
+                    String(
+                        a.term || ""
+                    );
+
+
+                const termB =
+                    String(
+                        b.term || ""
+                    );
+
+
+                if (
+                    termA !==
+                    termB
+                ) {
+
+                    return termA.localeCompare(
+                        termB
+                    );
+
+                }
+
+
+                return String(
+                    a.subject ||
+                    a.subject_name ||
+                    ""
+                ).localeCompare(
+                    String(
+                        b.subject ||
+                        b.subject_name ||
+                        ""
+                    )
+                );
+
+            }
+        );
+
+
+        resultInfo.textContent =
+            `${allStudentResults.length} uploaded result(s) found for ${getStudentName(
+                selectedStudent
+            )}.`;
+
+
+        renderResults(
+            allStudentResults
+        );
+
+
+        updateSummary(
+            allStudentResults
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Result loading error:",
+            error
+        );
+
+
+        allStudentResults =
+            [];
+
+
+        resultInfo.textContent =
+            "Unable to load the student's results.";
+
+
+        noResults.style.display =
+            "block";
+
+
+        showError(
+            error.message ||
+            "Unable to load student results."
+        );
+
+
+        updateSummary([]);
+
+    }
+
+}
+
+
+/* ==========================================
+   RENDER RESULTS
+========================================== */
+
+function renderResults(
+    results
+) {
+
+    const body =
+        document.getElementById(
+            "resultsBody"
+        );
+
+
+    body.innerHTML =
+        "";
+
+
+    results.forEach(
+        (result, index) => {
+
+            const ca =
+                Number(
+                    result.ca
+                ) || 0;
+
+
+            const exam =
+                Number(
+                    result.exam
+                ) || 0;
+
+
+            const storedTotal =
+                Number(
+                    result.total
+                );
+
+
+            const total =
+                Number.isFinite(
+                    storedTotal
+                )
+                    ? storedTotal
+                    : ca + exam;
+
+
+            const grade =
+                result.grade ||
+                calculateGrade(
+                    total
+                );
+
+
+            const subject =
+                result.subject ||
+                result.subject_name ||
+                "-";
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    ${escapeHtml(subject)}
+                </td>
+
+                <td>
+                    ${ca.toFixed(2)}
+                </td>
+
+                <td>
+                    ${exam.toFixed(2)}
+                </td>
+
+                <td>
+                    ${total.toFixed(2)}
+                </td>
+
+                <td>
+                    ${escapeHtml(grade)}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        result.session ||
+                        "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        result.term ||
+                        "-"
+                    )}
+                </td>
+
+            `;
+
+
+            body.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+function updateSummary(
+    results
+) {
+
+    let totalScore = 0;
+
+
+    results.forEach(
+        result => {
+
+            const storedTotal =
+                Number(
+                    result.total
+                );
+
+
+            if (
+                Number.isFinite(
+                    storedTotal
+                )
+            ) {
+
+                totalScore +=
+                    storedTotal;
+
+            } else {
+
+                totalScore +=
+
+                    (
+                        Number(
+                            result.ca
+                        ) || 0
+                    ) +
+
+                    (
+                        Number(
+                            result.exam
+                        ) || 0
+                    );
+
+            }
+
+        }
+    );
+
+
+    const count =
+        results.length;
+
+
+    const average =
+        count > 0
+            ? totalScore / count
+            : 0;
+
+
+    const overallGrade =
+        count > 0
+            ? calculateGrade(
+                average
+            )
+            : "-";
+
+
+    document.getElementById(
+        "subjectCount"
+    ).textContent =
+        count;
+
+
+    document.getElementById(
+        "totalScore"
+    ).textContent =
+        totalScore.toFixed(2);
+
+
+    document.getElementById(
+        "averageScore"
+    ).textContent =
+        average.toFixed(2);
+
+
+    document.getElementById(
+        "overallGrade"
+    ).textContent =
+        overallGrade;
+
+}
+
+
+/* ==========================================
+   PRINT RESULTS
+========================================== */
+
+document
+    .getElementById(
+        "printButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            if (
+                !selectedStudent ||
+                allStudentResults.length === 0
+            ) {
+
+                alert(
+                    "There are no uploaded results to print."
+                );
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "printName"
+            ).textContent =
+                getStudentName(
+                    selectedStudent
+                );
+
+
+            document.getElementById(
+                "printId"
+            ).textContent =
+                getStudentId(
+                    selectedStudent
+                );
+
+
+            document.getElementById(
+                "printClass"
+            ).textContent =
+                getStudentClass(
+                    selectedStudent
+                );
+
+
+            const printBody =
+                document.getElementById(
+                    "printResultsBody"
+                );
+
+
+            printBody.innerHTML =
+                "";
+
+
+            let totalScore = 0;
+
+
+            allStudentResults.forEach(
+                (result, index) => {
+
+                    const ca =
+                        Number(
+                            result.ca
+                        ) || 0;
+
+
+                    const exam =
+                        Number(
+                            result.exam
+                        ) || 0;
+
+
+                    const storedTotal =
+                        Number(
+                            result.total
+                        );
+
+
+                    const total =
+                        Number.isFinite(
+                            storedTotal
+                        )
+                            ? storedTotal
+                            : ca + exam;
+
+
+                    totalScore +=
+                        total;
+
+
+                    const grade =
+                        result.grade ||
+                        calculateGrade(
+                            total
+                        );
+
+
+                    const subject =
+                        result.subject ||
+                        result.subject_name ||
+                        "-";
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(subject)}
+                        </td>
+
+                        <td>
+                            ${ca.toFixed(2)}
+                        </td>
+
+                        <td>
+                            ${exam.toFixed(2)}
+                        </td>
+
+                        <td>
+                            ${total.toFixed(2)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(grade)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                result.session ||
+                                "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                result.term ||
+                                "-"
+                            )}
+                        </td>
+
+                    `;
+
+
+                    printBody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            const average =
+                allStudentResults.length > 0
+                    ? totalScore /
+                      allStudentResults.length
+                    : 0;
+
+
+            document.getElementById(
+                "printTotal"
+            ).textContent =
+                totalScore.toFixed(2);
+
+
+            document.getElementById(
+                "printAverage"
+            ).textContent =
+                average.toFixed(2);
+
+
+            document.getElementById(
+                "printGrade"
+            ).textContent =
+                calculateGrade(
+                    average
+                );
+
+
+            document.getElementById(
+                "printArea"
+            ).style.display =
+                "block";
+
+
+            window.print();
+
+
+            document.getElementById(
+                "printArea"
+            ).style.display =
+                "none";
+
+        }
+    );
+
+
+/* ==========================================
+   START PAGE
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        try {
+
+            await loadStudents();
+
+            await loadAssignments();
+
+            setupClasses();
+
+        } catch (error) {
+
+            console.error(
+                "Page startup error:",
+                error
+            );
+
+
+            showError(
+                error.message ||
+                "Unable to load teacher view results page."
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

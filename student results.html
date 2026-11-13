@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Student Results | Al-Aruudy International School
+</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f8f3;
+    color: #222;
+}
+
+/* HEADER */
+
+header {
+    background: #0b6b3a;
+    color: white;
+    padding: 18px 30px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 20px;
+}
+
+.back-btn {
+    background: #d4a900;
+    color: white;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.back-btn:hover {
+    background: #b89000;
+}
+
+/* CONTAINER */
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* STUDENT INFORMATION */
+
+.student-info {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.08);
+}
+
+.student-info h2 {
+    color: #0b6b3a;
+    margin-bottom: 15px;
+}
+
+.info-row {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.info-row div {
+    color: #444;
+}
+
+/* RESULTS */
+
+.results-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.08);
+
+    overflow-x: auto;
+}
+
+.results-card h2 {
+    color: #0b6b3a;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+th {
+    background: #0b6b3a;
+    color: white;
+    padding: 13px;
+    text-align: left;
+}
+
+td {
+    padding: 13px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background: #f7faf7;
+}
+
+.grade {
+    font-weight: bold;
+}
+
+/* SUMMARY */
+
+.summary {
+    margin-top: 25px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.summary-box {
+    background: #f7faf7;
+    padding: 18px;
+    border-radius: 8px;
+    min-width: 180px;
+}
+
+.summary-box strong {
+    display: block;
+    color: #0b6b3a;
+    margin-bottom: 7px;
+}
+
+/* MESSAGE */
+
+#message {
+    text-align: center;
+    margin: 25px 0;
+    color: #666;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+    padding: 25px;
+}
+
+/* REMARKS */
+
+.remark-section {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.remark-box {
+    background: #f7faf7;
+    border-left: 4px solid #0b6b3a;
+    padding: 18px;
+    border-radius: 8px;
+}
+
+.remark-box strong {
+    display: block;
+    color: #0b6b3a;
+    margin-bottom: 8px;
+}
+
+.remark-box span {
+    color: #555;
+    line-height: 1.5;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .remark-section {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 16px;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    .student-info,
+    .results-card {
+        padding: 18px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <h1>
+        Student Results
+    </h1>
+
+    <a
+        href="studentdashboard.html"
+        class="back-btn"
+    >
+        Dashboard
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <!-- STUDENT INFORMATION -->
+
+    <section class="student-info">
+
+        <h2 id="studentName">
+            Loading...
+        </h2>
+
+        <div class="info-row">
+
+            <div>
+
+                <strong>
+                    Student ID:
+                </strong>
+
+                <span id="studentId">
+                    Loading...
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Class:
+                </strong>
+
+                <span id="studentClass">
+                    Loading...
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Session:
+                </strong>
+
+                <span id="studentSession">
+                    Loading...
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS -->
+
+    <section class="results-card">
+
+        <h2>
+            Academic Results
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>S/N</th>
+
+                    <th>
+                        Subject
+                    </th>
+
+                    <th>
+                        CA
+                    </th>
+
+                    <th>
+                        Examination
+                    </th>
+
+                    <th>
+                        Total
+                    </th>
+
+                    <th>
+                        Grade
+                    </th>
+
+                    <th>
+                        Term
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="resultsBody">
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="loading"
+                    >
+                        Loading results...
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <strong>
+                    Number of Subjects
+                </strong>
+
+                <span id="subjectCount">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <strong>
+                    Average
+                </strong>
+
+                <span id="average">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <strong>
+                    Highest Score
+                </strong>
+
+                <span id="highest">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- REMARKS -->
+
+        <div
+            class="remark-section"
+            id="remarkSection"
+            style="display:none;"
+        >
+
+            <div class="remark-box">
+
+                <strong>
+                    Teacher's Remark
+                </strong>
+
+                <span id="teacherRemark">
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="remark-box">
+
+                <strong>
+                    Principal's Remark
+                </strong>
+
+                <span id="principalRemark">
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <p id="message"></p>
+
+</main>
+
+
+<script>
+
+// ============================================================
+// BACKEND
+// ============================================================
+
+const API =
+    "http://localhost:8000";
+
+
+// ============================================================
+// GET CURRENT STUDENT
+// ============================================================
+
+const savedStudent =
+    localStorage.getItem(
+        "currentStudent"
+    );
+
+
+let currentStudent = null;
+
+
+if (!savedStudent) {
+
+    alert(
+        "Please log in to view your results."
+    );
+
+    window.location.replace(
+        "student login.html"
+    );
+
+} else {
+
+    try {
+
+        currentStudent =
+            JSON.parse(
+                savedStudent
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Student session error:",
+            error
+        );
+
+        localStorage.removeItem(
+            "currentStudent"
+        );
+
+        window.location.replace(
+            "student login.html"
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// GET STUDENT ID
+// ============================================================
+
+const studentId =
+    currentStudent?.studentId ||
+    currentStudent?.student_id ||
+    currentStudent?.id ||
+    "";
+
+
+// ============================================================
+// LOAD RESULTS
+// ============================================================
+
+async function loadResults() {
+
+    const resultsBody =
+        document.getElementById(
+            "resultsBody"
+        );
+
+
+    if (!studentId) {
+
+        resultsBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#b00020;
+                    "
+                >
+                    Student ID could not be found.
+                    Please log in again.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    try {
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "LOADING STUDENT RESULTS"
+        );
+
+        console.log(
+            "Student ID:",
+            studentId
+        );
+
+
+        // ====================================================
+        // IMPORTANT:
+        // CORRECT BACKEND ROUTE
+        // ====================================================
+
+        const response =
+            await fetch(
+                `${API}/results/student/${encodeURIComponent(studentId)}`
+            );
+
+
+        const responseText =
+            await response.text();
+
+
+        console.log(
+            "RESULT STATUS:",
+            response.status
+        );
+
+        console.log(
+            "RESULT RESPONSE:",
+            responseText
+        );
+
+
+        let data;
+
+
+        try {
+
+            data =
+                JSON.parse(
+                    responseText
+                );
+
+        } catch (error) {
+
+            throw new Error(
+                "The backend returned an invalid response."
+            );
+
+        }
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load results."
+            );
+
+        }
+
+
+        console.log(
+            "RESULT DATA:",
+            data
+        );
+
+
+        // ====================================================
+        // STUDENT INFORMATION
+        // ====================================================
+
+        const student =
+            data.student ||
+            currentStudent;
+
+
+        const fullName =
+            student?.fullName ||
+            student?.full_name ||
+            currentStudent?.fullName ||
+            currentStudent?.full_name ||
+            "Student";
+
+
+        const className =
+            student?.studentClass ||
+            student?.student_class ||
+            currentStudent?.studentClass ||
+            currentStudent?.student_class ||
+            "Not assigned";
+
+
+        const session =
+            student?.session ||
+            currentStudent?.session ||
+            "Not available";
+
+
+        document.getElementById(
+            "studentName"
+        ).textContent =
+            fullName;
+
+
+        document.getElementById(
+            "studentId"
+        ).textContent =
+            studentId;
+
+
+        document.getElementById(
+            "studentClass"
+        ).textContent =
+            className;
+
+
+        document.getElementById(
+            "studentSession"
+        ).textContent =
+            session;
+
+
+        // ====================================================
+        // RESULTS
+        // ====================================================
+
+        const results =
+            Array.isArray(data.results)
+                ? data.results
+                : [];
+
+
+        resultsBody.innerHTML =
+            "";
+
+
+        // ====================================================
+        // NO RESULTS
+        // ====================================================
+
+        if (results.length === 0) {
+
+            resultsBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        style="
+                            text-align:center;
+                            padding:30px;
+                            color:#777;
+                        "
+                    >
+                        No results available yet.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            document.getElementById(
+                "subjectCount"
+            ).textContent =
+                "0";
+
+
+            document.getElementById(
+                "average"
+            ).textContent =
+                "0";
+
+
+            document.getElementById(
+                "highest"
+            ).textContent =
+                "0";
+
+
+            document.getElementById(
+                "remarkSection"
+            ).style.display =
+                "none";
+
+
+            return;
+        }
+
+
+        // ====================================================
+        // CALCULATE RESULTS
+        // ====================================================
+
+        let totalScore = 0;
+
+        let highestScore = 0;
+
+
+        results.forEach(
+            function(result, index) {
+
+                const ca =
+                    Number(
+                        result.ca ??
+                        result.CA ??
+                        0
+                    );
+
+
+                const exam =
+                    Number(
+                        result.exam ??
+                        result.examination ??
+                        0
+                    );
+
+
+                let total =
+                    Number(
+                        result.total
+                    );
+
+
+                if (
+                    !Number.isFinite(total)
+                ) {
+
+                    total =
+                        ca + exam;
+
+                }
+
+
+                totalScore +=
+                    total;
+
+
+                if (
+                    total >
+                    highestScore
+                ) {
+
+                    highestScore =
+                        total;
+
+                }
+
+
+                const subject =
+                    result.subject ||
+                    "Unknown Subject";
+
+
+                const grade =
+                    result.grade ||
+                    calculateGrade(total);
+
+
+                const term =
+                    result.term ||
+                    "-";
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(subject)}
+                    </td>
+
+                    <td>
+                        ${ca}
+                    </td>
+
+                    <td>
+                        ${exam}
+                    </td>
+
+                    <td>
+                        ${total}
+                    </td>
+
+                    <td class="grade">
+                        ${escapeHTML(grade)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(term)}
+                    </td>
+
+                `;
+
+
+                resultsBody.appendChild(
+                    row
+                );
+
+            }
+        );
+
+
+        // ====================================================
+        // SUMMARY
+        // ====================================================
+
+        const average =
+            totalScore /
+            results.length;
+
+
+        document.getElementById(
+            "subjectCount"
+        ).textContent =
+            results.length;
+
+
+        document.getElementById(
+            "average"
+        ).textContent =
+            average.toFixed(2);
+
+
+        document.getElementById(
+            "highest"
+        ).textContent =
+            highestScore;
+
+
+        // ====================================================
+        // REMARKS
+        // ====================================================
+
+        displayRemarks(
+            data,
+            results
+        );
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "";
+
+
+        console.log(
+            "Results loaded successfully."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "RESULT ERROR:",
+            error
+        );
+
+
+        resultsBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#b00020;
+                    "
+                >
+                    Unable to load your results.
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            error.message ||
+            "Please make sure the school portal backend is running.";
+
+    }
+
+}
+
+
+// ============================================================
+// DISPLAY REMARKS
+// ============================================================
+
+function displayRemarks(
+    data,
+    results
+) {
+
+    let teacherRemark = "";
+
+    let principalRemark = "";
+
+
+    // Check backend remarks object
+
+    if (data.remarks) {
+
+        teacherRemark =
+            data.remarks.teacherRemark ||
+            data.remarks.teacher_remark ||
+            "";
+
+
+        principalRemark =
+            data.remarks.principalRemark ||
+            data.remarks.principal_remark ||
+            "";
+
+    }
+
+
+    // Check individual result records
+
+    results.forEach(
+        function(result) {
+
+            if (!teacherRemark) {
+
+                teacherRemark =
+                    result.teacherRemark ||
+                    result.teacher_remark ||
+                    "";
+
+            }
+
+
+            if (!principalRemark) {
+
+                principalRemark =
+                    result.principalRemark ||
+                    result.principal_remark ||
+                    "";
+
+            }
+
+        }
+    );
+
+
+    if (
+        teacherRemark ||
+        principalRemark
+    ) {
+
+        document.getElementById(
+            "remarkSection"
+        ).style.display =
+            "grid";
+
+
+        document.getElementById(
+            "teacherRemark"
+        ).textContent =
+            teacherRemark ||
+            "No teacher remark yet.";
+
+
+        document.getElementById(
+            "principalRemark"
+        ).textContent =
+            principalRemark ||
+            "No principal remark yet.";
+
+    } else {
+
+        document.getElementById(
+            "remarkSection"
+        ).style.display =
+            "none";
+    }
+
+}
+
+
+// ============================================================
+// CALCULATE GRADE
+// ============================================================
+
+function calculateGrade(total) {
+
+    if (total >= 80) {
+        return "A";
+    }
+
+    if (total >= 70) {
+        return "B";
+    }
+
+    if (total >= 60) {
+        return "C";
+    }
+
+    if (total >= 50) {
+        return "D";
+    }
+
+    if (total >= 40) {
+        return "E";
+    }
+
+    return "F";
+}
+
+
+// ============================================================
+// ESCAPE HTML
+// ============================================================
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        value ?? "";
+
+    return div.innerHTML;
+}
+
+
+// ============================================================
+// START
+// ============================================================
+
+if (currentStudent && studentId) {
+
+    loadResults();
+
+}
+
+</script>
+
+</body>
+
+</html>

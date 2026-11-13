@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Courses | Al-Aruudy International School
+</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f9f6;
+        color: #222;
+    }
+
+    /* HEADER */
+
+    header {
+        background: #176b43;
+        color: white;
+        padding: 20px 7%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .school-name {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .back-dashboard {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back-dashboard:hover {
+        text-decoration: underline;
+    }
+
+    /* MAIN */
+
+    .courses-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .courses-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow:
+            0 5px 20px
+            rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+        color: #176b43;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    /* STUDENT INFORMATION */
+
+    .student-info {
+        background: #f5f9f6;
+        padding: 18px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        line-height: 1.8;
+    }
+
+    /* SUBJECTS */
+
+    .subjects {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .subject-card {
+        border: 1px solid #e2e2e2;
+        border-radius: 10px;
+        padding: 22px;
+        transition: 0.2s;
+    }
+
+    .subject-card:hover {
+        transform: translateY(-3px);
+        box-shadow:
+            0 5px 15px
+            rgba(0, 0, 0, 0.08);
+    }
+
+    .subject-card h2 {
+        color: #176b43;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .subject-card p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    /* EMPTY */
+
+    .empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        background: #f8fbf9;
+        border-radius: 10px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 768px) {
+
+        .subjects {
+            grid-template-columns: 1fr;
+        }
+
+        header {
+            padding: 15px 5%;
+        }
+
+        .courses-container {
+            margin: 25px auto;
+        }
+
+        .courses-card {
+            padding: 20px;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- HEADER -->
+
+<header>
+
+    <div class="school-name">
+        Al-Aruudy International School
+    </div>
+
+    <a
+        href="studentdashboard.html"
+        class="back-dashboard"
+    >
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main class="courses-container">
+
+    <div class="courses-card">
+
+        <h1>
+            Courses & Subjects
+        </h1>
+
+        <p class="description">
+            View the subjects assigned to your
+            registered class.
+        </p>
+
+
+        <!-- STUDENT INFORMATION -->
+
+        <div class="student-info">
+
+            <p>
+
+                <strong>
+                    Student:
+                </strong>
+
+                <span id="studentName">
+                    Student Name
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Class:
+                </strong>
+
+                <span id="studentClass">
+                    Class
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Session:
+                </strong>
+
+                <span id="studentSession">
+                    Session
+                </span>
+
+            </p>
+
+        </div>
+
+
+        <!-- SUBJECTS -->
+
+        <div
+            id="subjects"
+            class="subjects"
+        ></div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    // ========================================
+    // GET LOGGED-IN STUDENT
+    // ========================================
+
+    const currentStudent = JSON.parse(
+        localStorage.getItem("currentStudent") || "null"
+    );
+
+
+    const subjectsContainer =
+        document.getElementById("subjects");
+
+    const studentNameElement =
+        document.getElementById("studentName");
+
+    const studentClassElement =
+        document.getElementById("studentClass");
+
+    const studentSessionElement =
+        document.getElementById("studentSession");
+
+
+    // ========================================
+    // CHECK LOGIN
+    // ========================================
+
+    if (
+        !currentStudent ||
+        !currentStudent.studentId
+    ) {
+
+        subjectsContainer.innerHTML = `
+            <div class="empty">
+                Student information not found.
+                Please log in again.
+            </div>
+        `;
+
+        setTimeout(function () {
+
+            window.location.href =
+                "student login.html";
+
+        }, 1500);
+
+    } else {
+
+        loadStudentCourses(
+            currentStudent.studentId
+        );
+
+    }
+
+
+    // ========================================
+    // LOAD STUDENT AND COURSES
+    // ========================================
+
+    async function loadStudentCourses(studentId) {
+
+        subjectsContainer.innerHTML = `
+            <div class="empty">
+                Loading courses...
+            </div>
+        `;
+
+
+        try {
+
+            // --------------------------------
+            // GET STUDENT FROM BACKEND
+            // --------------------------------
+
+            const studentResponse = await fetch(
+                `http://localhost:8000/students/${encodeURIComponent(studentId)}`
+            );
+
+
+            const studentData =
+                await studentResponse.json();
+
+
+            if (!studentResponse.ok) {
+
+                throw new Error(
+                    studentData.message ||
+                    "Unable to load student."
+                );
+
+            }
+
+
+            const student =
+                studentData.student;
+
+
+            if (!student) {
+
+                throw new Error(
+                    "Student information was not returned."
+                );
+
+            }
+
+
+            // --------------------------------
+            // DISPLAY STUDENT INFORMATION
+            // --------------------------------
+
+            studentNameElement.textContent =
+                student.fullName ||
+                currentStudent.fullName ||
+                "Student";
+
+
+            studentClassElement.textContent =
+                student.studentClass ||
+                currentStudent.studentClass ||
+                "Not assigned";
+
+
+            studentSessionElement.textContent =
+                student.session ||
+                currentStudent.session ||
+                "Not assigned";
+
+
+            const studentClass =
+                student.studentClass ||
+                currentStudent.studentClass;
+
+
+            // --------------------------------
+            // CHECK CLASS
+            // --------------------------------
+
+            if (!studentClass) {
+
+                subjectsContainer.innerHTML = `
+                    <div class="empty">
+                        No class has been assigned
+                        to you yet.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            // --------------------------------
+            // GET COURSES FOR CLASS
+            // --------------------------------
+
+            const coursesResponse =
+                await fetch(
+                    `http://localhost:8000/courses/${encodeURIComponent(studentClass)}`
+                );
+
+
+            const coursesData =
+                await coursesResponse.json();
+
+
+            if (!coursesResponse.ok) {
+
+                throw new Error(
+                    coursesData.message ||
+                    "Unable to load courses."
+                );
+
+            }
+
+
+            const courses =
+                coursesData.courses || [];
+
+
+            // --------------------------------
+            // DISPLAY COURSES
+            // --------------------------------
+
+            displayCourses(courses);
+
+
+        } catch (error) {
+
+            console.error(
+                "Courses error:",
+                error
+            );
+
+
+            subjectsContainer.innerHTML = `
+                <div class="empty">
+                    Unable to load courses.
+                    Please make sure the backend
+                    is running.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // ========================================
+    // DISPLAY COURSES
+    // ========================================
+
+    function displayCourses(courses) {
+
+        subjectsContainer.innerHTML = "";
+
+
+        if (
+            !Array.isArray(courses) ||
+            courses.length === 0
+        ) {
+
+            subjectsContainer.innerHTML = `
+                <div class="empty">
+                    No courses have been registered
+                    for your class yet.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        courses.forEach(function(course) {
+
+            const subjectCard =
+                document.createElement("div");
+
+
+            subjectCard.className =
+                "subject-card";
+
+
+            subjectCard.innerHTML = `
+
+                <h2>
+                    ${escapeHTML(
+                        course.name || "Subject"
+                    )}
+                </h2>
+
+                <p>
+                    ${escapeHTML(
+                        course.description ||
+                        "No description available."
+                    )}
+                </p>
+
+            `;
+
+
+            subjectsContainer.appendChild(
+                subjectCard
+            );
+
+        });
+
+    }
+
+
+    // ========================================
+    // ESCAPE HTML
+    // ========================================
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+</script>
+```
+
+</body>
+
+</html>

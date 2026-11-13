@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Teacher Management | Al-Aruudy International School
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8f4;
+            color: #222;
+        }
+
+        header {
+            background: #0b6b3a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header p {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .top-bar h2 {
+            color: #0b6b3a;
+        }
+
+        .back-btn {
+            background: #f4c430;
+            color: #222;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #e3b31d;
+        }
+
+        .search-box {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #0b6b3a;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .message.success {
+            display: block;
+            background: #d9f5e5;
+            color: #087333;
+        }
+
+        .message.error {
+            display: block;
+            background: #ffe0e0;
+            color: #b00020;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #0b6b3a;
+            font-weight: bold;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .teacher-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #0b6b3a;
+        }
+
+        .teacher-card h3 {
+            color: #0b6b3a;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .teacher-info {
+            margin-bottom: 15px;
+        }
+
+        .teacher-info p {
+            margin: 7px 0;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .teacher-info strong {
+            color: #444;
+        }
+
+        .current-assignments {
+            margin-bottom: 15px;
+        }
+
+        .current-title {
+            font-weight: bold;
+            color: #0b6b3a;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .assignment-tags {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .assignment-tag {
+            background: #d9f5e5;
+            color: #087333;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .no-assignment {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .assignment-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .assignment-section label.section-title {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #0b6b3a;
+        }
+
+        .select-box {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .select-box label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .select-box select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .select-box select:focus {
+            border-color: #0b6b3a;
+        }
+
+        .select-box select:disabled {
+            background: #f1f1f1;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .subject-loading {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .save-btn,
+        .remove-btn {
+            flex: 1;
+            border: none;
+            padding: 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .save-btn {
+            background: #0b6b3a;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #09582f;
+        }
+
+        .save-btn:disabled,
+        .remove-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .remove-btn:hover {
+            background: #b92b38;
+        }
+
+        .no-teachers {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            color: #777;
+            grid-column: 1 / -1;
+        }
+
+        .empty-subject {
+            background: #fff4d6;
+            color: #7a5a00;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 92%;
+            }
+
+            .top-bar {
+                align-items: stretch;
+            }
+
+            .back-btn {
+                width: 100%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        Al-Aruudy International School
+    </h1>
+
+    <p>
+        Teacher Management
+    </p>
+
+</header>
+
+
+<div class="container">
+
+
+    <div class="top-bar">
+
+        <h2>
+            Manage Teachers
+        </h2>
+
+        <button
+            type="button"
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Back to Admin Dashboard
+        </button>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search teacher by name, email or ID..."
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        Loading teachers...
+    </div>
+
+
+    <div
+        id="teachersContainer"
+        class="teachers-grid"
+    ></div>
+
+
+</div>
+
+
+<script>
+
+
+// ==========================================================
+// ADMIN LOGIN CHECK
+// ==========================================================
+
+if (
+    localStorage.getItem("adminLoggedIn") !== "true"
+) {
+
+    window.location.href =
+        "admin login.html";
+
+}
+
+
+// ==========================================================
+// BACKEND
+// ==========================================================
+
+const API_URL =
+    "http://localhost:8000";
+
+
+// ==========================================================
+// CLASS LIST
+// ==========================================================
+
+const classes = [
+
+    "Primary 1",
+    "Primary 2",
+    "Primary 3",
+    "Primary 4",
+    "Primary 5",
+    "Primary 6",
+
+    "JSS 1",
+    "JSS 2",
+    "JSS 3",
+
+    "SSS 1",
+    "SSS 2",
+    "SSS 3"
+
+];
+
+
+// ==========================================================
+// DATA
+// ==========================================================
+
+let teachers = [];
+
+let assignments = [];
+
+
+// ==========================================================
+// DOM READY
+// ==========================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+        searchInput.addEventListener(
+            "input",
+            searchTeachers
+        );
+
+        loadTeachers();
+
+    }
+);
+
+
+// ==========================================================
+// LOAD TEACHERS
+// ==========================================================
+
+async function loadTeachers() {
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+    const container =
+        document.getElementById(
+            "teachersContainer"
+        );
+
+
+    loading.style.display =
+        "block";
+
+    container.innerHTML =
+        "";
+
+
+    try {
+
+        const teacherResponse =
+            await fetch(
+                `${API_URL}/teachers`
+            );
+
+
+        const teacherData =
+            await readJSON(
+                teacherResponse
+            );
+
+
+        if (
+            !teacherResponse.ok ||
+            !teacherData.success
+        ) {
+
+            throw new Error(
+                teacherData.message ||
+                "Unable to load teachers."
+            );
+
+        }
+
+
+        teachers =
+            Array.isArray(
+                teacherData.teachers
+            )
+                ? teacherData.teachers
+                : [];
+
+
+        const assignmentResponse =
+            await fetch(
+                `${API_URL}/teacher-assignments`
+            );
+
+
+        const assignmentData =
+            await readJSON(
+                assignmentResponse
+            );
+
+
+        if (
+            !assignmentResponse.ok ||
+            !assignmentData.success
+        ) {
+
+            throw new Error(
+                assignmentData.message ||
+                "Unable to load teacher assignments."
+            );
+
+        }
+
+
+        assignments =
+            Array.isArray(
+                assignmentData.assignments
+            )
+                ? assignmentData.assignments
+                : [];
+
+
+        loading.style.display =
+            "none";
+
+
+        displayTeachers(
+            teachers
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD TEACHERS ERROR:",
+            error
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        container.innerHTML = `
+
+            <div class="no-teachers">
+
+                Unable to load teacher information.
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message ||
+                    "Unknown error."
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ==========================================================
+// SAFE JSON READER
+// ==========================================================
+
+async function readJSON(
+    response
+) {
+
+    const text =
+        await response.text();
+
+
+    try {
+
+        return JSON.parse(
+            text
+        );
+
+    } catch {
+
+        throw new Error(
+            `Backend returned an invalid response (${response.status}).`
+        );
+
+    }
+
+}
+
+
+// ==========================================================
+// TEACHER ID
+// ==========================================================
+
+function getTeacherId(
+    teacher
+) {
+
+    return String(
+
+        teacher?.teacher_id ||
+
+        teacher?.teacherId ||
+
+        teacher?.id ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+// ==========================================================
+// TEACHER NAME
+// ==========================================================
+
+function getTeacherName(
+    teacher
+) {
+
+    return String(
+
+        teacher?.full_name ||
+
+        teacher?.fullName ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+// ==========================================================
+// ASSIGNMENT ID
+// ==========================================================
+
+function getAssignmentId(
+    assignment
+) {
+
+    return String(
+
+        assignment?.id ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+// ==========================================================
+// ASSIGNMENT TEACHER ID
+// ==========================================================
+
+function getAssignmentTeacherId(
+    assignment
+) {
+
+    return String(
+
+        assignment?.teacher_id ||
+
+        assignment?.teacherId ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+// ==========================================================
+// ASSIGNMENT CLASS
+// ==========================================================
+
+function getAssignmentClass(
+    assignment
+) {
+
+    return String(
+
+        assignment?.student_class ||
+
+        assignment?.studentClass ||
+
+        assignment?.class ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+// ==========================================================
+// ASSIGNMENT SUBJECT
+// ==========================================================
+
+function getAssignmentSubject(
+    assignment
+) {
+
+    return String(
+
+        assignment?.subject ||
+
+        assignment?.course ||
+
+        assignment?.courseName ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+// ==========================================================
+// GET TEACHER ASSIGNMENTS
+// ==========================================================
+
+function getTeacherAssignments(
+    teacherId
+) {
+
+    return assignments.filter(
+        function(assignment) {
+
+            return (
+                getAssignmentTeacherId(
+                    assignment
+                ) === String(teacherId)
+            );
+
+        }
+    );
+
+}
+
+
+// ==========================================================
+// DISPLAY TEACHERS
+// ==========================================================
+
+function displayTeachers(
+    list
+) {
+
+    const container =
+        document.getElementById(
+            "teachersContainer"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    if (
+        !Array.isArray(list) ||
+        list.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="no-teachers">
+
+                No teachers found.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.forEach(
+        function(teacher) {
+
+            const teacherId =
+                getTeacherId(
+                    teacher
+                );
+
+
+            if (!teacherId) {
+
+                return;
+
+            }
+
+
+            const teacherName =
+                getTeacherName(
+                    teacher
+                ) ||
+                "Unnamed Teacher";
+
+
+            const teacherAssignments =
+                getTeacherAssignments(
+                    teacherId
+                );
+
+
+            let assignmentTags =
+                "";
+
+
+            if (
+                teacherAssignments.length > 0
+            ) {
+
+                teacherAssignments.forEach(
+                    function(assignment) {
+
+                        const className =
+                            getAssignmentClass(
+                                assignment
+                            );
+
+                        const subject =
+                            getAssignmentSubject(
+                                assignment
+                            );
+
+
+                        assignmentTags += `
+
+                            <div
+                                class="assignment-tag"
+                            >
+                                ${escapeHTML(
+                                    className
+                                )}
+                                —
+                                ${escapeHTML(
+                                    subject
+                                )}
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+            } else {
+
+                assignmentTags = `
+
+                    <span class="no-assignment">
+
+                        No class/subject assigned
+
+                    </span>
+
+                `;
+
+            }
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "teacher-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${escapeHTML(
+                        teacherName
+                    )}
+                </h3>
+
+
+                <div class="teacher-info">
+
+                    <p>
+
+                        <strong>
+                            Teacher ID:
+                        </strong>
+
+                        ${escapeHTML(
+                            teacherId
+                        )}
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Email:
+                        </strong>
+
+                        ${escapeHTML(
+                            teacher.email ||
+                            "N/A"
+                        )}
+
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="current-assignments"
+                >
+
+                    <div
+                        class="current-title"
+                    >
+                        Current Assignments
+                    </div>
+
+
+                    <div
+                        class="assignment-tags"
+                    >
+
+                        ${assignmentTags}
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="assignment-section"
+                >
+
+                    <label
+                        class="section-title"
+                    >
+                        Create New Assignment
+                    </label>
+
+
+                    <div
+                        class="select-box"
+                    >
+
+                        <label>
+                            Select Class
+                        </label>
+
+
+                        <select
+                            class="class-select"
+                            data-teacher-id="${escapeHTML(
+                                teacherId
+                            )}"
+                        >
+
+                            <option value="">
+                                -- Select Class --
+                            </option>
+
+                            ${classes.map(
+                                function(className) {
+
+                                    return `
+
+                                        <option
+                                            value="${escapeHTML(
+                                                className
+                                            )}"
+                                        >
+                                            ${escapeHTML(
+                                                className
+                                            )}
+                                        </option>
+
+                                    `;
+
+                                }
+                            ).join("")}
+
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        class="select-box"
+                    >
+
+                        <label>
+                            Select Subject
+                        </label>
+
+
+                        <select
+                            class="subject-select"
+                            data-teacher-id="${escapeHTML(
+                                teacherId
+                            )}"
+                            disabled
+                        >
+
+                            <option value="">
+                                -- Select class first --
+                            </option>
+
+                        </select>
+
+
+                        <div
+                            class="subject-loading"
+                            data-loading-for="${escapeHTML(
+                                teacherId
+                            )}"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            type="button"
+                            class="save-btn"
+                            data-action="save"
+                            data-teacher-id="${escapeHTML(
+                                teacherId
+                            )}"
+                        >
+                            Save Assignment
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="remove-btn"
+                            data-action="remove"
+                            data-teacher-id="${escapeHTML(
+                                teacherId
+                            )}"
+                        >
+                            Remove All
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    attachEvents();
+
+}
+
+
+// ==========================================================
+// ATTACH EVENTS
+// ==========================================================
+
+function attachEvents() {
+
+    const container =
+        document.getElementById(
+            "teachersContainer"
+        );
+
+
+    // ======================================================
+    // CLASS SELECT
+    // ======================================================
+
+    container
+        .querySelectorAll(
+            ".class-select"
+        )
+        .forEach(
+            function(select) {
+
+                select.addEventListener(
+                    "change",
+                    function() {
+
+                        loadSubjects(
+                            this.dataset.teacherId,
+                            this.value
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    // ======================================================
+    // SAVE BUTTON
+    // ======================================================
+
+    container
+        .querySelectorAll(
+            '[data-action="save"]'
+        )
+        .forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        saveAssignment(
+                            this.dataset.teacherId,
+                            this
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    // ======================================================
+    // REMOVE ALL BUTTON
+    // ======================================================
+
+    container
+        .querySelectorAll(
+            '[data-action="remove"]'
+        )
+        .forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        removeAllAssignments(
+                            this.dataset.teacherId,
+                            this
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+// ==========================================================
+// LOAD SUBJECTS FOR CLASS
+// ==========================================================
+
+async function loadSubjects(
+    teacherId,
+    studentClass
+) {
+
+    const subjectSelect =
+        document.querySelector(
+            `.subject-select[data-teacher-id="${CSS.escape(
+                String(teacherId)
+            )}"]`
+        );
+
+
+    const loadingText =
+        document.querySelector(
+            `[data-loading-for="${CSS.escape(
+                String(teacherId)
+            )}"]`
+        );
+
+
+    if (!subjectSelect) {
+
+        return;
+
+    }
+
+
+    subjectSelect.innerHTML = `
+
+        <option value="">
+            -- Loading subjects... --
+        </option>
+
+    `;
+
+
+    subjectSelect.disabled =
+        true;
+
+
+    if (loadingText) {
+
+        loadingText.textContent =
+            "";
+
+    }
+
+
+    if (!studentClass) {
+
+        subjectSelect.innerHTML = `
+
+            <option value="">
+                -- Select class first --
+            </option>
+
+        `;
+
+        return;
+
+    }
+
+
+    try {
+
+        if (loadingText) {
+
+            loadingText.textContent =
+                "Loading subjects...";
+
+        }
+
+
+        const response =
+            await fetch(
+                `${API_URL}/courses/${encodeURIComponent(
+                    studentClass
+                )}`
+            );
+
+
+        const data =
+            await readJSON(
+                response
+            );
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load subjects."
+            );
+
+        }
+
+
+        const courses =
+            Array.isArray(
+                data.courses
+            )
+                ? data.courses
+                : [];
+
+
+        subjectSelect.innerHTML = `
+
+            <option value="">
+                -- Select Subject --
+            </option>
+
+        `;
+
+
+        if (
+            courses.length === 0
+        ) {
+
+            subjectSelect.disabled =
+                true;
+
+
+            if (loadingText) {
+
+                loadingText.innerHTML = `
+
+                    <div
+                        class="empty-subject"
+                    >
+
+                        No subjects have been
+                        added for
+                        <strong>
+                            ${escapeHTML(
+                                studentClass
+                            )}
+                        </strong>
+                        yet.
+
+                    </div>
+
+                `;
+
+            }
+
+            return;
+
+        }
+
+
+        courses.forEach(
+            function(course) {
+
+                const subject =
+                    course.name ||
+                    course.subject ||
+                    course.course ||
+                    "";
+
+
+                if (!subject) {
+
+                    return;
+
+                }
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    subject;
+
+
+                option.textContent =
+                    subject;
+
+
+                subjectSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        subjectSelect.disabled =
+            false;
+
+
+        if (loadingText) {
+
+            loadingText.textContent =
+                `${courses.length} subject${
+                    courses.length === 1
+                        ? ""
+                        : "s"
+                } available.`;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD SUBJECTS ERROR:",
+            error
+        );
+
+
+        subjectSelect.innerHTML = `
+
+            <option value="">
+                -- Unable to load subjects --
+            </option>
+
+        `;
+
+
+        subjectSelect.disabled =
+            true;
+
+
+        if (loadingText) {
+
+            loadingText.textContent =
+                error.message ||
+                "Unable to load subjects.";
+
+        }
+
+    }
+
+}
+
+
+// ==========================================================
+// SAVE ONE TEACHER ASSIGNMENT
+// ==========================================================
+
+async function saveAssignment(
+    teacherId,
+    button
+) {
+
+    teacherId =
+        String(
+            teacherId
+        ).trim();
+
+
+    const teacher =
+        teachers.find(
+            function(item) {
+
+                return (
+                    getTeacherId(item)
+                    === teacherId
+                );
+
+            }
+        );
+
+
+    if (!teacher) {
+
+        showMessage(
+            "Teacher not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const classSelect =
+        document.querySelector(
+            `.class-select[data-teacher-id="${CSS.escape(
+                teacherId
+            )}"]`
+        );
+
+
+    const subjectSelect =
+        document.querySelector(
+            `.subject-select[data-teacher-id="${CSS.escape(
+                teacherId
+            )}"]`
+        );
+
+
+    if (!classSelect) {
+
+        showMessage(
+            "Please select a class.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const studentClass =
+        String(
+            classSelect.value
+        ).trim();
+
+
+    const subject =
+        String(
+            subjectSelect?.value || ""
+        ).trim();
+
+
+    if (!studentClass) {
+
+        showMessage(
+            "Please select a class.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!subject) {
+
+        showMessage(
+            "Please select a subject.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const teacherName =
+        getTeacherName(
+            teacher
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Saving...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/teacher-assignments`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            teacherId:
+                                teacherId,
+
+                            teacherName:
+                                teacherName,
+
+                            studentClass:
+                                studentClass,
+
+                            subject:
+                                subject
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await readJSON(
+                response
+            );
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to save teacher assignment."
+            );
+
+        }
+
+
+        showMessage(
+            `${teacherName} has been assigned ${subject} for ${studentClass}.`,
+            "success"
+        );
+
+
+        await loadTeachers();
+
+
+    } catch (error) {
+
+        console.error(
+            "SAVE ASSIGNMENT ERROR:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to save teacher assignment.",
+            "error"
+        );
+
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Save Assignment";
+
+    }
+
+}
+
+
+// ==========================================================
+// REMOVE ALL ASSIGNMENTS
+// ==========================================================
+
+async function removeAllAssignments(
+    teacherId,
+    button
+) {
+
+    teacherId =
+        String(
+            teacherId
+        ).trim();
+
+
+    const teacher =
+        teachers.find(
+            function(item) {
+
+                return (
+                    getTeacherId(item)
+                    === teacherId
+                );
+
+            }
+        );
+
+
+    if (!teacher) {
+
+        showMessage(
+            "Teacher not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const teacherName =
+        getTeacherName(
+            teacher
+        ) ||
+        "this teacher";
+
+
+    const teacherAssignments =
+        getTeacherAssignments(
+            teacherId
+        );
+
+
+    if (
+        teacherAssignments.length === 0
+    ) {
+
+        showMessage(
+            "This teacher has no assignments.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        window.confirm(
+            `Remove ALL class and subject assignments from ${teacherName}?`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Removing...";
+
+
+    try {
+
+        for (
+            const assignment
+            of teacherAssignments
+        ) {
+
+            const assignmentId =
+                getAssignmentId(
+                    assignment
+                );
+
+
+            if (!assignmentId) {
+
+                continue;
+
+            }
+
+
+            const response =
+                await fetch(
+                    `${API_URL}/teacher-assignments/${encodeURIComponent(
+                        assignmentId
+                    )}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            const data =
+                await readJSON(
+                    response
+                );
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to remove assignment."
+                );
+
+            }
+
+        }
+
+
+        showMessage(
+            "All teacher assignments removed successfully.",
+            "success"
+        );
+
+
+        await loadTeachers();
+
+
+    } catch (error) {
+
+        console.error(
+            "REMOVE ASSIGNMENT ERROR:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to remove assignments.",
+            "error"
+        );
+
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Remove All";
+
+    }
+
+}
+
+
+// ==========================================================
+// SEARCH TEACHERS
+// ==========================================================
+
+function searchTeachers() {
+
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const searchValue =
+        input.value
+            .toLowerCase()
+            .trim();
+
+
+    if (!searchValue) {
+
+        displayTeachers(
+            teachers
+        );
+
+        return;
+
+    }
+
+
+    const filtered =
+        teachers.filter(
+            function(teacher) {
+
+                const name =
+                    getTeacherName(
+                        teacher
+                    )
+                    .toLowerCase();
+
+
+                const email =
+                    String(
+                        teacher?.email ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                const teacherId =
+                    getTeacherId(
+                        teacher
+                    )
+                    .toLowerCase();
+
+
+                return (
+
+                    name.includes(
+                        searchValue
+                    )
+
+                    ||
+
+                    email.includes(
+                        searchValue
+                    )
+
+                    ||
+
+                    teacherId.includes(
+                        searchValue
+                    )
+
+                );
+
+            }
+        );
+
+
+    displayTeachers(
+        filtered
+    );
+
+}
+
+
+// ==========================================================
+// SHOW MESSAGE
+// ==========================================================
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    message.className =
+        `message ${type}`;
+
+
+    window.clearTimeout(
+        showMessage.timer
+    );
+
+
+    showMessage.timer =
+        window.setTimeout(
+            function() {
+
+                message.className =
+                    "message";
+
+                message.textContent =
+                    "";
+
+            },
+            4000
+        );
+
+}
+
+
+// ==========================================================
+// ESCAPE HTML
+// ==========================================================
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ==========================================================
+// BACK TO ADMIN DASHBOARD
+// ==========================================================
+
+function goBack() {
+
+    window.location.href =
+        "admin dashboard.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>
+    Teacher Profile - Al-Aruudy International School
+</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f5;
+    color: #222;
+    min-height: 100vh;
+}
+
+header {
+    background: #075c2b;
+    color: white;
+    padding: 18px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.school-name {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.header-title {
+    font-size: 17px;
+}
+
+.container {
+    width: 92%;
+    max-width: 1000px;
+    margin: 35px auto;
+}
+
+.back-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #075c2b;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 22px;
+}
+
+.back-btn:hover {
+    background: #05451f;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.profile-picture {
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    background: #075c2b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.profile-heading h1 {
+    color: #075c2b;
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.profile-heading p {
+    color: #777;
+    font-size: 15px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #075c2b;
+    font-weight: bold;
+}
+
+.error-message {
+    display: none;
+    background: #ffe5e5;
+    color: #a00000;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section-title {
+    color: #075c2b;
+    font-size: 19px;
+    margin-top: 28px;
+    margin-bottom: 15px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.info-box {
+    background: #f7faf8;
+    border: 1px solid #e3ebe6;
+    border-radius: 9px;
+    padding: 16px;
+}
+
+.info-box label {
+    display: block;
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 6px;
+}
+
+.info-box span {
+    display: block;
+    color: #222;
+    font-size: 15px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+/* ==========================================
+   ASSIGNED CLASSES
+========================================== */
+
+.assigned-class {
+    border-left: 4px solid #075c2b;
+}
+
+.class-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.class-tag {
+    display: inline-block;
+    background: #075c2b;
+    color: white;
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.no-class {
+    color: #777;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/* ==========================================
+   COURSES
+========================================== */
+
+.courses-container {
+    background: #f7faf8;
+    border: 1px solid #e3ebe6;
+    border-radius: 10px;
+    padding: 18px;
+    min-height: 70px;
+}
+
+.course-class-section {
+    margin-bottom: 20px;
+}
+
+.course-class-section:last-child {
+    margin-bottom: 0;
+}
+
+.course-class-title {
+    color: #075c2b;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#subjectList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.subject {
+    display: inline-block;
+    background: #075c2b;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.no-course {
+    color: #777;
+    font-size: 14px;
+}
+
+.actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.dashboard-btn {
+    background: #075c2b;
+    color: white;
+}
+
+.logout-btn {
+    background: #e6b800;
+    color: #222;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 15px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .container {
+        width: 94%;
+        margin-top: 25px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-top {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-heading h1 {
+        font-size: 23px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="school-name">
+    Al-Aruudy International School
+</div>
+
+<div class="header-title">
+    Teacher Profile
+</div>
+
+</header>
+
+<main class="container">
+
+<a
+href="teacher dashboard.html"
+class="back-btn"
+
+>
+
+
+← Back to Dashboard
+
+</a>
+
+<div
+    class="error-message"
+    id="errorMessage"
+></div>
+
+<div
+    class="profile-card"
+    id="profileCard"
+>
+
+<div
+    class="loading"
+    id="loadingMessage"
+>
+    Loading teacher profile...
+</div>
+
+<div
+    id="profileContent"
+    style="display: none;"
+>
+
+<div class="profile-top">
+
+<div
+    class="profile-picture"
+    id="profilePicture"
+>
+    T
+</div>
+
+<div class="profile-heading">
+
+<h1 id="teacherName">
+    Teacher Name
+</h1>
+
+<p>
+    Teacher Profile
+</p>
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+    Personal Information
+</h2>
+
+<div class="info-grid">
+
+<div class="info-box">
+
+<label>
+    Full Name
+</label>
+
+<span id="displayName">
+    Not available
+</span>
+
+</div>
+
+<div class="info-box">
+
+<label>
+    Email
+</label>
+
+<span id="displayEmail">
+    Not available
+</span>
+
+</div>
+
+<div class="info-box">
+
+<label>
+    Teacher ID
+</label>
+
+<span id="displayTeacherId">
+    Not assigned
+</span>
+
+</div>
+
+<div class="info-box assigned-class">
+
+<label>
+    Assigned Classes
+</label>
+
+<div
+    class="class-list"
+    id="displayClasses"
+>
+
+<span class="no-class">
+    Loading...
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+    Courses
+</h2>
+
+<div class="courses-container">
+
+<div id="subjectList">
+
+<span class="no-course">
+    Loading courses...
+</span>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn dashboard-btn"
+id="dashboardButton"
+
+>
+
+
+Teacher Dashboard
+
+</button>
+
+<button
+class="btn logout-btn"
+id="logoutButton"
+
+>
+
+
+Logout
+
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<script>
+
+/* =========================================
+   BACKEND
+========================================= */
+
+const BACKEND_URL =
+    "http://localhost:8000";
+
+
+/* =========================================
+   CHECK TEACHER LOGIN
+========================================= */
+
+const savedTeacher =
+    localStorage.getItem(
+        "currentTeacher"
+    );
+
+const teacherLoggedIn =
+    localStorage.getItem(
+        "teacherLoggedIn"
+    );
+
+
+if (
+    teacherLoggedIn !== "true" ||
+    !savedTeacher
+) {
+
+    window.location.href =
+        "teacher login.html";
+
+}
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const loadingMessage =
+    document.getElementById(
+        "loadingMessage"
+    );
+
+const profileContent =
+    document.getElementById(
+        "profileContent"
+    );
+
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
+
+
+/* =========================================
+   SHOW ERROR
+========================================= */
+
+function showError(message) {
+
+    loadingMessage.style.display =
+        "none";
+
+    profileContent.style.display =
+        "none";
+
+    errorMessage.textContent =
+        message;
+
+    errorMessage.style.display =
+        "block";
+
+}
+
+
+/* =========================================
+   DISPLAY TEACHER
+========================================= */
+
+function displayTeacher(teacher) {
+
+    const name =
+        teacher.fullName ||
+        teacher.full_name ||
+        localStorage.getItem(
+            "teacherName"
+        ) ||
+        "Teacher";
+
+
+    const email =
+        teacher.email ||
+        localStorage.getItem(
+            "teacherEmail"
+        ) ||
+        "Not available";
+
+
+    const teacherId =
+        teacher.teacherId ||
+        teacher.teacher_id ||
+        teacher.id ||
+        localStorage.getItem(
+            "teacherId"
+        ) ||
+        "Not assigned";
+
+
+    document.getElementById(
+        "teacherName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "displayName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "displayEmail"
+    ).textContent =
+        email;
+
+
+    document.getElementById(
+        "displayTeacherId"
+    ).textContent =
+        teacherId;
+
+
+    document.getElementById(
+        "profilePicture"
+    ).textContent =
+        name
+            .charAt(0)
+            .toUpperCase();
+
+
+    return {
+        name,
+        email,
+        teacherId
+    };
+
+}
+
+
+/* =========================================
+   LOAD TEACHER ASSIGNMENTS
+========================================= */
+
+async function loadTeacherAssignments(
+    teacherInfo
+) {
+
+    const classesContainer =
+        document.getElementById(
+            "displayClasses"
+        );
+
+
+    classesContainer.innerHTML = `
+        <span class="no-class">
+            Loading...
+        </span>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                BACKEND_URL +
+                "/teacher-assignments"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load teacher assignments."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.success ||
+            !Array.isArray(
+                data.assignments
+            )
+        ) {
+
+            throw new Error(
+                "Invalid teacher assignment response."
+            );
+
+        }
+
+
+        /* =========================================
+           FIND ALL ASSIGNMENTS FOR THIS TEACHER
+        ========================================= */
+
+        const teacherId =
+            String(
+                teacherInfo.teacherId
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const teacherAssignments =
+            data.assignments.filter(
+                function(item) {
+
+                    const assignmentTeacherId =
+                        String(
+                            item.teacherId ||
+                            item.teacher_id ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    return (
+                        assignmentTeacherId ===
+                        teacherId
+                    );
+
+                }
+            );
+
+
+        /* =========================================
+           GET ALL CLASS NAMES
+        ========================================= */
+
+        let classes =
+            teacherAssignments
+                .map(
+                    function(item) {
+
+                        return String(
+                            item.studentClass ||
+                            item.student_class ||
+                            ""
+                        ).trim();
+
+                    }
+                )
+                .filter(Boolean);
+
+
+        /* =========================================
+           REMOVE DUPLICATES
+        ========================================= */
+
+        classes =
+            [
+                ...new Set(
+                    classes
+                )
+            ];
+
+
+        /* =========================================
+           NO ASSIGNMENTS
+        ========================================= */
+
+        if (
+            classes.length === 0
+        ) {
+
+            classesContainer.innerHTML = `
+                <span class="no-class">
+                    No class assigned yet.
+                </span>
+            `;
+
+            localStorage.setItem(
+                "teacherAssignedClasses",
+                JSON.stringify([])
+            );
+
+            return [];
+
+        }
+
+
+        /* =========================================
+           DISPLAY ALL CLASSES
+        ========================================= */
+
+        classesContainer.innerHTML =
+            classes
+                .map(
+                    function(className) {
+
+                        return `
+                            <span class="class-tag">
+                                ${escapeHtml(
+                                    className
+                                )}
+                            </span>
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+        /* =========================================
+           SAVE ALL CLASSES
+        ========================================= */
+
+        localStorage.setItem(
+            "teacherAssignedClasses",
+            JSON.stringify(classes)
+        );
+
+
+        return classes;
+
+
+    } catch (error) {
+
+        console.error(
+            "Teacher assignment error:",
+            error
+        );
+
+
+        classesContainer.innerHTML = `
+            <span class="no-class">
+                Unable to load assigned classes.
+            </span>
+        `;
+
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================
+   LOAD COURSES FOR ALL CLASSES
+========================================= */
+
+async function loadCourses(
+    assignedClasses
+) {
+
+    const subjectList =
+        document.getElementById(
+            "subjectList"
+        );
+
+
+    subjectList.innerHTML = "";
+
+
+    if (
+        !Array.isArray(
+            assignedClasses
+        ) ||
+        assignedClasses.length === 0
+    ) {
+
+        subjectList.innerHTML = `
+            <span class="no-course">
+                No class has been assigned to you yet.
+            </span>
+        `;
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                BACKEND_URL +
+                "/courses"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load courses."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.success ||
+            !Array.isArray(
+                data.courses
+            )
+        ) {
+
+            throw new Error(
+                "Invalid courses response."
+            );
+
+        }
+
+
+        let foundCourse =
+            false;
+
+
+        /* =========================================
+           DISPLAY COURSES FOR EACH CLASS
+        ========================================= */
+
+        assignedClasses.forEach(
+            function(className) {
+
+                const classCourses =
+                    data.courses.filter(
+                        function(course) {
+
+                            const courseClass =
+                                course.studentClass ||
+                                course.student_class ||
+                                course.className ||
+                                course.class ||
+                                "";
+
+
+                            return (
+                                String(
+                                    courseClass
+                                )
+                                .trim()
+                                .toLowerCase()
+                                ===
+                                String(
+                                    className
+                                )
+                                .trim()
+                                .toLowerCase()
+                            );
+
+                        }
+                    );
+
+
+                if (
+                    classCourses.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+                foundCourse = true;
+
+
+                const classSection =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                classSection.className =
+                    "course-class-section";
+
+
+                const classTitle =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                classTitle.className =
+                    "course-class-title";
+
+
+                classTitle.textContent =
+                    className;
+
+
+                classSection.appendChild(
+                    classTitle
+                );
+
+
+                const subjectContainer =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                subjectContainer.style.display =
+                    "flex";
+
+
+                subjectContainer.style.flexWrap =
+                    "wrap";
+
+
+                subjectContainer.style.gap =
+                    "10px";
+
+
+                classCourses.forEach(
+                    function(course) {
+
+                        const span =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        span.className =
+                            "subject";
+
+
+                        span.textContent =
+                            course.name ||
+                            course.subjectName ||
+                            course.subject_name ||
+                            "Unnamed Subject";
+
+
+                        subjectContainer.appendChild(
+                            span
+                        );
+
+                    }
+                );
+
+
+                classSection.appendChild(
+                    subjectContainer
+                );
+
+
+                subjectList.appendChild(
+                    classSection
+                );
+
+            }
+        );
+
+
+        if (!foundCourse) {
+
+            subjectList.innerHTML = `
+                <span class="no-course">
+                    No courses have been added for your assigned classes yet.
+                </span>
+            `;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Courses error:",
+            error
+        );
+
+
+        subjectList.innerHTML = `
+            <span class="no-course">
+                Unable to load courses.
+            </span>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================
+   LOAD TEACHER PROFILE
+========================================= */
+
+async function loadTeacherProfile() {
+
+    try {
+
+        let teacher;
+
+
+        /* =========================================
+           GET CURRENT TEACHER
+        ========================================= */
+
+        try {
+
+            teacher =
+                JSON.parse(
+                    savedTeacher
+                );
+
+        } catch (error) {
+
+            showError(
+                "Your teacher login session is invalid. Please log in again."
+            );
+
+            return;
+
+        }
+
+
+        if (!teacher) {
+
+            showError(
+                "Teacher information was not found. Please log in again."
+            );
+
+            return;
+
+        }
+
+
+        /* =========================================
+           DISPLAY TEACHER INFORMATION
+        ========================================= */
+
+        const teacherInfo =
+            displayTeacher(
+                teacher
+            );
+
+
+        /* =========================================
+           GET ALL ASSIGNED CLASSES
+        ========================================= */
+
+        const assignedClasses =
+            await loadTeacherAssignments(
+                teacherInfo
+            );
+
+
+        /* =========================================
+           SAVE TEACHER SESSION
+        ========================================= */
+
+        teacher.assignedClasses =
+            assignedClasses;
+
+
+        /*
+         * Keep the old field empty instead of
+         * showing only one class.
+         */
+
+        delete teacher.assignedClass;
+
+
+        localStorage.setItem(
+            "currentTeacher",
+            JSON.stringify(
+                teacher
+            )
+        );
+
+
+        /* =========================================
+           LOAD COURSES FOR ALL CLASSES
+        ========================================= */
+
+        await loadCourses(
+            assignedClasses
+        );
+
+
+        /* =========================================
+           SHOW PROFILE
+        ========================================= */
+
+        loadingMessage.style.display =
+            "none";
+
+        profileContent.style.display =
+            "block";
+
+
+    } catch (error) {
+
+        console.error(
+            "Teacher profile error:",
+            error
+        );
+
+
+        showError(
+            "Unable to load your teacher profile."
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DASHBOARD BUTTON
+========================================= */
+
+document
+    .getElementById(
+        "dashboardButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            window.location.href =
+                "teacher dashboard.html";
+
+        }
+    );
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+document
+    .getElementById(
+        "logoutButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            localStorage.removeItem(
+                "currentTeacher"
+            );
+
+            localStorage.removeItem(
+                "teacherLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "teacherName"
+            );
+
+            localStorage.removeItem(
+                "teacherId"
+            );
+
+            localStorage.removeItem(
+                "teacherEmail"
+            );
+
+            localStorage.removeItem(
+                "teacherAssignedClass"
+            );
+
+            localStorage.removeItem(
+                "teacherAssignedClasses"
+            );
+
+            localStorage.removeItem(
+                "teacherPassword"
+            );
+
+
+            window.location.href =
+                "teacher login.html";
+
+        }
+    );
+
+
+/* =========================================
+   START
+========================================= */
+
+loadTeacherProfile();
+
+</script>
+
+</body>
+
+</html>

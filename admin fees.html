@@ -1,0 +1,3444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        School Fees Management | Al-Aruudy International School
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f5;
+            color: #173b22;
+        }
+
+        header {
+            background: #0b6b35;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #f4c400;
+            color: #173b22;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 25px auto;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .page-title h2 {
+            color: #0b6b35;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            color: #0b6b35;
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #0b6b35;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .fee-setting {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 7px;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .green-btn {
+            background: #0b6b35;
+            color: white;
+        }
+
+        .green-btn:hover {
+            background: #09572c;
+        }
+
+        .yellow-btn {
+            background: #f4c400;
+            color: #173b22;
+        }
+
+        .student-table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e5e5;
+            text-align: left;
+        }
+
+        th {
+            background: #0b6b35;
+            color: white;
+        }
+
+        tr:hover td {
+            background: #f7fbf8;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #0b6b35;
+        }
+
+        .view-btn {
+            background: #f4c400;
+            color: #173b22;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .status-paid {
+            background: #d9f5df;
+            color: #126b2f;
+        }
+
+        .status-part {
+            background: #fff1bf;
+            color: #765800;
+        }
+
+        .status-pending {
+            background: #ffe0e0;
+            color: #a00000;
+        }
+
+        .status-no-fee {
+            background: #eeeeee;
+            color: #555;
+        }
+
+        .student-details {
+            display: none;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f5f9f6;
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+        .info-box strong {
+            display: block;
+            color: #0b6b35;
+            margin-bottom: 5px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-box {
+            padding: 18px;
+            border-radius: 10px;
+            background: #f5f9f6;
+        }
+
+        .summary-box h4 {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .summary-box p {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0b6b35;
+        }
+
+        .summary-status {
+            font-size: 17px !important;
+            padding-top: 4px;
+        }
+
+        .payment-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 25px;
+        }
+
+        .history-title {
+            margin: 20px 0 12px;
+            color: #0b6b35;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .success {
+            display: block;
+            background: #d9f5df;
+            color: #126b2f;
+        }
+
+        .error {
+            display: block;
+            background: #ffe0e0;
+            color: #a00000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .receipt-btn {
+            background: #0b6b35;
+            color: white;
+            padding: 7px 10px;
+            font-size: 12px;
+        }
+
+        .fee-note {
+            margin-top: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .selected-fee {
+            margin-top: 15px;
+            padding: 12px;
+            background: #edf8f0;
+            border-left: 4px solid #0b6b35;
+            border-radius: 6px;
+            color: #0b6b35;
+            font-weight: bold;
+        }
+
+        .payment-status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .payment-status.pending {
+            background: #ffe0e0;
+            color: #a00000;
+        }
+
+        .payment-status.partially-paid {
+            background: #fff1bf;
+            color: #765800;
+        }
+
+        .payment-status.paid {
+            background: #d9f5df;
+            color: #126b2f;
+        }
+
+        .no-payment {
+            color: #777;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 900px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 800px) {
+
+            .fee-setting,
+            .payment-form {
+                grid-template-columns: 1fr;
+            }
+
+            .student-info,
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>
+        Al-Aruudy International School
+    </h1>
+
+    <a
+        href="admin dashboard.html"
+        class="back-btn"
+    >
+        ← Admin Dashboard
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h2>
+            School Fees Management
+        </h2>
+
+        <p>
+            Set one school fee for each class and manage individual student payments.
+        </p>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <!-- CLASS FEE -->
+
+    <div class="card">
+
+        <h3>
+            Set Class Fee
+        </h3>
+
+        <div class="fee-setting">
+
+            <div class="form-group">
+
+                <label for="classSelect">
+                    Select Class
+                </label>
+
+                <select id="classSelect">
+
+                    <option value="">
+                        Select Class
+                    </option>
+
+                    <option value="Primary 1">Primary 1</option>
+                    <option value="Primary 2">Primary 2</option>
+                    <option value="Primary 3">Primary 3</option>
+                    <option value="Primary 4">Primary 4</option>
+                    <option value="Primary 5">Primary 5</option>
+                    <option value="Primary 6">Primary 6</option>
+
+                    <option value="JSS 1">JSS 1</option>
+                    <option value="JSS 2">JSS 2</option>
+                    <option value="JSS 3">JSS 3</option>
+
+                    <option value="SSS 1">SSS 1</option>
+                    <option value="SSS 2">SSS 2</option>
+                    <option value="SSS 3">SSS 3</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="classFee">
+                    Class Fee (₦)
+                </label>
+
+                <input
+                    type="number"
+                    id="classFee"
+                    min="1"
+                    placeholder="Enter class fee"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                class="green-btn"
+                id="saveClassFee"
+            >
+                Save Class Fee
+            </button>
+
+        </div>
+
+
+        <p id="currentFeeText"></p>
+
+
+        <div
+            id="selectedFeeBox"
+            class="selected-fee hidden"
+        ></div>
+
+
+        <p class="fee-note">
+            The fee set here applies to every student in the selected class.
+        </p>
+
+    </div>
+
+
+    <!-- STUDENTS -->
+
+    <div class="card">
+
+        <h3>
+            Students in Selected Class
+        </h3>
+
+
+        <div
+            id="studentsLoading"
+            class="loading hidden"
+        >
+            Loading students...
+        </div>
+
+
+        <div
+            id="studentsEmpty"
+            class="empty hidden"
+        >
+            No students are registered in this class.
+        </div>
+
+
+        <div
+            id="studentsTableWrapper"
+            class="student-table-wrapper hidden"
+        >
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Total Fee</th>
+                        <th>Amount Paid</th>
+                        <th>Balance</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="studentsTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDENT RECORD -->
+
+    <div
+        class="card student-details"
+        id="studentDetails"
+    >
+
+        <h3>
+            Student Fee Record
+        </h3>
+
+
+        <div
+            class="student-info"
+            id="studentInfo"
+        ></div>
+
+
+        <div
+            class="summary"
+            id="feeSummary"
+        >
+
+            <div class="summary-box">
+
+                <h4>
+                    Total Class Fee
+                </h4>
+
+                <p id="totalFee">
+                    ₦0
+                </p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h4>
+                    Amount Paid
+                </h4>
+
+                <p id="amountPaid">
+                    ₦0
+                </p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h4>
+                    Balance
+                </h4>
+
+                <p id="balance">
+                    ₦0
+                </p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h4>
+                    Status
+                </h4>
+
+                <p
+                    id="feeStatus"
+                    class="summary-status"
+                >
+                    Pending
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT -->
+
+        <h3>
+            Record Payment
+        </h3>
+
+
+        <div class="payment-form">
+
+            <div class="form-group">
+
+                <label for="paymentAmount">
+                    Amount Paid (₦)
+                </label>
+
+                <input
+                    type="number"
+                    id="paymentAmount"
+                    min="1"
+                    placeholder="Enter amount paid"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="paymentSession">
+                    Session
+                </label>
+
+                <input
+                    type="text"
+                    id="paymentSession"
+                    value="2026/2027"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                class="green-btn"
+                id="recordPaymentBtn"
+            >
+                Record Payment
+            </button>
+
+        </div>
+
+
+        <!-- PAYMENT HISTORY -->
+
+        <h3 class="history-title">
+            Payment History
+        </h3>
+
+
+        <div
+            id="historyEmpty"
+            class="empty hidden"
+        >
+            No payment has been recorded for this student.
+        </div>
+
+
+        <div
+            id="historyTableWrapper"
+            class="student-table-wrapper hidden"
+        >
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Amount Paid</th>
+                        <th>Session</th>
+                        <th>Status</th>
+                        <th>Receipt</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="historyTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const API = "http://localhost:8000";
+
+
+    let students = [];
+
+    let selectedStudent = null;
+
+    let selectedStudentPayments = [];
+
+    let selectedFeeSummary = null;
+
+    let classFees = {};
+
+
+    const classSelect =
+        document.getElementById("classSelect");
+
+    const classFeeInput =
+        document.getElementById("classFee");
+
+    const saveClassFeeButton =
+        document.getElementById("saveClassFee");
+
+    const currentFeeText =
+        document.getElementById("currentFeeText");
+
+    const selectedFeeBox =
+        document.getElementById("selectedFeeBox");
+
+    const studentsLoading =
+        document.getElementById("studentsLoading");
+
+    const studentsEmpty =
+        document.getElementById("studentsEmpty");
+
+    const studentsTableWrapper =
+        document.getElementById("studentsTableWrapper");
+
+    const studentsTableBody =
+        document.getElementById("studentsTableBody");
+
+    const studentDetails =
+        document.getElementById("studentDetails");
+
+    const studentInfo =
+        document.getElementById("studentInfo");
+
+    const totalFee =
+        document.getElementById("totalFee");
+
+    const amountPaid =
+        document.getElementById("amountPaid");
+
+    const balance =
+        document.getElementById("balance");
+
+    const feeStatus =
+        document.getElementById("feeStatus");
+
+    const paymentAmount =
+        document.getElementById("paymentAmount");
+
+    const paymentSession =
+        document.getElementById("paymentSession");
+
+    const recordPaymentBtn =
+        document.getElementById("recordPaymentBtn");
+
+    const historyEmpty =
+        document.getElementById("historyEmpty");
+
+    const historyTableWrapper =
+        document.getElementById("historyTableWrapper");
+
+    const historyTableBody =
+        document.getElementById("historyTableBody");
+
+    const message =
+        document.getElementById("message");
+
+
+    /*
+     * NORMALIZE STUDENT
+     */
+
+    function normalizeStudent(student) {
+
+        return {
+
+            id:
+                student.id ||
+                "",
+
+            studentId:
+                student.studentId ||
+                student.student_id ||
+                student.id ||
+                "",
+
+            fullName:
+                student.fullName ||
+                student.full_name ||
+                "",
+
+            studentClass:
+                student.studentClass ||
+                student.student_class ||
+                "",
+
+            session:
+                student.session ||
+                "",
+
+            email:
+                student.email ||
+                "",
+
+            phone:
+                student.phone ||
+                "",
+
+            gender:
+                student.gender ||
+                "",
+
+            passport:
+                student.passport ||
+                ""
+
+        };
+
+    }
+
+
+    /*
+     * NORMALIZE FEE
+     */
+
+    function normalizeFee(fee) {
+
+        return {
+
+            id:
+                fee.id ||
+                "",
+
+            studentId:
+                fee.studentId ||
+                fee.student_id ||
+                "",
+
+            feeType:
+                fee.feeType ||
+                fee.fee_type ||
+                fee.description ||
+                "Class Fee",
+
+            amount:
+                Number(
+                    fee.amount ??
+                    0
+                ),
+
+            amountPaid:
+                Number(
+                    fee.amountPaid ??
+                    fee.amount_paid ??
+                    0
+                ),
+
+            balance:
+                Number(
+                    fee.balance ??
+                    0
+                ),
+
+            session:
+                fee.session ||
+                "",
+
+            term:
+                fee.term ||
+                "",
+
+            status:
+                fee.status ||
+                "",
+
+            receiptNumber:
+                fee.receiptNumber ||
+                fee.receipt_number ||
+                "",
+
+            createdAt:
+                fee.createdAt ||
+                fee.created_at ||
+                ""
+
+        };
+
+    }
+
+
+    /*
+     * MONEY
+     */
+
+    function money(amount) {
+
+        return "₦" +
+            Number(
+                amount || 0
+            ).toLocaleString(
+                "en-NG"
+            );
+
+    }
+
+
+    /*
+     * ESCAPE HTML
+     */
+
+    function escapeHtml(value) {
+
+        return String(
+            value ?? ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    /*
+     * STATUS
+     */
+
+    function calculateStatus(
+        fee,
+        paid
+    ) {
+
+        fee =
+            Number(fee) || 0;
+
+        paid =
+            Number(paid) || 0;
+
+
+        if (fee <= 0) {
+
+            return "No Fee Set";
+
+        }
+
+
+        if (paid >= fee) {
+
+            return "Paid";
+
+        }
+
+
+        if (paid > 0) {
+
+            return "Partially Paid";
+
+        }
+
+
+        return "Pending";
+
+    }
+
+
+    /*
+     * STATUS CLASS
+     */
+
+    function getStatusClass(
+        status
+    ) {
+
+        if (
+            status === "Paid"
+        ) {
+
+            return "status-paid";
+
+        }
+
+
+        if (
+            status === "Partially Paid"
+        ) {
+
+            return "status-part";
+
+        }
+
+
+        if (
+            status === "No Fee Set"
+        ) {
+
+            return "status-no-fee";
+
+        }
+
+
+        return "status-pending";
+
+    }
+
+
+    /*
+     * MESSAGE
+     */
+
+    function showMessage(
+        text,
+        type
+    ) {
+
+        message.textContent =
+            text;
+
+        message.className =
+            "message " +
+            type;
+
+
+        setTimeout(
+            function () {
+
+                message.className =
+                    "message";
+
+            },
+            4000
+        );
+
+    }
+
+
+    /*
+     * LOAD CLASS FEES
+     */
+
+    async function loadClassFees() {
+
+        try {
+
+            const response =
+                await fetch(
+                    API +
+                    "/class-fees"
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load class fees."
+                );
+
+            }
+
+
+            classFees = {};
+
+
+            (
+                data.classFees ||
+                data.class_fees ||
+                []
+            ).forEach(
+                function (fee) {
+
+                    const studentClass =
+                        fee.studentClass ||
+                        fee.student_class ||
+                        "";
+
+
+                    const amount =
+                        Number(
+                            fee.amount ||
+                            0
+                        );
+
+
+                    if (
+                        studentClass
+                    ) {
+
+                        classFees[
+                            studentClass
+                        ] = amount;
+
+                    }
+
+                }
+            );
+
+
+            updateClassFeeDisplay();
+
+
+            if (
+                classSelect.value
+            ) {
+
+                await displayStudentsForClass(
+                    classSelect.value
+                );
+
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Class fee loading error:",
+                error
+            );
+
+
+            updateClassFeeDisplay();
+
+        }
+
+    }
+
+
+    /*
+     * GET CLASS FEE
+     */
+
+    function getClassFee(
+        studentClass
+    ) {
+
+        const exact =
+            classFees[
+                studentClass
+            ];
+
+
+        if (
+            exact !== undefined
+        ) {
+
+            return Number(
+                exact
+            ) || 0;
+
+        }
+
+
+        const key =
+            Object.keys(
+                classFees
+            ).find(
+                function (item) {
+
+                    return String(item)
+                        .trim()
+                        .toLowerCase()
+                        ===
+                        String(studentClass)
+                        .trim()
+                        .toLowerCase();
+
+                }
+            );
+
+
+        return Number(
+            classFees[key] ||
+            0
+        );
+
+    }
+
+
+    /*
+     * UPDATE CLASS FEE DISPLAY
+     */
+
+    function updateClassFeeDisplay() {
+
+        const selectedClass =
+            classSelect.value;
+
+
+        if (!selectedClass) {
+
+            classFeeInput.value =
+                "";
+
+            currentFeeText.textContent =
+                "";
+
+            selectedFeeBox.classList.add(
+                "hidden"
+            );
+
+            return;
+
+        }
+
+
+        const fee =
+            getClassFee(
+                selectedClass
+            );
+
+
+        classFeeInput.value =
+            fee || "";
+
+
+        if (fee > 0) {
+
+            currentFeeText.textContent =
+                selectedClass +
+                " fee: " +
+                money(fee);
+
+
+            selectedFeeBox.textContent =
+                "Current fee for " +
+                selectedClass +
+                ": " +
+                money(fee);
+
+
+            selectedFeeBox.classList.remove(
+                "hidden"
+            );
+
+        } else {
+
+            currentFeeText.textContent =
+                "No fee has been set for " +
+                selectedClass +
+                " yet.";
+
+
+            selectedFeeBox.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * SAVE CLASS FEE
+     */
+
+    saveClassFeeButton.addEventListener(
+        "click",
+        async function () {
+
+            const selectedClass =
+                classSelect.value;
+
+
+            const fee =
+                Number(
+                    classFeeInput.value
+                );
+
+
+            if (!selectedClass) {
+
+                showMessage(
+                    "Please select a class.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(fee) ||
+                fee <= 0
+            ) {
+
+                showMessage(
+                    "Please enter a valid class fee.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            saveClassFeeButton.disabled =
+                true;
+
+            saveClassFeeButton.textContent =
+                "Saving...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API +
+                        "/class-fees",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                studentClass:
+                                    selectedClass,
+
+                                amount:
+                                    fee
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to save class fee."
+                    );
+
+                }
+
+
+                classFees[
+                    selectedClass
+                ] = fee;
+
+
+                updateClassFeeDisplay();
+
+
+                await displayStudentsForClass(
+                    selectedClass
+                );
+
+
+                if (
+                    selectedStudent &&
+                    String(
+                        selectedStudent.studentClass
+                    )
+                    .trim()
+                    .toLowerCase()
+                    ===
+                    String(selectedClass)
+                    .trim()
+                    .toLowerCase()
+                ) {
+
+                    await loadStudentPayments();
+
+                    updateStudentRecord();
+
+                }
+
+
+                showMessage(
+                    "Fee for " +
+                    selectedClass +
+                    " has been saved successfully.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Save class fee error:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Unable to save class fee.",
+                    "error"
+                );
+
+            } finally {
+
+                saveClassFeeButton.disabled =
+                    false;
+
+                saveClassFeeButton.textContent =
+                    "Save Class Fee";
+
+            }
+
+        }
+    );
+
+
+    /*
+     * LOAD STUDENTS
+     */
+
+    async function loadStudents() {
+
+        studentsLoading.classList.remove(
+            "hidden"
+        );
+
+        studentsEmpty.classList.add(
+            "hidden"
+        );
+
+        studentsTableWrapper.classList.add(
+            "hidden"
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API +
+                    "/students"
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load students."
+                );
+
+            }
+
+
+            students =
+                (
+                    data.students ||
+                    []
+                )
+                .map(
+                    normalizeStudent
+                );
+
+
+            if (
+                classSelect.value
+            ) {
+
+                await displayStudentsForClass(
+                    classSelect.value
+                );
+
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Student loading error:",
+                error
+            );
+
+
+            showMessage(
+                error.message ||
+                "Unable to load students.",
+                "error"
+            );
+
+        } finally {
+
+            studentsLoading.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * CLASS CHANGED
+     */
+
+    classSelect.addEventListener(
+        "change",
+        async function () {
+
+            const selectedClass =
+                classSelect.value;
+
+
+            updateClassFeeDisplay();
+
+
+            studentDetails.style.display =
+                "none";
+
+
+            selectedStudent =
+                null;
+
+
+            selectedStudentPayments =
+                [];
+
+
+            selectedFeeSummary =
+                null;
+
+
+            if (!selectedClass) {
+
+                studentsTableWrapper.classList.add(
+                    "hidden"
+                );
+
+                studentsEmpty.classList.add(
+                    "hidden"
+                );
+
+                return;
+
+            }
+
+
+            if (!students.length) {
+
+                await loadStudents();
+
+            } else {
+
+                await displayStudentsForClass(
+                    selectedClass
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+     * GET STUDENT FEE DATA
+     */
+
+    async function getStudentFeeData(
+        studentId
+    ) {
+
+        const response =
+            await fetch(
+                API +
+                "/fees/student/" +
+                encodeURIComponent(
+                    studentId
+                )
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load student fee record."
+            );
+
+        }
+
+
+        return data;
+
+    }
+
+
+    /*
+     * EXTRACT PAYMENTS
+     */
+
+    function extractPayments(
+        data
+    ) {
+
+        const source =
+            Array.isArray(data.fees)
+                ? data.fees
+                : Array.isArray(data.payments)
+                    ? data.payments
+                    : [];
+
+
+        return source.map(
+            normalizeFee
+        );
+
+    }
+
+
+    /*
+     * CALCULATE STUDENT SUMMARY
+     */
+
+    function calculateStudentSummary(
+        student,
+        data,
+        payments
+    ) {
+
+        const classFee =
+            getClassFee(
+                student.studentClass
+            );
+
+
+        const backendTotalFee =
+            Number(
+                data.totalFee ??
+                data.total_fee ??
+                0
+            );
+
+
+        const fee =
+            classFee > 0
+                ? classFee
+                : backendTotalFee;
+
+
+        const paid =
+            payments.reduce(
+                function (
+                    total,
+                    payment
+                ) {
+
+                    return total +
+                        Number(
+                            payment.amountPaid ||
+                            0
+                        );
+
+                },
+                0
+            );
+
+
+        const backendPaid =
+            Number(
+                data.totalPaid ??
+                data.total_paid ??
+                data.amountPaid ??
+                data.amount_paid ??
+                0
+            );
+
+
+        const finalPaid =
+            payments.length
+                ? paid
+                : backendPaid;
+
+
+        const finalBalance =
+            Math.max(
+                fee -
+                finalPaid,
+                0
+            );
+
+
+        const status =
+            calculateStatus(
+                fee,
+                finalPaid
+            );
+
+
+        return {
+
+            totalFee:
+                fee,
+
+            totalPaid:
+                finalPaid,
+
+            balance:
+                finalBalance,
+
+            status:
+                status
+
+        };
+
+    }
+
+
+    /*
+     * DISPLAY STUDENTS
+     */
+
+    async function displayStudentsForClass(
+        selectedClass
+    ) {
+
+        studentsTableBody.innerHTML =
+            "";
+
+        studentsTableWrapper.classList.add(
+            "hidden"
+        );
+
+        studentsEmpty.classList.add(
+            "hidden"
+        );
+
+
+        const classStudents =
+            students.filter(
+                function (student) {
+
+                    return String(
+                        student.studentClass
+                    )
+                    .trim()
+                    .toLowerCase()
+                    ===
+                    String(
+                        selectedClass
+                    )
+                    .trim()
+                    .toLowerCase();
+
+                }
+            );
+
+
+        if (
+            !classStudents.length
+        ) {
+
+            studentsEmpty.classList.remove(
+                "hidden"
+            );
+
+            return;
+
+        }
+
+
+        const classFee =
+            getClassFee(
+                selectedClass
+            );
+
+
+        const studentRows =
+            await Promise.all(
+
+                classStudents.map(
+                    async function (student) {
+
+                        let payments = [];
+
+                        let backendData = {};
+
+
+                        if (
+                            student.studentId
+                        ) {
+
+                            try {
+
+                                backendData =
+                                    await getStudentFeeData(
+                                        student.studentId
+                                    );
+
+
+                                payments =
+                                    extractPayments(
+                                        backendData
+                                    );
+
+                            } catch (error) {
+
+                                console.log(
+                                    "Could not load fee data for",
+                                    student.fullName,
+                                    error
+                                );
+
+                            }
+
+                        }
+
+
+                        const summary =
+                            calculateStudentSummary(
+                                student,
+                                backendData,
+                                payments
+                            );
+
+
+                        return {
+
+                            student:
+                                student,
+
+                            totalFee:
+                                classFee > 0
+                                    ? classFee
+                                    : summary.totalFee,
+
+                            paid:
+                                summary.totalPaid,
+
+                            balance:
+                                summary.balance,
+
+                            status:
+                                summary.status
+
+                        };
+
+                    }
+                )
+
+            );
+
+
+        studentRows.forEach(
+            function (row) {
+
+                const tr =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                const statusClass =
+                    getStatusClass(
+                        row.status
+                    );
+
+
+                const studentId =
+                    row.student.studentId;
+
+
+                tr.innerHTML = `
+
+                    <td class="student-name">
+                        ${escapeHtml(
+                            row.student.fullName
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            row.student.studentClass
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(
+                            row.totalFee
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(
+                            row.paid
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(
+                            row.balance
+                        )}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status ${statusClass}"
+                        >
+                            ${escapeHtml(
+                                row.status
+                            )}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="view-btn"
+                            type="button"
+                            onclick="openStudentRecord('${encodeURIComponent(studentId)}')"
+                        >
+                            View Record
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                studentsTableBody.appendChild(
+                    tr
+                );
+
+            }
+        );
+
+
+        studentsTableWrapper.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    /*
+     * OPEN STUDENT RECORD
+     */
+
+    async function openStudentRecord(
+        encodedStudentId
+    ) {
+
+        const studentId =
+            decodeURIComponent(
+                encodedStudentId
+            );
+
+
+        selectedStudent =
+            students.find(
+                function (student) {
+
+                    return String(
+                        student.studentId
+                    ) ===
+                    String(
+                        studentId
+                    );
+
+                }
+            );
+
+
+        if (!selectedStudent) {
+
+            showMessage(
+                "Student could not be found.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        studentDetails.style.display =
+            "block";
+
+
+        studentInfo.innerHTML = `
+
+            <div class="info-box">
+
+                <strong>
+                    Student Name
+                </strong>
+
+                ${escapeHtml(
+                    selectedStudent.fullName
+                )}
+
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>
+                    Class
+                </strong>
+
+                ${escapeHtml(
+                    selectedStudent.studentClass
+                )}
+
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>
+                    Student ID
+                </strong>
+
+                ${escapeHtml(
+                    selectedStudent.studentId
+                )}
+
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>
+                    Student Session
+                </strong>
+
+                ${escapeHtml(
+                    selectedStudent.session ||
+                    "N/A"
+                )}
+
+            </div>
+
+        `;
+
+
+        await loadStudentPayments();
+
+
+        updateStudentRecord();
+
+
+        studentDetails.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+
+    /*
+     * LOAD STUDENT PAYMENTS
+     */
+
+    async function loadStudentPayments() {
+
+        if (!selectedStudent) {
+
+            return;
+
+        }
+
+
+        const studentId =
+            selectedStudent.studentId;
+
+
+        if (!studentId) {
+
+            showMessage(
+                "This student does not have a valid Student ID.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const data =
+                await getStudentFeeData(
+                    studentId
+                );
+
+
+            selectedStudentPayments =
+                extractPayments(
+                    data
+                );
+
+
+            selectedFeeSummary =
+                calculateStudentSummary(
+                    selectedStudent,
+                    data,
+                    selectedStudentPayments
+                );
+
+
+            displayPaymentHistory();
+
+
+        } catch (error) {
+
+            console.log(
+                "Fee loading error:",
+                error
+            );
+
+
+            selectedStudentPayments =
+                [];
+
+
+            selectedFeeSummary =
+                calculateStudentSummary(
+                    selectedStudent,
+                    {},
+                    []
+                );
+
+
+            displayPaymentHistory();
+
+
+            showMessage(
+                error.message ||
+                "Unable to load fee record.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * UPDATE STUDENT RECORD
+     */
+
+    function updateStudentRecord() {
+
+        if (!selectedStudent) {
+
+            return;
+
+        }
+
+
+        const summary =
+            selectedFeeSummary ||
+            calculateStudentSummary(
+                selectedStudent,
+                {},
+                selectedStudentPayments
+            );
+
+
+        totalFee.textContent =
+            money(
+                summary.totalFee
+            );
+
+
+        amountPaid.textContent =
+            money(
+                summary.totalPaid
+            );
+
+
+        balance.textContent =
+            money(
+                summary.balance
+            );
+
+
+        feeStatus.textContent =
+            summary.status;
+
+
+        feeStatus.className =
+            "summary-status";
+
+
+        if (
+            summary.status === "Paid"
+        ) {
+
+            feeStatus.classList.add(
+                "status-paid"
+            );
+
+        } else if (
+            summary.status ===
+            "Partially Paid"
+        ) {
+
+            feeStatus.classList.add(
+                "status-part"
+            );
+
+        } else if (
+            summary.status ===
+            "No Fee Set"
+        ) {
+
+            feeStatus.classList.add(
+                "status-no-fee"
+            );
+
+        } else {
+
+            feeStatus.classList.add(
+                "status-pending"
+            );
+
+        }
+
+
+        if (
+            summary.totalFee <= 0
+        ) {
+
+            currentFeeText.textContent =
+                "A fee has not been set for " +
+                selectedStudent.studentClass +
+                ".";
+
+        }
+
+    }
+
+
+    /*
+     * RECORD PAYMENT
+     */
+
+    recordPaymentBtn.addEventListener(
+        "click",
+        async function () {
+
+            if (!selectedStudent) {
+
+                showMessage(
+                    "Please select a student first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const studentId =
+                selectedStudent.studentId;
+
+
+            if (!studentId) {
+
+                showMessage(
+                    "This student does not have a valid Student ID.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const payment =
+                Number(
+                    paymentAmount.value
+                );
+
+
+            const fee =
+                getClassFee(
+                    selectedStudent.studentClass
+                );
+
+
+            const alreadyPaid =
+                selectedStudentPayments.reduce(
+                    function (
+                        total,
+                        item
+                    ) {
+
+                        return total +
+                            Number(
+                                item.amountPaid ||
+                                0
+                            );
+
+                    },
+                    0
+                );
+
+
+            const remaining =
+                Math.max(
+                    fee -
+                    alreadyPaid,
+                    0
+                );
+
+
+            if (
+                fee <= 0
+            ) {
+
+                showMessage(
+                    "Please set the class fee first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(payment) ||
+                payment <= 0
+            ) {
+
+                showMessage(
+                    "Please enter a valid payment amount.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                remaining <= 0
+            ) {
+
+                showMessage(
+                    "This student has already fully paid the class fee.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                payment > remaining
+            ) {
+
+                showMessage(
+                    "Payment cannot be more than the student's remaining balance of " +
+                    money(remaining) +
+                    ".",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const session =
+                paymentSession.value.trim();
+
+
+            if (!session) {
+
+                showMessage(
+                    "Please enter the school session.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            recordPaymentBtn.disabled =
+                true;
+
+            recordPaymentBtn.textContent =
+                "Saving...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API +
+                        "/fees",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                studentId:
+                                    studentId,
+
+                                feeType:
+                                    "Class Fee",
+
+                                description:
+                                    "Class Fee",
+
+                                amount:
+                                    fee,
+
+                                amountPaid:
+                                    payment,
+
+                                session:
+                                    session,
+
+                                term:
+                                    "Full Session"
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to record payment."
+                    );
+
+                }
+
+
+                paymentAmount.value =
+                    "";
+
+
+                await loadStudentPayments();
+
+
+                updateStudentRecord();
+
+
+                await displayStudentsForClass(
+                    classSelect.value
+                );
+
+
+                showMessage(
+                    "Payment recorded successfully.",
+                    "success"
+                );
+
+
+                /*
+                 * Automatically scroll back
+                 * to the payment history.
+                 */
+
+                setTimeout(
+                    function () {
+
+                        studentDetails.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    },
+                    100
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Payment error:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Unable to record payment.",
+                    "error"
+                );
+
+            } finally {
+
+                recordPaymentBtn.disabled =
+                    false;
+
+                recordPaymentBtn.textContent =
+                    "Record Payment";
+
+            }
+
+        }
+    );
+
+
+    /*
+     * PAYMENT HISTORY
+     */
+
+    function displayPaymentHistory() {
+
+        historyTableBody.innerHTML =
+            "";
+
+
+        if (
+            !selectedStudentPayments.length
+        ) {
+
+            historyEmpty.classList.remove(
+                "hidden"
+            );
+
+            historyTableWrapper.classList.add(
+                "hidden"
+            );
+
+            return;
+
+        }
+
+
+        historyEmpty.classList.add(
+            "hidden"
+        );
+
+
+        historyTableWrapper.classList.remove(
+            "hidden"
+        );
+
+
+        const payments =
+            [
+                ...selectedStudentPayments
+            ]
+            .sort(
+                function (
+                    a,
+                    b
+                ) {
+
+                    const dateA =
+                        new Date(
+                            a.createdAt ||
+                            0
+                        ).getTime();
+
+
+                    const dateB =
+                        new Date(
+                            b.createdAt ||
+                            0
+                        ).getTime();
+
+
+                    if (
+                        !isNaN(dateA) &&
+                        !isNaN(dateB)
+                    ) {
+
+                        return dateB - dateA;
+
+                    }
+
+
+                    return Number(b.id || 0) -
+                        Number(a.id || 0);
+
+                }
+            );
+
+
+        payments.forEach(
+            function (payment) {
+
+                const tr =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                let date =
+                    "N/A";
+
+
+                if (
+                    payment.createdAt
+                ) {
+
+                    const parsedDate =
+                        new Date(
+                            payment.createdAt
+                        );
+
+
+                    if (
+                        !isNaN(
+                            parsedDate.getTime()
+                        )
+                    ) {
+
+                        date =
+                            parsedDate.toLocaleString(
+                                "en-NG",
+                                {
+                                    dateStyle:
+                                        "medium",
+                                    timeStyle:
+                                        "short"
+                                }
+                            );
+
+                    }
+
+                }
+
+
+                const status =
+                    payment.status ||
+                    "Recorded";
+
+
+                const statusClass =
+                    getStatusClass(
+                        status
+                    );
+
+
+                const receiptNumber =
+                    payment.receiptNumber ||
+                    "N/A";
+
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(
+                            date
+                        )}
+                    </td>
+
+
+                    <td>
+
+                        <strong>
+                            ${money(
+                                payment.amountPaid
+                            )}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        ${escapeHtml(
+                            payment.session ||
+                            "N/A"
+                        )}
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="status ${statusClass}"
+                        >
+                            ${escapeHtml(
+                                status
+                            )}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div
+                            style="
+                                display:flex;
+                                flex-direction:column;
+                                gap:6px;
+                            "
+                        >
+
+                            <span
+                                style="
+                                    font-size:12px;
+                                    color:#666;
+                                "
+                            >
+                                ${escapeHtml(
+                                    receiptNumber
+                                )}
+                            </span>
+
+
+                            <button
+                                class="receipt-btn"
+                                type="button"
+                                onclick="printReceipt('${encodeURIComponent(payment.id)}')"
+                            >
+                                Print Receipt
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                `;
+
+
+                historyTableBody.appendChild(
+                    tr
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+     * PRINT RECEIPT
+     */
+
+    function printReceipt(
+        encodedPaymentId
+    ) {
+
+        const paymentId =
+            decodeURIComponent(
+                encodedPaymentId
+            );
+
+
+        const payment =
+            selectedStudentPayments.find(
+                function (item) {
+
+                    return String(
+                        item.id
+                    ) ===
+                    String(
+                        paymentId
+                    );
+
+                }
+            );
+
+
+        if (!payment) {
+
+            alert(
+                "Payment record not found."
+            );
+
+            return;
+
+        }
+
+
+        if (!selectedStudent) {
+
+            alert(
+                "Student record not found."
+            );
+
+            return;
+
+        }
+
+
+        const fee =
+            selectedFeeSummary
+                ? selectedFeeSummary.totalFee
+                : getClassFee(
+                    selectedStudent.studentClass
+                );
+
+
+        /*
+         * Calculate the total paid
+         * up to this payment.
+         *
+         * This is useful when the student
+         * makes multiple payments.
+         */
+
+        const sortedPayments =
+            [
+                ...selectedStudentPayments
+            ]
+            .sort(
+                function (
+                    a,
+                    b
+                ) {
+
+                    const dateA =
+                        new Date(
+                            a.createdAt ||
+                            0
+                        ).getTime();
+
+
+                    const dateB =
+                        new Date(
+                            b.createdAt ||
+                            0
+                        ).getTime();
+
+
+                    return dateA - dateB;
+
+                }
+            );
+
+
+        let totalPaidAfter =
+            0;
+
+
+        for (
+            const item
+            of sortedPayments
+        ) {
+
+            totalPaidAfter +=
+                Number(
+                    item.amountPaid ||
+                    0
+                );
+
+
+            if (
+                String(item.id) ===
+                String(payment.id)
+            ) {
+
+                break;
+
+            }
+
+        }
+
+
+        /*
+         * If dates are unavailable or
+         * records are inconsistent, use
+         * a safer calculation.
+         */
+
+        if (
+            totalPaidAfter <= 0
+        ) {
+
+            totalPaidAfter =
+                Number(
+                    payment.amountPaid ||
+                    0
+                );
+
+        }
+
+
+        const balanceAfter =
+            Math.max(
+                fee -
+                totalPaidAfter,
+                0
+            );
+
+
+        const statusAfter =
+            calculateStatus(
+                fee,
+                totalPaidAfter
+            );
+
+
+        const receiptNumber =
+            payment.receiptNumber ||
+            "N/A";
+
+
+        const receiptDate =
+            payment.createdAt
+                ? new Date(
+                    payment.createdAt
+                ).toLocaleString(
+                    "en-NG",
+                    {
+                        dateStyle:
+                            "medium",
+                        timeStyle:
+                            "short"
+                    }
+                )
+                : new Date().toLocaleString(
+                    "en-NG",
+                    {
+                        dateStyle:
+                            "medium",
+                        timeStyle:
+                            "short"
+                    }
+                );
+
+
+        const receiptWindow =
+            window.open(
+                "",
+                "_blank",
+                "width=650,height=800"
+            );
+
+
+        if (!receiptWindow) {
+
+            alert(
+                "Please allow pop-ups to print the receipt."
+            );
+
+            return;
+
+        }
+
+
+        receiptWindow.document.write(`
+
+            <!DOCTYPE html>
+
+            <html lang="en">
+
+            <head>
+
+                <meta charset="UTF-8">
+
+                <title>
+                    Fee Payment Receipt
+                </title>
+
+
+                <style>
+
+                    * {
+                        box-sizing: border-box;
+                    }
+
+                    body {
+                        margin: 0;
+                        padding: 30px;
+                        background: #f4f8f5;
+                        font-family: Arial, sans-serif;
+                        color: #173b22;
+                    }
+
+                    .receipt {
+                        max-width: 560px;
+                        margin: auto;
+                        background: white;
+                        border: 2px solid #0b6b35;
+                        padding: 30px;
+                    }
+
+                    .school {
+                        text-align: center;
+                        color: #0b6b35;
+                        font-size: 24px;
+                        font-weight: bold;
+                    }
+
+                    .subtitle {
+                        text-align: center;
+                        margin-top: 8px;
+                        color: #555;
+                    }
+
+                    .receipt-title {
+                        text-align: center;
+                        margin: 25px 0;
+                        padding: 12px;
+                        background: #0b6b35;
+                        color: white;
+                    }
+
+                    .line {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 20px;
+                        padding: 12px 0;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .line strong {
+                        color: #0b6b35;
+                    }
+
+                    .amount {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #0b6b35;
+                    }
+
+                    .status {
+                        display: inline-block;
+                        padding: 6px 12px;
+                        border-radius: 20px;
+                        font-weight: bold;
+                        background: #d9f5df;
+                        color: #126b2f;
+                    }
+
+                    .receipt-number {
+                        text-align: center;
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #555;
+                    }
+
+                    .footer {
+                        text-align: center;
+                        margin-top: 30px;
+                        color: #666;
+                    }
+
+                    @media print {
+
+                        body {
+                            padding: 0;
+                            background: white;
+                        }
+
+                        .receipt {
+                            border: 2px solid #0b6b35;
+                        }
+
+                    }
+
+                </style>
+
+            </head>
+
+
+            <body>
+
+                <div class="receipt">
+
+                    <div class="school">
+                        Al-Aruudy International School
+                    </div>
+
+
+                    <div class="subtitle">
+                        School Fees Payment
+                    </div>
+
+
+                    <div class="receipt-title">
+                        PAYMENT RECEIPT
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Receipt Number
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                receiptNumber
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Date
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                receiptDate
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Student Name
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                selectedStudent.fullName
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Student ID
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                selectedStudent.studentId
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Class
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                selectedStudent.studentClass
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Session
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                payment.session ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Fee
+                        </strong>
+
+                        <span>
+                            ${money(
+                                fee
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Payment Made
+                        </strong>
+
+                        <span class="amount">
+                            ${money(
+                                payment.amountPaid
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Total Paid
+                        </strong>
+
+                        <span>
+                            ${money(
+                                totalPaidAfter
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Balance
+                        </strong>
+
+                        <span>
+                            ${money(
+                                balanceAfter
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="line">
+
+                        <strong>
+                            Status
+                        </strong>
+
+                        <span class="status">
+                            ${escapeHtml(
+                                statusAfter
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="footer">
+
+                        <p>
+                            Thank you for your payment.
+                        </p>
+
+                        <p>
+                            Al-Aruudy International School
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <script>
+
+                    window.onload = function() {
+
+                        window.print();
+
+                    };
+
+                <\/script>
+
+            </body>
+
+            </html>
+
+        `);
+
+
+        receiptWindow.document.close();
+
+    }
+
+
+    /*
+     * LOGIN CHECK
+     */
+
+    if (
+        localStorage.getItem(
+            "adminLoggedIn"
+        ) !== "true"
+    ) {
+
+        window.location.href =
+            "admin login.html";
+
+    }
+
+
+    /*
+     * INITIALIZE
+     */
+
+    async function initializePage() {
+
+        await loadClassFees();
+
+        await loadStudents();
+
+    }
+
+
+    initializePage();
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Teacher Login | Al-Aruudy International School
+</title>
+
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    body {
+        min-height: 100vh;
+
+        background:
+            linear-gradient(
+                135deg,
+                #0b5d1e,
+                #148c38
+            );
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 20px;
+    }
+
+
+    .login-container {
+        width: 100%;
+        max-width: 430px;
+    }
+
+
+    .login-box {
+        background: #ffffff;
+
+        border-radius: 18px;
+
+        padding: 35px 30px;
+
+        box-shadow:
+            0 15px 40px
+            rgba(0, 0, 0, 0.2);
+    }
+
+
+    .school-header {
+        text-align: center;
+
+        margin-bottom: 25px;
+    }
+
+
+    .school-logo {
+        width: 80px;
+        height: 80px;
+
+        background: #0b5d1e;
+
+        color: #ffd700;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        margin: 0 auto 15px;
+
+        font-size: 30px;
+
+        font-weight: bold;
+    }
+
+
+    .school-header h1 {
+        color: #0b5d1e;
+
+        font-size: 24px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .school-header p {
+        color: #666;
+
+        font-size: 14px;
+    }
+
+
+    .title {
+        text-align: center;
+
+        color: #222;
+
+        font-size: 22px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+
+    .form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #333;
+
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    .input-wrapper {
+        position: relative;
+    }
+
+
+    .form-group input {
+        width: 100%;
+
+        height: 48px;
+
+        border: 1px solid #d6d6d6;
+
+        border-radius: 9px;
+
+        padding: 0 14px;
+
+        font-size: 15px;
+
+        outline: none;
+
+        transition: 0.2s;
+    }
+
+
+    .password-input {
+        padding-right: 48px !important;
+    }
+
+
+    .form-group input:focus {
+        border-color: #0b5d1e;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(11, 93, 30, 0.1);
+    }
+
+
+    .toggle-password {
+        position: absolute;
+
+        right: 14px;
+
+        top: 50%;
+
+        transform:
+            translateY(-50%);
+
+        border: none;
+
+        background: transparent;
+
+        cursor: pointer;
+
+        font-size: 18px;
+
+        color: #666;
+    }
+
+
+    .toggle-password:hover {
+        color: #0b5d1e;
+    }
+
+
+    .forgot-password {
+        text-align: right;
+
+        margin-top: -8px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .forgot-password a {
+        color: #0b5d1e;
+
+        text-decoration: none;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    .forgot-password a:hover {
+        text-decoration: underline;
+    }
+
+
+    .login-btn {
+        width: 100%;
+
+        height: 50px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #0b5d1e;
+
+        color: #ffffff;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+
+    .login-btn:hover {
+        background: #084a18;
+    }
+
+
+    .login-btn:disabled {
+        opacity: 0.7;
+
+        cursor: not-allowed;
+    }
+
+
+    .message {
+        display: none;
+
+        padding: 12px;
+
+        border-radius: 8px;
+
+        margin-bottom: 18px;
+
+        text-align: center;
+
+        font-size: 14px;
+    }
+
+
+    .message.success {
+        display: block;
+
+        background: #e7f7eb;
+
+        color: #146c2e;
+
+        border: 1px solid #b7e5c2;
+    }
+
+
+    .message.error {
+        display: block;
+
+        background: #fdeaea;
+
+        color: #b42318;
+
+        border: 1px solid #f2b8b5;
+    }
+
+
+    .register-text {
+        text-align: center;
+
+        margin-top: 22px;
+
+        font-size: 14px;
+
+        color: #666;
+    }
+
+
+    .register-text a {
+        color: #0b5d1e;
+
+        font-weight: bold;
+
+        text-decoration: none;
+    }
+
+
+    .register-text a:hover {
+        text-decoration: underline;
+    }
+
+
+    .back-home {
+        display: block;
+
+        text-align: center;
+
+        margin-top: 18px;
+
+        color: #666;
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+
+    .back-home:hover {
+        color: #0b5d1e;
+    }
+
+
+    @media (max-width: 480px) {
+
+        .login-box {
+            padding: 28px 20px;
+        }
+
+
+        .school-header h1 {
+            font-size: 21px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+
+<div class="login-box">
+
+
+    <div class="school-header">
+
+
+        <div class="school-logo">
+            AI
+        </div>
+
+
+        <h1>
+            Al-Aruudy International School
+        </h1>
+
+
+        <p>
+            Teacher Portal
+        </p>
+
+
+    </div>
+
+
+    <h2 class="title">
+        Teacher Login
+    </h2>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <form id="teacherLoginForm">
+
+
+        <!-- FULL NAME -->
+
+        <div class="form-group">
+
+
+            <label for="teacherName">
+                Full Name
+            </label>
+
+
+            <input
+                type="text"
+                id="teacherName"
+                name="teacherName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+            >
+
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+
+            <label for="teacherPassword">
+                Password
+            </label>
+
+
+            <div class="input-wrapper">
+
+
+                <input
+                    type="password"
+                    id="teacherPassword"
+                    name="teacherPassword"
+                    class="password-input"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    id="togglePassword"
+                    aria-label="Show password"
+                >
+                    👁
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- FORGOT PASSWORD -->
+
+        <div class="forgot-password">
+
+
+            <a href="teacher forgot password.html">
+                Forgot Password?
+            </a>
+
+
+        </div>
+
+
+        <!-- LOGIN BUTTON -->
+
+        <button
+            type="submit"
+            class="login-btn"
+            id="loginButton"
+        >
+            Login
+        </button>
+
+
+    </form>
+
+
+    <!-- REGISTRATION -->
+
+    <div class="register-text">
+
+        Don't have an account?
+
+        <a href="teacher registration.html">
+            Register here
+        </a>
+
+    </div>
+
+
+    <!-- HOME -->
+
+    <a
+        href="al-aruudy school portal.html"
+        class="back-home"
+    >
+        ← Back to Home
+    </a>
+
+
+</div>
+
+
+</div>
+
+<script>
+
+
+    // ==============================================
+    // BACKEND
+    // ==============================================
+
+    const API_URL =
+        "http://localhost:8000";
+
+
+    // ==============================================
+    // ELEMENTS
+    // ==============================================
+
+    const loginForm =
+        document.getElementById(
+            "teacherLoginForm"
+        );
+
+
+    const teacherNameInput =
+        document.getElementById(
+            "teacherName"
+        );
+
+
+    const teacherPasswordInput =
+        document.getElementById(
+            "teacherPassword"
+        );
+
+
+    const togglePassword =
+        document.getElementById(
+            "togglePassword"
+        );
+
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    // ==============================================
+    // SHOW MESSAGE
+    // ==============================================
+
+    function showMessage(
+        text,
+        type
+    ) {
+
+        message.textContent =
+            text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+    // ==============================================
+    // HIDE MESSAGE
+    // ==============================================
+
+    function hideMessage() {
+
+        message.textContent =
+            "";
+
+        message.className =
+            "message";
+
+    }
+
+
+    // ==============================================
+    // SHOW / HIDE PASSWORD
+    // ==============================================
+
+    togglePassword.addEventListener(
+        "click",
+        function () {
+
+
+            if (
+                teacherPasswordInput.type ===
+                "password"
+            ) {
+
+
+                teacherPasswordInput.type =
+                    "text";
+
+
+                togglePassword.textContent =
+                    "🙈";
+
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+
+            } else {
+
+
+                teacherPasswordInput.type =
+                    "password";
+
+
+                togglePassword.textContent =
+                    "👁";
+
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+            }
+
+        }
+    );
+
+
+    // ==============================================
+    // TEACHER LOGIN
+    // ==============================================
+
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
+
+
+            event.preventDefault();
+
+
+            hideMessage();
+
+
+            const fullName =
+                teacherNameInput.value.trim();
+
+
+            const password =
+                teacherPasswordInput.value;
+
+
+            // ==========================================
+            // VALIDATION
+            // ==========================================
+
+            if (!fullName) {
+
+                showMessage(
+                    "Please enter your full name.",
+                    "error"
+                );
+
+                teacherNameInput.focus();
+
+                return;
+
+            }
+
+
+            if (!password) {
+
+                showMessage(
+                    "Please enter your password.",
+                    "error"
+                );
+
+                teacherPasswordInput.focus();
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // DISABLE LOGIN BUTTON
+            // ==========================================
+
+            loginButton.disabled =
+                true;
+
+
+            loginButton.textContent =
+                "Logging in...";
+
+
+            try {
+
+
+                console.log(
+                    "================================="
+                );
+
+
+                console.log(
+                    "TEACHER LOGIN"
+                );
+
+
+                console.log(
+                    "Name:",
+                    fullName
+                );
+
+
+                // ======================================
+                // SEND LOGIN REQUEST
+                // ======================================
+
+                const response =
+                    await fetch(
+                        `${API_URL}/teachers/login`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                fullName:
+                                    fullName,
+
+                                password:
+                                    password
+
+                            })
+                        }
+                    );
+
+
+                // ======================================
+                // READ SERVER RESPONSE
+                // ======================================
+
+                const responseText =
+                    await response.text();
+
+
+                console.log(
+                    "SERVER STATUS:",
+                    response.status
+                );
+
+
+                console.log(
+                    "SERVER RESPONSE:",
+                    responseText
+                );
+
+
+                let data;
+
+
+                try {
+
+                    data =
+                        JSON.parse(
+                            responseText
+                        );
+
+                    } catch (error) {
+
+                    throw new Error(
+                        "The server returned an invalid response."
+                    );
+
+                }
+
+
+                // ======================================
+                // LOGIN FAILED
+                // ======================================
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    showMessage(
+                        data.message ||
+                        "Incorrect name or password.",
+                        "error"
+                    );
+
+
+                    loginButton.disabled =
+                        false;
+
+
+                    loginButton.textContent =
+                        "Login";
+
+
+                    return;
+
+                }
+
+
+                // ======================================
+                // GET TEACHER
+                // ======================================
+
+                const teacher =
+                    data.teacher;
+
+
+                if (
+                    !teacher
+                ) {
+
+                    throw new Error(
+                        "Teacher information was not returned by the server."
+                    );
+
+                }
+
+
+                console.log(
+                    "Teacher logged in:",
+                    teacher
+                );
+
+
+                // ======================================
+                // SAVE COMPLETE TEACHER SESSION
+                // ======================================
+
+                localStorage.setItem(
+                    "currentTeacher",
+                    JSON.stringify(
+                        teacher
+                    )
+                );
+
+
+                localStorage.setItem(
+                    "teacherLoggedIn",
+                    "true"
+                );
+
+
+                localStorage.setItem(
+                    "teacherId",
+                    String(
+                        teacher.id ||
+                        teacher.teacherId ||
+                        ""
+                    )
+                );
+
+
+                localStorage.setItem(
+                    "teacherName",
+                    teacher.fullName ||
+                    ""
+                );
+
+
+                localStorage.setItem(
+                    "teacherEmail",
+                    teacher.email ||
+                    ""
+                );
+
+
+                localStorage.setItem(
+                    "teacherAssignedClass",
+                    teacher.assignedClass ||
+                    teacher.studentClass ||
+                    ""
+                );
+
+
+                // ======================================
+                // SUCCESS
+                // ======================================
+
+                showMessage(
+                    "Login successful! Redirecting...",
+                    "success"
+                );
+
+
+                // ======================================
+                // REDIRECT
+                // ======================================
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "teacher dashboard.html";
+
+                    },
+                    700
+                );
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "TEACHER LOGIN ERROR:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Unable to connect to the school server. Make sure your Deno backend is running.",
+                    "error"
+                );
+
+
+                loginButton.disabled =
+                    false;
+
+
+                loginButton.textContent =
+                    "Login";
+
+            }
+
+        }
+    );
+
+
+</script>
+
+</body>
+
+</html>

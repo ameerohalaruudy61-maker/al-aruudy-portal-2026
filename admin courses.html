@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Courses Management | Al-Aruudy International School
+    </title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #f5f9f6;
+
+            color: #222;
+
+            padding: 30px;
+        }
+
+
+        .container {
+            max-width: 900px;
+
+            margin: auto;
+        }
+
+
+        .back {
+            display: inline-block;
+
+            margin-bottom: 20px;
+
+            color: #08752f;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+
+        h1 {
+            color: #08752f;
+
+            margin-bottom: 25px;
+        }
+
+
+        .box {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        h2 {
+            color: #08752f;
+
+            margin-bottom: 20px;
+        }
+
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #16351f;
+        }
+
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #08752f;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(8, 117, 47, 0.1);
+        }
+
+
+        button {
+            border: none;
+
+            border-radius: 7px;
+
+            background: #08752f;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            padding: 12px 18px;
+        }
+
+
+        button:hover {
+            background: #055b24;
+        }
+
+
+        button:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+
+        .full-button {
+            width: 100%;
+
+            padding: 14px;
+
+            font-size: 16px;
+        }
+
+
+        .secondary-button {
+            background: #777;
+
+            margin-top: 10px;
+        }
+
+
+        .secondary-button:hover {
+            background: #555;
+        }
+
+
+        .danger-button {
+            background: #c62828;
+        }
+
+
+        .danger-button:hover {
+            background: #a51f1f;
+        }
+
+
+        .message {
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-weight: bold;
+        }
+
+
+        .message.success {
+            display: block;
+
+            background: #e8f7ed;
+
+            color: #08752f;
+        }
+
+
+        .message.error {
+            display: block;
+
+            background: #ffecec;
+
+            color: #c62828;
+        }
+
+
+        .course-item {
+            background: #f5f9f6;
+
+            border-radius: 10px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            border-left:
+                4px solid #08752f;
+        }
+
+
+        .course-item h3 {
+            color: #08752f;
+
+            margin-bottom: 8px;
+        }
+
+
+        .course-item p {
+            color: #666;
+
+            line-height: 1.5;
+
+            margin-bottom: 15px;
+        }
+
+
+        .course-actions {
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .empty {
+            text-align: center;
+
+            color: #777;
+
+            padding: 20px;
+        }
+
+
+        .loading {
+            text-align: center;
+
+            color: #666;
+
+            padding: 20px;
+        }
+
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 15px;
+            }
+
+
+            .box {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- =================================
+             BACK
+        ================================== -->
+
+        <a
+            href="admin dashboard.html"
+            class="back"
+        >
+            ← Back to Admin Dashboard
+        </a>
+
+
+
+        <h1>
+            Courses Management
+        </h1>
+
+
+
+        <!-- =================================
+             SELECT CLASS
+        ================================== -->
+
+        <div class="box">
+
+            <h2>
+                Select Class
+            </h2>
+
+
+            <div class="input-group">
+
+                <label for="classSelect">
+                    Class
+                </label>
+
+
+                <select id="classSelect">
+
+                    <option value="">
+                        Select class
+                    </option>
+
+
+                    <option value="Primary 1">
+                        Primary 1
+                    </option>
+
+                    <option value="Primary 2">
+                        Primary 2
+                    </option>
+
+                    <option value="Primary 3">
+                        Primary 3
+                    </option>
+
+                    <option value="Primary 4">
+                        Primary 4
+                    </option>
+
+                    <option value="Primary 5">
+                        Primary 5
+                    </option>
+
+                    <option value="Primary 6">
+                        Primary 6
+                    </option>
+
+
+                    <option value="JSS 1">
+                        JSS 1
+                    </option>
+
+                    <option value="JSS 2">
+                        JSS 2
+                    </option>
+
+                    <option value="JSS 3">
+                        JSS 3
+                    </option>
+
+
+                    <option value="SSS 1">
+                        SSS 1
+                    </option>
+
+                    <option value="SSS 2">
+                        SSS 2
+                    </option>
+
+                    <option value="SSS 3">
+                        SSS 3
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             ADD / EDIT COURSE
+        ================================== -->
+
+        <div
+            class="box"
+            id="courseFormBox"
+            style="display:none;"
+        >
+
+            <h2 id="formTitle">
+                Add Course
+            </h2>
+
+
+            <div class="input-group">
+
+                <label for="courseName">
+                    Subject / Course Name
+                </label>
+
+
+                <input
+                    type="text"
+                    id="courseName"
+                    placeholder="Example: Mathematics"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="courseDescription">
+                    Description
+                </label>
+
+
+                <textarea
+                    id="courseDescription"
+                    placeholder="Example: Algebra, geometry and problem solving."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="saveCourseButton"
+                class="full-button"
+            >
+                Save Course
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelEditButton"
+                class="secondary-button full-button"
+                style="display:none;"
+            >
+                Cancel Edit
+            </button>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+        </div>
+
+
+
+        <!-- =================================
+             COURSES
+        ================================== -->
+
+        <div
+            class="box"
+            id="coursesBox"
+            style="display:none;"
+        >
+
+            <h2>
+                Courses for
+                <span id="selectedClassName"></span>
+            </h2>
+
+
+            <div id="courseList"></div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* =====================================
+           BACKEND
+        ====================================== */
+
+        const API =
+            "http://localhost:8000";
+
+
+
+        /* =====================================
+           ADMIN LOGIN CHECK
+        ====================================== */
+
+        const adminLoggedIn =
+            localStorage.getItem(
+                "adminLoggedIn"
+            );
+
+
+        if (
+            adminLoggedIn !== "true"
+        ) {
+
+            window.location.href =
+                "admin login.html";
+
+        }
+
+
+
+        /* =====================================
+           ELEMENTS
+        ====================================== */
+
+        const classSelect =
+            document.getElementById(
+                "classSelect"
+            );
+
+
+        const courseName =
+            document.getElementById(
+                "courseName"
+            );
+
+
+        const courseDescription =
+            document.getElementById(
+                "courseDescription"
+            );
+
+
+        const saveCourseButton =
+            document.getElementById(
+                "saveCourseButton"
+            );
+
+
+        const cancelEditButton =
+            document.getElementById(
+                "cancelEditButton"
+            );
+
+
+        const courseFormBox =
+            document.getElementById(
+                "courseFormBox"
+            );
+
+
+        const coursesBox =
+            document.getElementById(
+                "coursesBox"
+            );
+
+
+        const selectedClassName =
+            document.getElementById(
+                "selectedClassName"
+            );
+
+
+        const courseList =
+            document.getElementById(
+                "courseList"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        const formTitle =
+            document.getElementById(
+                "formTitle"
+            );
+
+
+
+        /* =====================================
+           VARIABLES
+        ====================================== */
+
+        let courses = [];
+
+        let editCourseId = null;
+
+
+
+        /* =====================================
+           SHOW MESSAGE
+        ====================================== */
+
+        function showMessage(
+            text,
+            type = "success"
+        ) {
+
+            message.textContent =
+                text;
+
+
+            message.className =
+                `message ${type}`;
+
+
+            setTimeout(
+                function() {
+
+                    message.textContent =
+                        "";
+
+                    message.className =
+                        "message";
+
+                },
+                3000
+            );
+
+        }
+
+
+
+        /* =====================================
+           CLASS SELECTED
+        ====================================== */
+
+        classSelect.addEventListener(
+            "change",
+            async function() {
+
+
+                const selectedClass =
+                    classSelect.value;
+
+
+                if (!selectedClass) {
+
+                    courseFormBox.style.display =
+                        "none";
+
+                    coursesBox.style.display =
+                        "none";
+
+                    resetForm();
+
+                    return;
+
+                }
+
+
+                selectedClassName.textContent =
+                    selectedClass;
+
+
+                courseFormBox.style.display =
+                    "block";
+
+
+                coursesBox.style.display =
+                    "block";
+
+
+                resetForm();
+
+
+                await loadCourses(
+                    selectedClass
+                );
+
+            }
+        );
+
+
+
+        /* =====================================
+           LOAD COURSES
+        ====================================== */
+
+        async function loadCourses(
+            selectedClass
+        ) {
+
+
+            courseList.innerHTML = `
+                <div class="loading">
+                    Loading courses...
+                </div>
+            `;
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        `${API}/courses/${encodeURIComponent(selectedClass)}`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Courses response:",
+                    data
+                );
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to load courses."
+                    );
+
+                }
+
+
+                courses =
+                    Array.isArray(
+                        data.courses
+                    )
+                        ? data.courses
+                        : [];
+
+
+                displayCourses();
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(
+                    "Load courses error:",
+                    error
+                );
+
+
+                courseList.innerHTML = `
+
+                    <div
+                        style="
+                            color:#c62828;
+                            text-align:center;
+                            padding:20px;
+                        "
+                    >
+
+                        Unable to load courses.
+
+                        <br><br>
+
+                        Please make sure the
+                        school portal backend
+                        is running.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           DISPLAY COURSES
+        ====================================== */
+
+        function displayCourses() {
+
+
+            courseList.innerHTML =
+                "";
+
+
+            if (
+                courses.length === 0
+            ) {
+
+                courseList.innerHTML = `
+
+                    <div class="empty">
+
+                        No courses registered for
+                        ${escapeHTML(classSelect.value)}.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+
+            courses.forEach(
+                function(course, index) {
+
+
+                    const courseId =
+                        course.id;
+
+
+                    const name =
+                        course.name ||
+                        "";
+
+
+                    const description =
+                        course.description ||
+                        "No description provided.";
+
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "course-item";
+
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            ${escapeHTML(name)}
+                        </h3>
+
+
+                        <p>
+                            ${escapeHTML(description)}
+                        </p>
+
+
+                        <div
+                            class="course-actions"
+                        >
+
+                            <button
+                                type="button"
+                                onclick="editCourse(${index})"
+                            >
+                                Edit
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="danger-button"
+                                onclick="deleteCourse(${index})"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    `;
+
+
+
+                    courseList.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================
+           SAVE / UPDATE COURSE
+        ====================================== */
+
+        saveCourseButton.addEventListener(
+            "click",
+            async function() {
+
+
+                const selectedClass =
+                    classSelect.value;
+
+
+                const name =
+                    courseName.value.trim();
+
+
+                const description =
+                    courseDescription.value.trim();
+
+
+
+                if (!selectedClass) {
+
+                    showMessage(
+                        "Please select a class.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                if (!name) {
+
+                    showMessage(
+                        "Please enter the course name.",
+                        "error"
+                    );
+
+                    courseName.focus();
+
+                    return;
+
+                }
+
+
+
+                if (!description) {
+
+                    showMessage(
+                        "Please enter the course description.",
+                        "error"
+                    );
+
+                    courseDescription.focus();
+
+                    return;
+
+                }
+
+
+
+                saveCourseButton.disabled =
+                    true;
+
+
+                saveCourseButton.textContent =
+                    editCourseId
+                        ? "Updating..."
+                        : "Saving...";
+
+
+
+                try {
+
+
+                    let response;
+
+
+
+                    /* =========================
+                       UPDATE
+                    ========================== */
+
+                    if (editCourseId) {
+
+
+                        response =
+                            await fetch(
+                                `${API}/courses/${editCourseId}`,
+                                {
+                                    method: "PUT",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+                                            studentClass:
+                                                selectedClass,
+
+                                            name:
+                                                name,
+
+                                            description:
+                                                description
+                                        })
+                                }
+                            );
+
+                    }
+
+
+
+                    /* =========================
+                       ADD
+                    ========================== */
+
+                    else {
+
+
+                        response =
+                            await fetch(
+                                `${API}/courses`,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+                                            studentClass:
+                                                selectedClass,
+
+                                            name:
+                                                name,
+
+                                            description:
+                                                description
+                                        })
+                                }
+                            );
+
+                    }
+
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Save course response:",
+                        data
+                    );
+
+
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+                        throw new Error(
+                            data.message ||
+                            "Unable to save course."
+                        );
+
+                    }
+
+
+
+                    if (editCourseId) {
+
+                        showMessage(
+                            "Course updated successfully."
+                        );
+
+                    }
+
+                    else {
+
+                        showMessage(
+                            "Course added successfully."
+                        );
+
+                    }
+
+
+
+                    resetForm();
+
+
+                    await loadCourses(
+                        selectedClass
+                    );
+
+
+                }
+
+                catch (error) {
+
+
+                    console.error(
+                        "Save course error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        error.message ||
+                        "Unable to save course.",
+                        "error"
+                    );
+
+                }
+
+                finally {
+
+
+                    saveCourseButton.disabled =
+                        false;
+
+
+                    saveCourseButton.textContent =
+                        editCourseId
+                            ? "Update Course"
+                            : "Save Course";
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================
+           EDIT COURSE
+        ====================================== */
+
+        window.editCourse =
+            function(index) {
+
+
+                const course =
+                    courses[index];
+
+
+                if (!course) {
+
+                    return;
+
+                }
+
+
+
+                editCourseId =
+                    course.id;
+
+
+                courseName.value =
+                    course.name || "";
+
+
+                courseDescription.value =
+                    course.description || "";
+
+
+                formTitle.textContent =
+                    "Edit Course";
+
+
+                saveCourseButton.textContent =
+                    "Update Course";
+
+
+                cancelEditButton.style.display =
+                    "block";
+
+
+                courseName.focus();
+
+            };
+
+
+
+        /* =====================================
+           DELETE COURSE
+        ====================================== */
+
+        window.deleteCourse =
+            async function(index) {
+
+
+                const course =
+                    courses[index];
+
+
+                if (!course) {
+
+                    return;
+
+                }
+
+
+
+                const courseNameValue =
+                    course.name ||
+                    "this course";
+
+
+                const confirmDelete =
+                    confirm(
+                        `Are you sure you want to delete "${courseNameValue}"?`
+                    );
+
+
+                if (!confirmDelete) {
+
+                    return;
+
+                }
+
+
+
+                try {
+
+
+                    const response =
+                        await fetch(
+                            `${API}/courses/${course.id}`,
+                            {
+                                method: "DELETE"
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Delete course response:",
+                        data
+                    );
+
+
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+                        throw new Error(
+                            data.message ||
+                            "Failed to delete course."
+                        );
+
+                    }
+
+
+
+                    showMessage(
+                        "Course deleted successfully."
+                    );
+
+
+                    await loadCourses(
+                        classSelect.value
+                    );
+
+                }
+
+                catch (error) {
+
+
+                    console.error(
+                        "Delete course error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        error.message ||
+                        "Unable to delete course.",
+                        "error"
+                    );
+
+                }
+
+            };
+
+
+
+        /* =====================================
+           CANCEL EDIT
+        ====================================== */
+
+        cancelEditButton.addEventListener(
+            "click",
+            function() {
+
+                resetForm();
+
+            }
+        );
+
+
+
+        /* =====================================
+           RESET FORM
+        ====================================== */
+
+        function resetForm() {
+
+
+            editCourseId =
+                null;
+
+
+            courseName.value =
+                "";
+
+
+            courseDescription.value =
+                "";
+
+
+            formTitle.textContent =
+                "Add Course";
+
+
+            saveCourseButton.textContent =
+                "Save Course";
+
+
+            cancelEditButton.style.display =
+                "none";
+
+        }
+
+
+
+        /* =====================================
+           ESCAPE HTML
+        ====================================== */
+
+        function escapeHTML(
+            value
+        ) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                String(value);
+
+
+            return div.innerHTML;
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

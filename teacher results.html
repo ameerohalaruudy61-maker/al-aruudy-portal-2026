@@ -1,0 +1,3266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Upload Student Result</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f5;
+    color: #222;
+}
+
+header {
+    background: #0b6b3a;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 25px;
+}
+
+.container {
+    width: 95%;
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+.box {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+select,
+input,
+textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+button {
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-right: 7px;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.primary {
+    background: #0b6b3a;
+    color: white;
+}
+
+.secondary {
+    background: #777;
+    color: white;
+}
+
+.student-result {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 13px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.student-result:hover {
+    background: #edf8f1;
+    border-color: #0b6b3a;
+}
+
+.selected-student {
+    background: #e8f5ed;
+    border-left: 5px solid #0b6b3a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.selected-student p {
+    margin: 6px 0;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.summary-card {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.summary-card strong {
+    display: block;
+    font-size: 22px;
+    color: #0b6b3a;
+    margin-top: 6px;
+}
+
+.course-info {
+    background: #fff8d8;
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+
+.message {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+#studentSearchArea,
+#selectedStudent,
+#resultFormBox,
+#remarksBox {
+    display: none;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #0b6b3a;
+    font-weight: bold;
+}
+
+.teacher-info {
+    background: #e8f5ed;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #0b6b3a;
+    font-weight: bold;
+}
+
+.error-box {
+    background: #ffeaea;
+    color: #b00020;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    display: none;
+}
+
+.success-box {
+    background: #e8f5ed;
+    color: #0b6b3a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    display: none;
+}
+
+.loading {
+    color: #777;
+    font-style: italic;
+}
+
+@media (max-width: 700px) {
+
+    .summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media print {
+
+    body * {
+        visibility: hidden;
+    }
+
+    #printResult,
+    #printResult * {
+        visibility: visible;
+    }
+
+    #printResult {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+    }
+
+}
+
+#printResult {
+    display: none;
+    background: white;
+    padding: 30px;
+}
+
+.print-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.print-header img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.print-info {
+    margin-bottom: 20px;
+}
+
+.print-info p {
+    margin: 6px 0;
+}
+
+.print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.print-table th,
+.print-table td {
+    border: 1px solid #999;
+    padding: 8px;
+    text-align: center;
+}
+
+.print-table th {
+    background: #0b6b3a;
+    color: white;
+}
+
+.print-summary {
+    margin-top: 20px;
+}
+
+.print-summary p {
+    margin: 7px 0;
+}
+
+.print-remarks {
+    margin-top: 30px;
+}
+
+.print-remarks p {
+    margin: 15px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Upload Student Result</h1>
+
+</header>
+
+<div class="container">
+
+<a href="teacher dashboard.html" class="back-button">
+    ← Back to Teacher Dashboard
+</a>
+
+<div class="teacher-info" id="teacherInfo">
+    Loading teacher information...
+</div>
+
+<div class="error-box" id="errorBox"></div>
+
+<div class="success-box" id="successBox"></div>
+
+
+<!-- ASSIGNED CLASS -->
+
+<div class="box">
+
+<label for="classSelect">
+    Assigned Class
+</label>
+
+<select id="classSelect">
+
+<option value="">
+    -- Loading Assigned Classes --
+</option>
+
+</select>
+
+</div>
+
+
+<!-- STUDENT SEARCH -->
+
+<div class="box" id="studentSearchArea">
+
+<label for="studentSearch">
+    Search Student
+</label>
+
+<input
+    type="text"
+    id="studentSearch"
+    placeholder="Type student's name..."
+>
+
+<div id="studentSearchResults"></div>
+
+</div>
+
+
+<!-- SELECTED STUDENT -->
+
+<div class="box selected-student" id="selectedStudent">
+
+<h3>Selected Student</h3>
+
+<p id="selectedStudentName"></p>
+
+<p id="selectedStudentClass"></p>
+
+<p id="selectedStudentSession"></p>
+
+</div>
+
+
+<!-- RESULT FORM -->
+
+<div class="box" id="resultFormBox">
+
+<h2>Upload Result</h2>
+
+<br>
+
+<form id="resultForm">
+
+<label for="subject">
+    Subject
+</label>
+
+<select id="subject" required>
+
+<option value="">
+    -- Select Subject --
+</option>
+
+</select>
+
+<div id="courseInfo" class="course-info">
+    Select your assigned class to load registered subjects.
+</div>
+
+<label for="ca">
+    CA Score (0 - 40)
+</label>
+
+<input
+    type="number"
+    id="ca"
+    min="0"
+    max="40"
+    step="0.01"
+    required
+>
+
+<label for="exam">
+    Examination Score (0 - 60)
+</label>
+
+<input
+    type="number"
+    id="exam"
+    min="0"
+    max="60"
+    step="0.01"
+    required
+>
+
+<button
+    type="submit"
+    class="primary"
+    id="submitButton"
+>
+Upload Result
+</button>
+
+<button
+    type="button"
+    class="secondary"
+    id="cancelButton"
+>
+Clear
+</button>
+
+</form>
+
+
+<div id="studentSummary" class="summary">
+
+<div class="summary-card">
+Total
+<strong id="summaryTotal">0</strong>
+</div>
+
+<div class="summary-card">
+Average
+<strong id="summaryAverage">0</strong>
+</div>
+
+<div class="summary-card">
+Position
+<strong id="summaryPosition">-</strong>
+</div>
+
+<div class="summary-card">
+Class Size
+<strong id="summaryClassSize">-</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- REMARKS -->
+
+<div class="box" id="remarksBox">
+
+<h2>Student Remarks</h2>
+
+<br>
+
+<label for="teacherRemark">
+    Teacher's Remark
+</label>
+
+<textarea
+    id="teacherRemark"
+    placeholder="Enter teacher's remark..."
+></textarea>
+
+<label for="principalRemark">
+    Principal's Remark
+</label>
+
+<textarea
+    id="principalRemark"
+    placeholder="Enter principal's remark..."
+></textarea>
+
+<button
+    type="button"
+    class="primary"
+    id="saveRemarksButton"
+>
+Save Remarks
+</button>
+
+<div id="remarksMessage" class="message"></div>
+
+</div>
+
+
+<!-- PRINT -->
+
+<div class="box">
+
+<button
+    type="button"
+    class="primary"
+    id="printButton"
+>
+Print Result
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PRINT RESULT -->
+
+<div id="printResult">
+
+<div class="print-header">
+
+<img
+    id="printLogo"
+    src=""
+    alt="School Logo"
+>
+
+<h1>Al-Aruudy International School</h1>
+
+<h2>Student Result</h2>
+
+</div>
+
+<div class="print-info">
+
+<p>
+<strong>Student Name:</strong>
+<span id="printStudentName"></span>
+</p>
+
+<p>
+<strong>Class:</strong>
+<span id="printStudentClass"></span>
+</p>
+
+<p>
+<strong>Session:</strong>
+<span id="printSession"></span>
+</p>
+
+<p>
+<strong>Term:</strong>
+<span id="printTerm"></span>
+</p>
+
+</div>
+
+<table class="print-table">
+
+<thead>
+
+<tr>
+<th>S/N</th>
+<th>Subject</th>
+<th>CA</th>
+<th>Examination</th>
+<th>Total</th>
+<th>Grade</th>
+<th>Grade Description</th>
+</tr>
+
+</thead>
+
+<tbody id="printResultsBody"></tbody>
+
+</table>
+
+<div class="print-summary">
+
+<p>
+<strong>Total:</strong>
+<span id="printTotal"></span>
+</p>
+
+<p>
+<strong>Average:</strong>
+<span id="printAverage"></span>
+</p>
+
+<p>
+<strong>Position:</strong>
+<span id="printPosition"></span>
+</p>
+
+<p>
+<strong>Class Size:</strong>
+<span id="printClassSize"></span>
+</p>
+
+</div>
+
+<div class="print-remarks">
+
+<p>
+<strong>Teacher's Remark:</strong>
+<span id="printTeacherRemark"></span>
+</p>
+
+<p>
+<strong>Principal's Remark:</strong>
+<span id="printPrincipalRemark"></span>
+</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+const API = "http://localhost:8000";
+
+
+/* ==========================================
+   CHECK TEACHER LOGIN
+========================================== */
+
+const savedTeacher =
+    localStorage.getItem("currentTeacher");
+
+const teacherLoggedIn =
+    localStorage.getItem("teacherLoggedIn");
+
+
+if (
+    teacherLoggedIn !== "true" ||
+    !savedTeacher
+) {
+
+    window.location.href = "teacher login.html";
+
+}
+
+
+let currentTeacher = null;
+
+
+try {
+
+    currentTeacher =
+        JSON.parse(savedTeacher);
+
+} catch (error) {
+
+    console.error(error);
+
+    localStorage.removeItem("currentTeacher");
+    localStorage.removeItem("teacherLoggedIn");
+
+    window.location.href = "teacher login.html";
+
+}
+
+
+/* ==========================================
+   SUPPORT NESTED TEACHER LOGIN DATA
+========================================== */
+
+if (
+    currentTeacher &&
+    currentTeacher.teacher
+) {
+
+    currentTeacher = {
+        ...currentTeacher.teacher,
+        assignments:
+            currentTeacher.assignments ||
+            currentTeacher.teacher.assignments ||
+            []
+    };
+
+}
+
+
+/* ==========================================
+   DATA
+========================================== */
+
+let students = [];
+
+let courses = [];
+
+let studentResults = [];
+
+let selectedStudentData = null;
+
+let assignedClasses = [];
+
+let assignedClass = "";
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function normalizeClass(value) {
+
+    return String(value || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLowerCase();
+
+}
+
+
+function getStudentId(student) {
+
+    return String(
+        student.studentId ||
+        student.student_id ||
+        student.id ||
+        ""
+    ).trim();
+
+}
+
+
+function getStudentName(student) {
+
+    return (
+        student.fullName ||
+        student.full_name ||
+        student.name ||
+        ""
+    );
+
+}
+
+
+function getStudentClass(student) {
+
+    return (
+        student.studentClass ||
+        student.student_class ||
+        student.class ||
+        ""
+    );
+
+}
+
+
+function getSession(student) {
+
+    return (
+        student.session ||
+        localStorage.getItem("currentSession") ||
+        "2026/2027"
+    );
+
+}
+
+
+function getTerm() {
+
+    return (
+        localStorage.getItem("currentTerm") ||
+        "First Term"
+    );
+
+}
+
+
+function calculateGrade(total) {
+
+    total = Number(total) || 0;
+
+    if (total >= 70) return "A";
+    if (total >= 60) return "B";
+    if (total >= 50) return "C";
+    if (total >= 45) return "D";
+    if (total >= 40) return "E";
+
+    return "F";
+
+}
+
+
+function gradeDescription(grade) {
+
+    const descriptions = {
+
+        A: "Excellent",
+        B: "Very Good",
+        C: "Good",
+        D: "Fair",
+        E: "Pass",
+        F: "Fail"
+
+    };
+
+    return descriptions[grade] || "";
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ==========================================
+   SHOW ERROR
+========================================== */
+
+function showError(message) {
+
+    const box =
+        document.getElementById("errorBox");
+
+    box.textContent = message;
+
+    box.style.display = "block";
+
+}
+
+
+function hideError() {
+
+    const box =
+        document.getElementById("errorBox");
+
+    box.textContent = "";
+
+    box.style.display = "none";
+
+}
+
+
+/* ==========================================
+   GET TEACHER OBJECT
+========================================== */
+
+function getTeacherObject() {
+
+    if (
+        currentTeacher &&
+        currentTeacher.teacher
+    ) {
+
+        return currentTeacher.teacher;
+
+    }
+
+    return currentTeacher || {};
+
+}
+
+
+/* ==========================================
+   GET TEACHER ID
+========================================== */
+
+function getTeacherId() {
+
+    const teacher =
+        getTeacherObject();
+
+
+    return String(
+        teacher.teacherId ||
+        teacher.teacher_id ||
+        localStorage.getItem("teacherId") ||
+        ""
+    ).trim();
+
+}
+
+
+/* ==========================================
+   GET TEACHER NAME
+========================================== */
+
+function getTeacherName() {
+
+    const teacher =
+        getTeacherObject();
+
+
+    return (
+        teacher.fullName ||
+        teacher.full_name ||
+        teacher.name ||
+        localStorage.getItem("teacherName") ||
+        "Teacher"
+    );
+
+}
+
+
+/* ==========================================
+   EXTRACT ASSIGNMENT CLASS
+========================================== */
+
+function getAssignmentClass(assignment) {
+
+    return String(
+        assignment.studentClass ||
+        assignment.student_class ||
+        assignment.assignedClass ||
+        assignment.assigned_class ||
+        assignment.class ||
+        ""
+    ).trim();
+
+}
+
+
+/* ==========================================
+   EXTRACT ASSIGNMENT TEACHER ID
+========================================== */
+
+function getAssignmentTeacherId(assignment) {
+
+    return String(
+        assignment.teacherId ||
+        assignment.teacher_id ||
+        assignment.teacherID ||
+        ""
+    ).trim();
+
+}
+
+
+/* ==========================================
+   LOAD TEACHER ASSIGNMENTS
+========================================== */
+
+async function loadTeacherAssignments() {
+
+    assignedClasses = [];
+
+
+    const teacherId =
+        getTeacherId();
+
+
+    console.log(
+        "Logged-in teacher ID:",
+        teacherId
+    );
+
+
+    /*
+       FIRST:
+       Check assignments returned
+       during teacher login.
+    */
+
+    if (
+        currentTeacher &&
+        Array.isArray(
+            currentTeacher.assignments
+        )
+    ) {
+
+        currentTeacher.assignments.forEach(
+            function(assignment) {
+
+                const className =
+                    getAssignmentClass(
+                        assignment
+                    );
+
+                if (className) {
+
+                    assignedClasses.push(
+                        className
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+       SECOND:
+       Check localStorage assignments.
+    */
+
+    const savedAssignments =
+        localStorage.getItem(
+            "teacherAssignments"
+        );
+
+
+    if (savedAssignments) {
+
+        try {
+
+            const localAssignments =
+                JSON.parse(
+                    savedAssignments
+                );
+
+
+            if (
+                Array.isArray(
+                    localAssignments
+                )
+            ) {
+
+                localAssignments.forEach(
+                    function(assignment) {
+
+                        const assignmentTeacherId =
+                            getAssignmentTeacherId(
+                                assignment
+                            );
+
+
+                        if (
+                            teacherId &&
+                            assignmentTeacherId !==
+                            teacherId
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const className =
+                            getAssignmentClass(
+                                assignment
+                            );
+
+
+                        if (className) {
+
+                            assignedClasses.push(
+                                className
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Local assignment error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+       THIRD:
+       Get the latest assignments
+       directly from backend.
+    */
+
+    try {
+
+        const response =
+            await fetch(
+                `${API}/teacher-assignments`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Backend teacher assignments:",
+            data
+        );
+
+
+        if (response.ok) {
+
+            const assignments =
+                Array.isArray(data)
+                    ? data
+                    : (
+                        data.assignments ||
+                        []
+                    );
+
+
+            assignments.forEach(
+                function(assignment) {
+
+                    const assignmentTeacherId =
+                        getAssignmentTeacherId(
+                            assignment
+                        );
+
+
+                    if (
+                        teacherId &&
+                        assignmentTeacherId !==
+                        teacherId
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const className =
+                        getAssignmentClass(
+                            assignment
+                        );
+
+
+                    if (className) {
+
+                        assignedClasses.push(
+                            className
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Backend assignment loading error:",
+            error
+        );
+
+    }
+
+
+    /*
+       Remove duplicate classes.
+    */
+
+    const uniqueClasses = [];
+
+
+    assignedClasses.forEach(
+        function(className) {
+
+            const exists =
+                uniqueClasses.some(
+                    function(existingClass) {
+
+                        return (
+                            normalizeClass(
+                                existingClass
+                            ) ===
+                            normalizeClass(
+                                className
+                            )
+                        );
+
+                    }
+                );
+
+
+            if (!exists) {
+
+                uniqueClasses.push(
+                    className
+                );
+
+            }
+
+        }
+    );
+
+
+    assignedClasses =
+        uniqueClasses.sort(
+            function(a, b) {
+
+                return a.localeCompare(
+                    b,
+                    undefined,
+                    {
+                        numeric: true
+                    }
+                );
+
+            }
+        );
+
+
+    console.log(
+        "All assigned classes:",
+        assignedClasses
+    );
+
+}
+
+
+/* ==========================================
+   DISPLAY TEACHER
+========================================== */
+
+function displayTeacherInfo() {
+
+    const teacherName =
+        getTeacherName();
+
+
+    const teacherInfo =
+        document.getElementById(
+            "teacherInfo"
+        );
+
+
+    if (
+        assignedClasses.length > 0
+    ) {
+
+        teacherInfo.textContent =
+            `Logged in as ${teacherName} — Assigned Classes: ${assignedClasses.join(", ")}`;
+
+    } else {
+
+        teacherInfo.textContent =
+            `Logged in as ${teacherName} — No class assigned yet.`;
+
+    }
+
+}
+
+
+/* ==========================================
+   SETUP CLASS DROPDOWN
+========================================== */
+
+function setupClassDropdown() {
+
+    const classSelect =
+        document.getElementById(
+            "classSelect"
+        );
+
+
+    classSelect.innerHTML = "";
+
+
+    if (
+        assignedClasses.length === 0
+    ) {
+
+        classSelect.innerHTML = `
+            <option value="">
+                No class assigned
+            </option>
+        `;
+
+        classSelect.disabled = true;
+
+        document.getElementById(
+            "studentSearchArea"
+        ).style.display = "none";
+
+        showError(
+            "No assigned class was found for this teacher. Check Teacher Management."
+        );
+
+        return;
+
+    }
+
+
+    classSelect.disabled = false;
+
+
+    assignedClasses.forEach(
+        function(className) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                className;
+
+
+            option.textContent =
+                className;
+
+
+            classSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    assignedClass =
+        assignedClasses[0];
+
+
+    classSelect.value =
+        assignedClass;
+
+
+    document.getElementById(
+        "studentSearchArea"
+    ).style.display =
+        "block";
+
+
+    classSelect.dispatchEvent(
+        new Event("change")
+    );
+
+}
+
+
+/* ==========================================
+   CLASS CHANGE
+========================================== */
+
+document
+    .getElementById("classSelect")
+    .addEventListener(
+        "change",
+        async function() {
+
+            const selectedClass =
+                this.value;
+
+
+            if (!selectedClass) {
+
+                assignedClass = "";
+
+                return;
+
+            }
+
+
+            /*
+               Make sure teacher is actually
+               assigned to this class.
+            */
+
+            const allowed =
+                assignedClasses.some(
+                    function(className) {
+
+                        return (
+                            normalizeClass(
+                                className
+                            ) ===
+                            normalizeClass(
+                                selectedClass
+                            )
+                        );
+
+                    }
+                );
+
+
+            if (!allowed) {
+
+                showError(
+                    "You are not assigned to this class."
+                );
+
+                return;
+
+            }
+
+
+            hideError();
+
+
+            assignedClass =
+                selectedClass;
+
+
+            /*
+               Clear currently selected student.
+            */
+
+            selectedStudentData = null;
+
+            studentResults = [];
+
+
+            document.getElementById(
+                "selectedStudent"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "resultFormBox"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "remarksBox"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "teacherRemark"
+            ).value = "";
+
+
+            document.getElementById(
+                "principalRemark"
+            ).value = "";
+
+
+            document.getElementById(
+                "studentSearch"
+            ).value = "";
+
+
+            await loadCourses(
+                selectedClass
+            );
+
+
+            showStudents(
+                selectedClass
+            );
+
+        }
+    );
+
+
+/* ==========================================
+   LOAD STUDENTS
+========================================== */
+
+async function loadStudents() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API}/students`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Students response:",
+            data
+        );
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load students."
+            );
+
+        }
+
+
+        students =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.students ||
+                    []
+                );
+
+
+        console.log(
+            "Students loaded:",
+            students.length
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Student loading error:",
+            error
+        );
+
+
+        showError(
+            "Unable to load students. Make sure your backend is running."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD COURSES
+========================================== */
+
+async function loadCourses(
+    studentClass
+) {
+
+    const subject =
+        document.getElementById(
+            "subject"
+        );
+
+
+    subject.innerHTML = `
+        <option value="">
+            -- Select Subject --
+        </option>
+    `;
+
+
+    document.getElementById(
+        "courseInfo"
+    ).textContent =
+        "Loading registered courses...";
+
+
+    courses = [];
+
+
+    if (!studentClass) {
+
+        document.getElementById(
+            "courseInfo"
+        ).textContent =
+            "No class selected.";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API}/courses/${encodeURIComponent(
+                    studentClass
+                )}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Courses response:",
+            data
+        );
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load courses."
+            );
+
+        }
+
+
+        courses =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.courses ||
+                    []
+                );
+
+
+        if (
+            courses.length === 0
+        ) {
+
+            document.getElementById(
+                "courseInfo"
+            ).textContent =
+                `No courses have been registered for ${studentClass}.`;
+
+            return;
+
+        }
+
+
+        courses.forEach(
+            function(course) {
+
+                const name =
+                    course.name ||
+                    course.subjectName ||
+                    course.subject_name ||
+                    course.subject ||
+                    "";
+
+
+                if (!name) return;
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    name;
+
+
+                option.textContent =
+                    name;
+
+
+                subject.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "courseInfo"
+        ).textContent =
+            `${courses.length} registered course(s) for ${studentClass}.`;
+
+
+    } catch (error) {
+
+        console.error(
+            "Course loading error:",
+            error
+        );
+
+
+        document.getElementById(
+            "courseInfo"
+        ).textContent =
+            "Unable to load registered courses.";
+
+    }
+
+}
+
+
+/* ==========================================
+   SHOW STUDENTS
+========================================== */
+
+function showStudents(
+    selectedClass
+) {
+
+    const box =
+        document.getElementById(
+            "studentSearchResults"
+        );
+
+
+    const classStudents =
+        students.filter(
+            function(student) {
+
+                return (
+                    normalizeClass(
+                        getStudentClass(student)
+                    ) ===
+                    normalizeClass(
+                        selectedClass
+                    )
+                );
+
+            }
+        );
+
+
+    if (
+        classStudents.length === 0
+    ) {
+
+        box.innerHTML =
+            "<p>No student found in this class.</p>";
+
+        return;
+
+    }
+
+
+    renderStudentList(
+        classStudents
+    );
+
+}
+
+
+/* ==========================================
+   RENDER STUDENT LIST
+========================================== */
+
+function renderStudentList(
+    studentList
+) {
+
+    const box =
+        document.getElementById(
+            "studentSearchResults"
+        );
+
+
+    box.innerHTML =
+        studentList.map(
+            function(student) {
+
+                const id =
+                    getStudentId(student);
+
+
+                return `
+
+                    <div
+                        class="student-result"
+                        data-id="${escapeHtml(id)}"
+                    >
+
+                        <strong>
+                            ${escapeHtml(
+                                getStudentName(
+                                    student
+                                )
+                            )}
+                        </strong>
+
+                        <br>
+
+                        <small>
+                            Student ID:
+                            ${escapeHtml(id)}
+                        </small>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+
+    box
+        .querySelectorAll(
+            ".student-result"
+        )
+        .forEach(
+            function(element) {
+
+                element.addEventListener(
+                    "click",
+                    function() {
+
+                        const studentId =
+                            this.dataset.id;
+
+
+                        const student =
+                            students.find(
+                                function(item) {
+
+                                    return (
+                                        getStudentId(
+                                            item
+                                        ) ===
+                                        String(
+                                            studentId
+                                        )
+                                    );
+
+                                }
+                            );
+
+
+                        if (student) {
+
+                            selectStudent(
+                                student
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* ==========================================
+   SEARCH STUDENTS
+========================================== */
+
+document
+    .getElementById("studentSearch")
+    .addEventListener(
+        "input",
+        function() {
+
+            const search =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const classStudents =
+                students.filter(
+                    function(student) {
+
+                        const sameClass =
+                            normalizeClass(
+                                getStudentClass(
+                                    student
+                                )
+                            ) ===
+                            normalizeClass(
+                                assignedClass
+                            );
+
+
+                        const name =
+                            getStudentName(
+                                student
+                            ).toLowerCase();
+
+
+                        return (
+                            sameClass &&
+                            name.includes(search)
+                        );
+
+                    }
+                );
+
+
+            if (
+                classStudents.length === 0
+            ) {
+
+                document.getElementById(
+                    "studentSearchResults"
+                ).innerHTML =
+                    "<p>No student found.</p>";
+
+                return;
+
+            }
+
+
+            renderStudentList(
+                classStudents
+            );
+
+        }
+    );
+
+
+/* ==========================================
+   SELECT STUDENT
+========================================== */
+
+async function selectStudent(
+    student
+) {
+
+    /*
+       Extra security:
+       Make sure the teacher is assigned
+       to the student's class.
+    */
+
+    const studentClass =
+        getStudentClass(student);
+
+
+    const allowed =
+        assignedClasses.some(
+            function(className) {
+
+                return (
+                    normalizeClass(
+                        className
+                    ) ===
+                    normalizeClass(
+                        studentClass
+                    )
+                );
+
+            }
+        );
+
+
+    if (!allowed) {
+
+        showError(
+            "You cannot upload results for this student's class."
+        );
+
+        return;
+
+    }
+
+
+    selectedStudentData =
+        student;
+
+
+    hideError();
+
+
+    document.getElementById(
+        "selectedStudent"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "resultFormBox"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "remarksBox"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "selectedStudentName"
+    ).textContent =
+        "Name: " +
+        getStudentName(
+            student
+        );
+
+
+    document.getElementById(
+        "selectedStudentClass"
+    ).textContent =
+        "Class: " +
+        getStudentClass(
+            student
+        );
+
+
+    document.getElementById(
+        "selectedStudentSession"
+    ).textContent =
+        "Session: " +
+        getSession(
+            student
+        );
+
+
+    document.getElementById(
+        "studentSearch"
+    ).value =
+        getStudentName(
+            student
+        );
+
+
+    await loadStudentResults();
+
+    await loadRemarks();
+
+    await calculateSummary();
+
+}
+
+
+/* ==========================================
+   LOAD STUDENT RESULTS
+========================================== */
+
+async function loadStudentResults() {
+
+    if (!selectedStudentData) return;
+
+
+    const studentId =
+        getStudentId(
+            selectedStudentData
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API}/results/${encodeURIComponent(
+                    studentId
+                )}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load results."
+            );
+
+        }
+
+
+        const session =
+            getSession(
+                selectedStudentData
+            );
+
+
+        const term =
+            getTerm();
+
+
+        studentResults =
+            (data.results || [])
+                .filter(
+                    function(result) {
+
+                        return (
+                            String(
+                                result.session || ""
+                            ).trim() ===
+                            String(
+                                session
+                            ).trim()
+                        ) &&
+                        String(
+                            result.term || ""
+                        ).trim() ===
+                        String(
+                            term
+                        ).trim();
+
+                    }
+                );
+
+
+    } catch (error) {
+
+        console.error(
+            "Result loading error:",
+            error
+        );
+
+        studentResults = [];
+
+    }
+
+}
+
+
+/* ==========================================
+   SUBJECT CHANGE
+========================================== */
+
+document
+    .getElementById("subject")
+    .addEventListener(
+        "change",
+        function() {
+
+            const subject =
+                this.value;
+
+
+            document.getElementById(
+                "ca"
+            ).value = "";
+
+
+            document.getElementById(
+                "exam"
+            ).value = "";
+
+
+            if (!subject) return;
+
+
+            const existing =
+                studentResults.find(
+                    function(result) {
+
+                        return (
+                            String(
+                                result.subject || ""
+                            )
+                            .trim()
+                            .toLowerCase() ===
+                            String(
+                                subject
+                            )
+                            .trim()
+                            .toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existing) {
+
+                document.getElementById(
+                    "ca"
+                ).value =
+                    existing.ca;
+
+
+                document.getElementById(
+                    "exam"
+                ).value =
+                    existing.exam;
+
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   SAVE RESULT
+========================================== */
+
+document
+    .getElementById("resultForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            if (!selectedStudentData) {
+
+                alert(
+                    "Please select a student first."
+                );
+
+                return;
+
+            }
+
+
+            const subject =
+                document.getElementById(
+                    "subject"
+                ).value;
+
+
+            const ca =
+                Number(
+                    document.getElementById(
+                        "ca"
+                    ).value
+                );
+
+
+            const exam =
+                Number(
+                    document.getElementById(
+                        "exam"
+                    ).value
+                );
+
+
+            if (!subject) {
+
+                alert(
+                    "Please select a subject."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                Number.isNaN(ca) ||
+                ca < 0 ||
+                ca > 40
+            ) {
+
+                alert(
+                    "CA must be between 0 and 40."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                Number.isNaN(exam) ||
+                exam < 0 ||
+                exam > 60
+            ) {
+
+                alert(
+                    "Examination must be between 0 and 60."
+                );
+
+                return;
+
+            }
+
+
+            const existing =
+                studentResults.find(
+                    function(result) {
+
+                        return (
+                            String(
+                                result.subject || ""
+                            )
+                            .trim()
+                            .toLowerCase() ===
+                            String(
+                                subject
+                            )
+                            .trim()
+                            .toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existing) {
+
+                alert(
+                    "A result for this subject has already been uploaded for this term."
+                );
+
+                return;
+
+            }
+
+
+            const studentId =
+                getStudentId(
+                    selectedStudentData
+                );
+
+
+            const session =
+                getSession(
+                    selectedStudentData
+                );
+
+
+            const term =
+                getTerm();
+
+
+            const button =
+                document.getElementById(
+                    "submitButton"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Saving...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/results`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                studentId,
+                                subject,
+                                ca,
+                                exam,
+                                session,
+                                term
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    data.success === false
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to save result."
+                    );
+
+                }
+
+
+                alert(
+                    "Result uploaded successfully."
+                );
+
+
+                document.getElementById(
+                    "subject"
+                ).value = "";
+
+
+                document.getElementById(
+                    "ca"
+                ).value = "";
+
+
+                document.getElementById(
+                    "exam"
+                ).value = "";
+
+
+                await loadStudentResults();
+
+                await calculateSummary();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save result error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Unable to save result."
+                );
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Upload Result";
+
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   LOAD REMARKS
+========================================== */
+
+async function loadRemarks() {
+
+    if (!selectedStudentData) return;
+
+
+    const studentId =
+        getStudentId(
+            selectedStudentData
+        );
+
+
+    const session =
+        getSession(
+            selectedStudentData
+        );
+
+
+    const term =
+        getTerm();
+
+
+    try {
+
+        const url =
+            `${API}/remarks/${encodeURIComponent(
+                studentId
+            )}` +
+            `?session=${encodeURIComponent(
+                session
+            )}` +
+            `&term=${encodeURIComponent(
+                term
+            )}`;
+
+
+        const response =
+            await fetch(url);
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            data.success === false
+        ) {
+
+            return;
+
+        }
+
+
+        const remarks =
+            data.remarks || {};
+
+
+        document.getElementById(
+            "teacherRemark"
+        ).value =
+            remarks.teacherRemark ||
+            remarks.teacher_remark ||
+            "";
+
+
+        document.getElementById(
+            "principalRemark"
+        ).value =
+            remarks.principalRemark ||
+            remarks.principal_remark ||
+            "";
+
+    } catch (error) {
+
+        console.error(
+            "Remarks loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE REMARKS
+========================================== */
+
+document
+    .getElementById(
+        "saveRemarksButton"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            if (!selectedStudentData) {
+
+                alert(
+                    "Please select a student first."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                studentResults.length === 0
+            ) {
+
+                alert(
+                    "Upload at least one result before saving remarks."
+                );
+
+                return;
+
+            }
+
+
+            const studentId =
+                getStudentId(
+                    selectedStudentData
+                );
+
+
+            const session =
+                getSession(
+                    selectedStudentData
+                );
+
+
+            const term =
+                getTerm();
+
+
+            const teacherRemark =
+                document.getElementById(
+                    "teacherRemark"
+                ).value.trim();
+
+
+            const principalRemark =
+                document.getElementById(
+                    "principalRemark"
+                ).value.trim();
+
+
+            const button =
+                document.getElementById(
+                    "saveRemarksButton"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "remarksMessage"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Saving...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/remarks`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                studentId,
+                                session,
+                                term,
+                                teacherRemark,
+                                principalRemark
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    data.success === false
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to save remarks."
+                    );
+
+                }
+
+
+                message.textContent =
+                    "Remarks saved successfully.";
+
+
+                message.style.color =
+                    "green";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save remarks error:",
+                    error
+                );
+
+
+                message.textContent =
+                    error.message ||
+                    "Unable to save remarks.";
+
+
+                message.style.color =
+                    "red";
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Save Remarks";
+
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   CALCULATE SUMMARY
+========================================== */
+
+async function calculateSummary() {
+
+    if (!selectedStudentData) return;
+
+
+    let total = 0;
+
+
+    studentResults.forEach(
+        function(result) {
+
+            const resultTotal =
+                Number(result.total);
+
+
+            if (
+                !Number.isNaN(
+                    resultTotal
+                )
+            ) {
+
+                total += resultTotal;
+
+            } else {
+
+                total +=
+                    (Number(result.ca) || 0) +
+                    (Number(result.exam) || 0);
+
+            }
+
+        }
+    );
+
+
+    const average =
+        studentResults.length > 0
+            ? total / studentResults.length
+            : 0;
+
+
+    document.getElementById(
+        "summaryTotal"
+    ).textContent =
+        total.toFixed(2);
+
+
+    document.getElementById(
+        "summaryAverage"
+    ).textContent =
+        average.toFixed(2);
+
+
+    await calculatePosition();
+
+}
+
+
+/* ==========================================
+   CALCULATE POSITION
+========================================== */
+
+async function calculatePosition() {
+
+    if (!selectedStudentData) return;
+
+
+    const selectedClass =
+        normalizeClass(
+            getStudentClass(
+                selectedStudentData
+            )
+        );
+
+
+    const session =
+        getSession(
+            selectedStudentData
+        );
+
+
+    const term =
+        getTerm();
+
+
+    const classStudents =
+        students.filter(
+            function(student) {
+
+                return (
+                    normalizeClass(
+                        getStudentClass(
+                            student
+                        )
+                    ) ===
+                    selectedClass
+                );
+
+            }
+        );
+
+
+    const rankings = [];
+
+
+    for (
+        const student of classStudents
+    ) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API}/results/${encodeURIComponent(
+                        getStudentId(student)
+                    )}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) continue;
+
+
+            const results =
+                (data.results || [])
+                    .filter(
+                        function(result) {
+
+                            return (
+                                String(
+                                    result.session || ""
+                                ).trim() ===
+                                String(
+                                    session
+                                ).trim()
+                            ) &&
+                            String(
+                                result.term || ""
+                            ).trim() ===
+                            String(
+                                term
+                            ).trim();
+
+                        }
+                    );
+
+
+            if (
+                results.length === 0
+            ) continue;
+
+
+            let total = 0;
+
+
+            results.forEach(
+                function(result) {
+
+                    total +=
+                        Number(
+                            result.total
+                        ) ||
+                        (
+                            Number(
+                                result.ca
+                            ) || 0
+                        ) +
+                        (
+                            Number(
+                                result.exam
+                            ) || 0
+                        );
+
+                }
+            );
+
+
+            const average =
+                total / results.length;
+
+
+            rankings.push({
+
+                studentId:
+                    getStudentId(
+                        student
+                    ),
+
+                average
+
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "Position error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    rankings.sort(
+        function(a, b) {
+
+            return b.average - a.average;
+
+        }
+    );
+
+
+    const currentStudent =
+        rankings.find(
+            function(item) {
+
+                return (
+                    String(
+                        item.studentId
+                    ) ===
+                    String(
+                        getStudentId(
+                            selectedStudentData
+                        )
+                    )
+                );
+
+            }
+        );
+
+
+    let position = "-";
+
+
+    if (currentStudent) {
+
+        position =
+            rankings.filter(
+                function(item) {
+
+                    return (
+                        item.average >
+                        currentStudent.average
+                    );
+
+                }
+            ).length + 1;
+
+    }
+
+
+    document.getElementById(
+        "summaryPosition"
+    ).textContent =
+        position;
+
+
+    document.getElementById(
+        "summaryClassSize"
+    ).textContent =
+        classStudents.length;
+
+}
+
+
+/* ==========================================
+   CLEAR
+========================================== */
+
+document
+    .getElementById(
+        "cancelButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            document.getElementById(
+                "subject"
+            ).value = "";
+
+
+            document.getElementById(
+                "ca"
+            ).value = "";
+
+
+            document.getElementById(
+                "exam"
+            ).value = "";
+
+        }
+    );
+
+
+/* ==========================================
+   PRINT RESULT
+========================================== */
+
+document
+    .getElementById(
+        "printButton"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            if (!selectedStudentData) {
+
+                alert(
+                    "Please select a student first."
+                );
+
+                return;
+
+            }
+
+
+            await loadStudentResults();
+
+            await loadRemarks();
+
+            await calculateSummary();
+
+
+            document.getElementById(
+                "printStudentName"
+            ).textContent =
+                getStudentName(
+                    selectedStudentData
+                );
+
+
+            document.getElementById(
+                "printStudentClass"
+            ).textContent =
+                getStudentClass(
+                    selectedStudentData
+                );
+
+
+            document.getElementById(
+                "printSession"
+            ).textContent =
+                getSession(
+                    selectedStudentData
+                );
+
+
+            document.getElementById(
+                "printTerm"
+            ).textContent =
+                getTerm();
+
+
+            const body =
+                document.getElementById(
+                    "printResultsBody"
+                );
+
+
+            body.innerHTML = "";
+
+
+            let total = 0;
+
+
+            studentResults.forEach(
+                function(result, index) {
+
+                    const resultTotal =
+                        Number(result.total) ||
+                        (
+                            Number(result.ca) || 0
+                        ) +
+                        (
+                            Number(result.exam) || 0
+                        );
+
+
+                    total += resultTotal;
+
+
+                    const grade =
+                        result.grade ||
+                        calculateGrade(
+                            resultTotal
+                        );
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                result.subject
+                            )}
+                        </td>
+
+                        <td>
+                            ${Number(
+                                result.ca || 0
+                            ).toFixed(2)}
+                        </td>
+
+                        <td>
+                            ${Number(
+                                result.exam || 0
+                            ).toFixed(2)}
+                        </td>
+
+                        <td>
+                            ${resultTotal.toFixed(2)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                grade
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                gradeDescription(
+                                    grade
+                                )
+                            )}
+                        </td>
+
+                    `;
+
+
+                    body.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            const average =
+                studentResults.length > 0
+                    ? total /
+                      studentResults.length
+                    : 0;
+
+
+            document.getElementById(
+                "printTotal"
+            ).textContent =
+                total.toFixed(2);
+
+
+            document.getElementById(
+                "printAverage"
+            ).textContent =
+                average.toFixed(2);
+
+
+            document.getElementById(
+                "printPosition"
+            ).textContent =
+                document.getElementById(
+                    "summaryPosition"
+                ).textContent;
+
+
+            document.getElementById(
+                "printClassSize"
+            ).textContent =
+                document.getElementById(
+                    "summaryClassSize"
+                ).textContent;
+
+
+            document.getElementById(
+                "printTeacherRemark"
+            ).textContent =
+                document.getElementById(
+                    "teacherRemark"
+                ).value;
+
+
+            document.getElementById(
+                "printPrincipalRemark"
+            ).textContent =
+                document.getElementById(
+                    "principalRemark"
+                ).value;
+
+
+            window.print();
+
+        }
+    );
+
+
+/* ==========================================
+   START PAGE
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        try {
+
+            console.log(
+                "Upload Result page started."
+            );
+
+
+            displayTeacherInfo();
+
+
+            await loadStudents();
+
+
+            await loadTeacherAssignments();
+
+
+            displayTeacherInfo();
+
+
+            setupClassDropdown();
+
+
+            if (
+                assignedClasses.length === 0
+            ) {
+
+                return;
+
+            }
+
+
+            console.log(
+                "Teacher assigned classes:",
+                assignedClasses
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Page startup error:",
+                error
+            );
+
+
+            showError(
+                error.message ||
+                "Unable to load teacher information."
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

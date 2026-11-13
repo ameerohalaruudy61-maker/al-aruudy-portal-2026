@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Admin Login | Al-Aruudy International School
+</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            rgba(0, 80, 40, 0.75),
+            rgba(0, 100, 50, 0.75)
+        ),
+        url("school.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+}
+
+.login-container {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 20px;
+
+}
+
+.login-box {
+
+    background: white;
+
+    padding: 35px 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0, 0, 0, 0.25);
+
+}
+
+.school-name {
+
+    text-align: center;
+
+    color: #087a3d;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+}
+
+.page-title {
+
+    text-align: center;
+
+    color: #555;
+
+    font-size: 18px;
+
+    margin-bottom: 28px;
+
+}
+
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+
+    color: #333;
+
+}
+
+input {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    outline: none;
+
+}
+
+input:focus {
+
+    border-color: #087a3d;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(8, 122, 61, 0.12);
+
+}
+
+.password-wrapper {
+
+    position: relative;
+
+}
+
+.password-wrapper input {
+
+    padding-right: 48px;
+
+}
+
+.eye-button {
+
+    position: absolute;
+
+    right: 10px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+}
+
+.login-button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #087a3d;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+.login-button:hover {
+
+    background: #065f30;
+
+}
+
+.login-button:disabled {
+
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+}
+
+.back-home {
+
+    display: block;
+
+    text-align: center;
+
+    margin-top: 20px;
+
+    color: #087a3d;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
+
+.back-home:hover {
+
+    text-decoration: underline;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-box">
+
+        <div class="school-name">
+            Al-Aruudy International School
+        </div>
+
+        <div class="page-title">
+            Admin Login
+        </div>
+
+        <form id="adminLoginForm">
+
+            <div class="form-group">
+
+                <label for="adminUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="adminUsername"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="adminPassword">
+                    Password
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="adminPassword"
+                        placeholder="Enter admin password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="eye-button"
+                        id="adminEyeButton"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+        <a
+            href="al-aruudy school portal.html"
+            class="back-home"
+        >
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+const API =
+    "http://localhost:8000";
+
+// ==========================================================
+// ADMIN LOGIN
+// ==========================================================
+
+document
+    .getElementById("adminLoginForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const username =
+                document
+                    .getElementById(
+                        "adminUsername"
+                    )
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById(
+                        "adminPassword"
+                    )
+                    .value;
+
+            if (!username || !password) {
+
+                alert(
+                    "Please enter your username and password."
+                );
+
+                return;
+
+            }
+
+            const loginButton =
+                document.querySelector(
+                    ".login-button"
+                );
+
+            loginButton.disabled =
+                true;
+
+            loginButton.textContent =
+                "Logging in...";
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API}/admins/login`,
+                        {
+                            method:
+                                "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    username:
+                                        username,
+
+                                    password:
+                                        password
+
+                                })
+                        }
+                    );
+
+                const text =
+                    await response.text();
+
+                let result;
+
+                try {
+
+                    result =
+                        JSON.parse(text);
+
+                } catch {
+
+                    console.error(
+                        "SERVER RESPONSE:",
+                        text
+                    );
+
+                    alert(
+                        "The server returned an invalid response."
+                    );
+
+                    return;
+
+                }
+
+                console.log(
+                    "ADMIN LOGIN RESPONSE:",
+                    result
+                );
+
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
+
+                    alert(
+                        result.message ||
+                        "Incorrect admin username or password."
+                    );
+
+                    return;
+
+                }
+
+                if (!result.admin) {
+
+                    alert(
+                        "Admin login succeeded, but admin information could not be loaded."
+                    );
+
+                    return;
+
+                }
+
+                // Save admin login
+
+                localStorage.setItem(
+                    "adminLoggedIn",
+                    "true"
+                );
+
+                localStorage.setItem(
+                    "currentAdmin",
+                    JSON.stringify(
+                        result.admin
+                    )
+                );
+
+                localStorage.setItem(
+                    "adminUsername",
+                    result.admin.username
+                );
+
+                alert(
+                    "Admin login successful!"
+                );
+
+                window.location.href =
+                    "admin dashboard.html";
+
+            } catch (error) {
+
+                console.error(
+                    "ADMIN LOGIN ERROR:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the school portal server. Make sure the Deno server is running."
+                );
+
+            } finally {
+
+                loginButton.disabled =
+                    false;
+
+                loginButton.textContent =
+                    "Login";
+
+            }
+
+        }
+    );
+
+// ==========================================================
+// SHOW / HIDE PASSWORD
+// ==========================================================
+
+const adminEyeButton =
+    document.getElementById(
+        "adminEyeButton"
+    );
+
+const adminPassword =
+    document.getElementById(
+        "adminPassword"
+    );
+
+adminEyeButton.addEventListener(
+    "click",
+    function() {
+
+        if (
+            adminPassword.type ===
+            "password"
+        ) {
+
+            adminPassword.type =
+                "text";
+
+            adminEyeButton.textContent =
+                "🙈";
+
+        } else {
+
+            adminPassword.type =
+                "password";
+
+            adminEyeButton.textContent =
+                "👁️";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
